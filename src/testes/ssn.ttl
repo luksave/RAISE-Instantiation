@@ -1,0 +1,42 @@
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<http://purl.oclc.org/NET/ssnx/ssn#041n-4538ca3e-0eb8-4768-b54a-9a2325e5bb56>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest> .
+
+<http://purl.oclc.org/NET/ssnx/ssn#sensor-VSO_0000008-f84fc178-88e2-4bb5-9cef-1358453ce261>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#observes>
+              <http://purl.oclc.org/NET/ssnx/ssn#property-Temp-25e4a823-75d5-4ecf-832d-b1b0f9553ec0> .
+
+<http://purl.oclc.org/NET/ssnx/ssn#observation-Temp-e21b3b2e-020f-4380-9f0b-10ccdcd765ab>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Observation> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#featureOfInterest>
+              <http://purl.oclc.org/NET/ssnx/ssn#041n-4538ca3e-0eb8-4768-b54a-9a2325e5bb56> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#observationResult>
+              <http://purl.oclc.org/NET/ssnx/ssn#sensorOutput_VSO_0000008-99548460-ac38-46db-af87-84fc60586e26> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#observationResultTime>
+              "2016-05-12T10:42:22.613-03:00"^^xsd:dateTime ;
+      <http://purl.oclc.org/NET/ssnx/ssn#observedBy>
+              <http://purl.oclc.org/NET/ssnx/ssn#sensor-VSO_0000008-f84fc178-88e2-4bb5-9cef-1358453ce261> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#observedProperty>
+              <http://purl.oclc.org/NET/ssnx/ssn#property-Temp-25e4a823-75d5-4ecf-832d-b1b0f9553ec0> .
+
+<http://purl.oclc.org/NET/ssnx/ssn#sensorOutput_VSO_0000008-99548460-ac38-46db-af87-84fc60586e26>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensorOutput> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#hasValue>
+              <http://purl.oclc.org/NET/ssnx/ssn#observationValue-abaa8e18-309a-4530-935f-ad772cf4eeea> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#isProducedBy>
+              <http://purl.oclc.org/NET/ssnx/ssn#sensor-VSO_0000008-f84fc178-88e2-4bb5-9cef-1358453ce261> .
+
+<http://purl.oclc.org/NET/ssnx/ssn#observationValue-abaa8e18-309a-4530-935f-ad772cf4eeea>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#ObservationValue> ;
+      <http://purl.oclc.org/NET/ssnx/ssn#hasOutputUnit>
+              "Celsius"^^xsd:string ;
+      <http://purl.oclc.org/NET/ssnx/ssn#hasOutputValue>
+              "37.300"^^xsd:float .
+
+<http://purl.oclc.org/NET/ssnx/ssn#property-Temp-25e4a823-75d5-4ecf-832d-b1b0f9553ec0>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Property> .

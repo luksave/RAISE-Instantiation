@@ -1,0 +1,21 @@
+{
+	"topicos":[
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"VSO_0000030H",
+			
+			"publicar":[
+				{"nome":"VSO_0000030H", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]		
+		}
+	]	
+} 

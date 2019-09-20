@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/activity" uri="secom/activity.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/actor" uri="secom/actor.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/device" uri="secom/device.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/role" uri="secom/role.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/sEvent" uri="secom/sEvent.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/spatial" uri="secom/spatial.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/tEvent" uri="secom/tEvent.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://linkserver.icmc.usp.br/ckonto/time" uri="secom/time.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl" uri="vso/protege-dc.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.obolibrary.org/obo/VSO" uri="vso/vso.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.obolibrary.org/obo/iao/ontology-metadata.owl" uri="vso/ontology-metadata.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.obolibrary.org/obo/vso.owl" uri="vso/vso-external.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.oclc.org/NET/ssnx/ssn" uri="ssn/ssn.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.org/obo/owl/ro" uri="vso/ro.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://purl.org/obo/owl/ro_bfo1-1_bridge" uri="vso/ro_bfo_bridge.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://swrl.stanford.edu/ontologies/examples/family.swrl.owl" uri="secom/family.swrl.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://vital-sign-ontology.googlecode.com/svn/trunk/src/ontology/vso-external-derived.owl" uri="vso/vso-external-derived.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="http://www.ifomis.org/bfo/1.1" uri="vso/1.1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="msvh.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="msvhSchema.backup.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="msvhSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="msvhSchema_iri.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="shadowed:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="secom/MonitorSinalVital.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1425647507991" name="shadowed:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="vso/MonitorSinalVital.owl"/>
+    </group>
+</catalog>

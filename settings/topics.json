@@ -1,0 +1,92 @@
+{
+	"topicos":[
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+	
+			"registrar":"VSO_0000005",
+		
+			"publicar":[
+				{"nome":"VSO_0000005", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			 "tipo_inferencia":[]
+		},
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"OxygenSaturationMeasurementDatum",
+			
+			"publicar":[
+				{"nome":"OxygenSaturationMeasurementDatum", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		},
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"VSO_0000030",
+			
+			"publicar":[
+				{"nome":"VSO_0000030", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]		
+		},
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"VSO_0000035",
+			
+			"publicar":[
+				{"nome":"VSO_0000035", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		},
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"VSO_0000008",
+			
+			"publicar":[
+				{"nome":"VSO_0000008", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		}
+	]	
+} 
