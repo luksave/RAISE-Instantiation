@@ -10,7 +10,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 /**
  * @author Ernesto
  * 
- *         Classe que realiza a inicializaçãoo de um HermesWidget, juntamente com
+ *         Classe que realiza a inicialização de um HermesWidget, juntamente com
  *         o serviço de comunicação do mesmo com a infraestrutura.
  * 
  *         Session Facade: Simplificar a interface do cliente e controlar o
@@ -24,34 +24,31 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWManagerFacade {
 
-	public HWManagerFacade() {
-	}
+	public HWManagerFacade() {}
 
 	/**
-	 * Inicializa o servi�o de configura��o, obtendo ou criando uma inst�ncia de
+	 * Inicializa o serviço de configuração, obtendo ou criando uma instância de
 	 * HermesWidgetConfigurationService
 	 */
 	public void startHermesWidgetConfigurationService(String configuration) {
 		HWConfigurationService configurationService = HWManagerServiceFactory.getConfigurationService();
 
 		/**
-		 * Invoca��o dos m�todos do servi�o de comunica��o para cria��o dos
-		 * t�picos, registro de publicadores e assinatura de t�pcos
+		 * Invocação dos métodos do serviço de comunicação para criação dos
+		 * tópicos, registro de publicadores e assinatura de tópicos
 		 */
 		configurationService.createTopics(configuration);
 
-		/*
-		 * comunicationService.registerPublishers();
-		 * comunicationService.subscribeTopics();
-		 */
 	}
 	
 	public HWCommunicationService startHermesWidgetCommunicationService() {
 		return HWManagerServiceFactory.getCommunicationService();
+		
 	}
 
 	public HWNotificationService getHermesWidgetNotificationService(HermesBaseManager hermesBase, HWTransferObject hermesWidgetTO) {
 		return HWManagerServiceFactory.getNotificationService(hermesBase, hermesWidgetTO);
+		
 	}
 
 }

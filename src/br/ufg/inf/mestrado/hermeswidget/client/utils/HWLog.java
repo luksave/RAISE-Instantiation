@@ -13,13 +13,11 @@ public class HWLog {
 
 		try {
 
-			if (!arquivo.exists()) {
-				// cria um arquivo (vazio)
-				arquivo.createNewFile();
-			}
+			// cria um arquivo (vazio)
+			if (!arquivo.exists()) arquivo.createNewFile();
+			
 
-			// caso seja um diretório, é possível listar seus arquivos e
-			// diretórios
+			// Caso seja um diretÃ³rio, Ã© possÃ­vel listar seus arquivos e diretÃ³rios:
 			//File[] arquivos = arquivo.listFiles();
 
 			// escreve no arquivo
@@ -34,22 +32,10 @@ public class HWLog {
 			bw.close();
 			fw.close();
 
-			/*
-			 * //faz a leitura do arquivo FileReader fr = new
-			 * FileReader(arquivo);
-			 * 
-			 * BufferedReader br = new BufferedReader(fr);
-			 * 
-			 * //equanto houver mais linhas while (br.ready()) { //lê a proxima
-			 * linha String linha = br.readLine();
-			 * 
-			 * //faz algo com a linha System.out.println(linha); }
-			 * 
-			 * br.close(); fr.close();
-			 */
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
+
 		}
 
 	}

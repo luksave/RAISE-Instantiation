@@ -6,14 +6,11 @@ public class HWCommunicationService {
 	
 	private HermesBaseManager hermesBaseManager = null;
 	
-	public HWCommunicationService() {
-		// --> MEXI AQUI
-		//this.hermesBaseManager = new HermesBaseManager();
-		// --> MEXI AQUI
-	}
+	public HWCommunicationService() {}
 	
 	public HermesBaseManager getHermesBaseManager() {
 		return this.hermesBaseManager;
+		
 	}
 
 }

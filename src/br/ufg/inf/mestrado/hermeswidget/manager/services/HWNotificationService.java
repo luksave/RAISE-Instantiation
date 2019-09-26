@@ -17,11 +17,12 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 public class HWNotificationService implements Runnable {
 
 	private HermesBaseManager hermesBaseManager;
-	private HWTransferObject hermesWidgetTO;
+	private HWTransferObject  hermesWidgetTO;
 
 	public HWNotificationService(HermesBaseManager hermesBaseManager, HWTransferObject hermesWidgetTO) {
 		this.hermesBaseManager = hermesBaseManager;
-		this.hermesWidgetTO = hermesWidgetTO;
+		this.hermesWidgetTO    = hermesWidgetTO;
+		
 	}
 
 	@Override
@@ -32,14 +33,13 @@ public class HWNotificationService implements Runnable {
 				hermesWidgetTO.getCaminhoOntologia(),
 				hermesWidgetTO.getContexto(),
 				hermesWidgetTO.getTipoSerializacao())) {
-			    // hermesWidgetTO.getTipoTopico()
 
 			String log = "Thread " + hermesWidgetTO.getThreadAtual() + " de "
 					+ hermesWidgetTO.getTotalThreads() + " - "
 					+ hermesWidgetTO.getIdEntidade()
-					+ " HW.Sensor.Msg--> Vital Sign: "
+					+ " HW.Sensor.Msg--> Environmental Health Sign: "
 					+ hermesWidgetTO.getNomeTopico() + ", Value: "
-					+ hermesWidgetTO.getSensorValue() + ", for patient: "
+					+ hermesWidgetTO.getSensorValue() + ", for ambient: "
 					+ hermesWidgetTO.getIdEntidade() + ", broadcast on topic: "
 					+ hermesWidgetTO.getNomeTopico()+"H" + ", at: " + new Date();
 
@@ -47,10 +47,9 @@ public class HWNotificationService implements Runnable {
 
 			System.out.println("\n" + log);
 
-		} else {
-			System.out.println("Erro de publicação no tópico "
-					+ hermesWidgetTO.getNomeTopico());
-		}
+		} else 	
+			System.out.println("Erro de publicaÃ§Ã£o no tÃ³pico " + hermesWidgetTO.getNomeTopico());
+		
 	}
 
 }

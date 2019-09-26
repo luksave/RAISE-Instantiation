@@ -34,7 +34,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 		//TODO criar arquivo de configuração para o registro dos Compostos Orgânicos Voláteis
 		
 		this.registroAirPure = registroAtual;
-		this.startConfigurationService("./settings/topics_vocs.json");
+		this.startConfigurationService("./settings/topics_carbonDioxide.json");
 		this.hermesBaseManager = this.getCommunicationService();
 		this.representationService = this.getRepresentationService();
 		this.tempoTotalMedida = Integer.parseInt(tempo[0]);

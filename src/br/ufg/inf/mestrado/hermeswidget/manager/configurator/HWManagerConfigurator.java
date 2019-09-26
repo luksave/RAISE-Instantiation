@@ -13,8 +13,8 @@ import org.json.JSONTokener;
  * 
  * @author Ernesto
  * 
- *         Classe que acessa o arquivo de configuraÁ„o json para verificar os
- *         tÛpicos onde o Hermes Widget dever· publicar.
+ *         Classe que acessa o arquivo de configura√ß√£o json para verificar os
+ *         t√≥picos onde o Hermes Widget dever√° publicar.
  * 
  */
 
@@ -25,31 +25,32 @@ public class HWManagerConfigurator {
 	private static void setJsonConfiguration(String configuration) {
 
 		File arquivo = new File(configuration);
+		
 		try {
 			FileInputStream finput = new FileInputStream(arquivo);
 			JSONTokener jsonTokener = new JSONTokener(finput);
 			jsonConfig = new JSONObject(jsonTokener);
-		} catch (FileNotFoundException foex) {
-
-		}
+		
+		} catch (FileNotFoundException foex) {}
+		
 	}
 
-	public static ArrayList<String> getNotificationTopicsForRegistry(
-			String configuration) {
+	public static ArrayList<String> getNotificationTopicsForRegistry(String configuration) {
 		ArrayList<String> topicosParaNotificacao = new ArrayList<String>();
 		setJsonConfiguration(configuration);
 		JSONArray topicos = jsonConfig.getJSONArray("topicos");
+		
 		for (int indiceTopico = 0; indiceTopico < topicos.length(); indiceTopico++) {
-			String defaultnamespace = topicos.getJSONObject(indiceTopico)
-					.getString("defaultnamespace");
-			String nomeTopico = topicos.getJSONObject(indiceTopico).getString(
-					"registrar");
+			String defaultnamespace   = topicos.getJSONObject(indiceTopico).getString("defaultnamespace");
+			String nomeTopico         = topicos.getJSONObject(indiceTopico).getString("registrar");
 			String nomeCompletoTopico = defaultnamespace + nomeTopico;
 
 			topicosParaNotificacao.add(nomeCompletoTopico);
 
 		}
+		
 		return topicosParaNotificacao;
+	
 	}
 
 }
