@@ -24,9 +24,6 @@ public class HWSensorHeartRate extends HermesWidgetSensorClient implements Runna
 
 	private HermesBaseManager hermesBaseManager;
 	private HWRepresentationServiceSensor representationService;
-	
-	//private HashMap<String, String> objects;
-
 	private ScheduledExecutorService threadPoolMedidas = null;
 
 	private File registroMimic;
@@ -42,16 +39,15 @@ public class HWSensorHeartRate extends HermesWidgetSensorClient implements Runna
 		this.representationService = this.getRepresentationService();
 		this.tempoTotalMedida = Integer.parseInt(tempo[0]);
 		this.intervalos = Integer.parseInt(tempo[1]);
-		//this.objects = objects;
+		
 	}
 
 	@Override
 	public void run() {
 		ReaderCSV reader = new ReaderCSV(this.registroMimic);
 
-		// int totalLinhas = reader.getLinhas().size();
-		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4,
-				tempoTotalMedida);
+		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4, tempoTotalMedida);
+		
 		int totalThreads = (listaComSinaisVitais.size()) / this.intervalos;
 
 		System.out.println("Total threads: "+totalThreads);
@@ -63,54 +59,46 @@ public class HWSensorHeartRate extends HermesWidgetSensorClient implements Runna
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		for (String colunaCabecalho : cabecalho) {
-			if (colunaCabecalho.equals("'PULSE'")) {
-				posicaoSinalVital = contador;
-			}
+			if (colunaCabecalho.equals("'PULSE'")) posicaoSinalVital = contador;
+			
 			contador++;
+			
 		}
+		
 		System.out.println("...PULSE = " + posicaoSinalVital);
 
 		if (posicaoSinalVital != 0) {
-
 			String log = "Hermes Widget Sensor Heart Rate for patient ---> "
 					+ this.registroMimic.getName() + " started! Date: "
 					+ new Date().toString();
+			
 			HWLog.recordLog(log);
 
 			System.out.println(log + "\n");
 
-			
 			int posicaoExtensao = registroMimic.getName().lastIndexOf('.');
 			String recordIdAtual = registroMimic.getName().substring(0,	posicaoExtensao);
 			
 			System.out.println("Paciente: "+recordIdAtual);
 
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// LaÃ§o para verificar os metadados de cada paciente e as
+			// informaÃ§Ãµes de leitura dos sinais vitais
 			int contadorHeartRate = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
+			
 			for (String[] medicaoAtual : listaComSinaisVitais) {
 				if (contadorLinhas % this.intervalos == 0) {
-					// int segundos = Integer.valueOf(medicaoAtual[0]);
+			
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int segundos = Math.round(segfloat);
 
 					int contadorHR = contadorHeartRate++;
 					
-					//System.out.println(medicaoAtual[posicaoSinalVital] +" - "+ contadorHR);
-					
-					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"frequencia_pulso.ttl",
-							Integer.toString(segundos), 
-							"FreqPulso",
-							contadorHR, 
-							"VSO_0000030",
+					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor( "frequencia_pulso.ttl",
+							Integer.toString(segundos), "FreqPulso", contadorHR, "VSO_0000030",
 							medicaoAtual[posicaoSinalVital].substring(0, medicaoAtual[posicaoSinalVital].lastIndexOf('.')), 
-							null,
-							"bpm",
-							recordIdAtual
-					);
+							null, "bpm", recordIdAtual);
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -119,15 +107,15 @@ public class HWSensorHeartRate extends HermesWidgetSensorClient implements Runna
 							hermesBaseManager, hermesWidgetTO), segundos,
 							TimeUnit.SECONDS);
 
-					// if (contadorLinhas==0)
-					// representationService.modeloMedicaoSinalVital.write(System.out,
-					// "TURTLE");
-					//
 					representationService.setModeloMedicaoSinalVital(null);
 					contadorThreads++;
+
 				}
+				
 				contadorLinhas++;
+			
 			}
+		
 		}
 
 	}

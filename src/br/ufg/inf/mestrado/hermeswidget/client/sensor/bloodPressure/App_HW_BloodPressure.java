@@ -16,18 +16,14 @@ public class App_HW_BloodPressure {
 	public static void main(String[] args) {
 
 		// Pasta com os registros MIMIC utilizados pelo HW
-		/*
-		File diretorioMimic = new File("./mimic/registros_utilizados/");
-		*/
 		File diretorioMimic = new File("./mimic/paciente-teste/");
 		
-		// Preparação do pool de threads de acordo com a quantidade de arquivos
-		// que contém os sinais vitais
+		// PreparaÃ§Ã£o do pool de threads de acordo com a quantidade de arquivos
+		// que contÃ©m os sinais vitais
 		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioMimic.listFiles().length);
 
-		for (File registroAtual : diretorioMimic.listFiles())
-		{
-			//System.out.println("Hermes Widget Sensor: "+ registroAtual.getName() +" inicializado às "+ new Date());			
+		for (File registroAtual : diretorioMimic.listFiles()){
+			//System.out.println("Hermes Widget Sensor: "+ registroAtual.getName() +" inicializado Ã s "+ new Date());			
 			
 			HWSensorBloodPressure widget = new HWSensorBloodPressure(registroAtual, args);
 			
@@ -35,10 +31,8 @@ public class App_HW_BloodPressure {
 			
 		}
 		
-		//poolWidgets.shutdown();
 		
-		//while(true) {}
-
 	}
+	
 
 }

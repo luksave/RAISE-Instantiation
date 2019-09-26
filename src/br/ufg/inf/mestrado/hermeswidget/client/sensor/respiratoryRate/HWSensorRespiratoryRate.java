@@ -25,8 +25,6 @@ public class HWSensorRespiratoryRate extends HermesWidgetSensorClient implements
 	private HermesBaseManager hermesBaseManager;
 
 	private HWRepresentationServiceSensor representationService;
-	
-	//private HashMap<String, String> objects;
 
 	private ScheduledExecutorService threadPoolMedidas = null;
 
@@ -42,7 +40,8 @@ public class HWSensorRespiratoryRate extends HermesWidgetSensorClient implements
 		this.representationService = this.getRepresentationService();
 		this.tempoTotalMedida = Integer.parseInt(tempo[0]);
 		this.intervalos = Integer.parseInt(tempo[1]);
-		//this.objects = objects;
+		//this.objects = objects;]
+		
 	}
 
 	@Override
@@ -87,8 +86,8 @@ public class HWSensorRespiratoryRate extends HermesWidgetSensorClient implements
 
 			System.out.println("Paciente: "+recordIdAtual);
 
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// Laï¿½o para verificar os metadados de cada paciente e as
+			// informaï¿½ï¿½es de leitura dos sinais vitais
 			int contadorRespRate = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;

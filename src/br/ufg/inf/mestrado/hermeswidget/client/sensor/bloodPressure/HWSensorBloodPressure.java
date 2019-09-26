@@ -24,9 +24,8 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 		Runnable {
 
 	private HermesBaseManager hermesBaseManager;
-	private HWRepresentationServiceSensor representationService;
 	
-	//private HashMap<String, String> objects;
+	private HWRepresentationServiceSensor representationService;
 
 	private ScheduledExecutorService threadPoolMedidas = null;
 
@@ -45,21 +44,19 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 		this.representationService = this.getRepresentationService();
 		this.tempoTotalMedida = Integer.parseInt(tempo[0]);
 		this.intervalos = Integer.parseInt(tempo[1]);
+	
 	}
 
 	@Override
 	public void run() {
 		ReaderCSV reader = new ReaderCSV(this.registroMimic);
 
-		// int totalLinhas = reader.getLinhas().size();
-		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4,
-				tempoTotalMedida);
+	
+		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4, tempoTotalMedida);
 
 		int totalThreads = (listaComSinaisVitais.size()) / this.intervalos;
 
 		// Prepara o pool de threads
-		// threadPoolMedidas =
-		// Executors.newScheduledThreadPool(reader.getLinhas().size());
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 		
 		System.out.println("Total threads: "+totalThreads);
@@ -67,19 +64,21 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 		int posicaoSistolica = 0;
 		int posicaoDiastolica = 0;
 		int posicaoMedia = 0;
+		
 		String[] cabecalho = reader.getLinhas().get(0);
+		
 		int contador = 0;
+		
 		for (String colunaCabecalho : cabecalho) {
-			if (colunaCabecalho.equals("'ABPsys'")) {
-				posicaoSistolica = contador;
-			} else if (colunaCabecalho.equals("'ABPdias'")) {
-				posicaoDiastolica = contador;
-			} else if (colunaCabecalho.equals("'ABPmean'")) {
-				posicaoMedia = contador;
-			}
+			if (colunaCabecalho.equals("'ABPsys'")) posicaoSistolica = contador;
+			else if (colunaCabecalho.equals("'ABPdias'")) posicaoDiastolica = contador;
+			else if (colunaCabecalho.equals("'ABPmean'")) posicaoMedia = contador;
+			
 			contador++;
+			
 		}
-		System.out.println("...ABPsys = " + posicaoSistolica);
+		
+		System.out.println("...ABPsys = "  + posicaoSistolica);
 		System.out.println("...ABPdias = " + posicaoDiastolica);
 		System.out.println("...ABPmean = " + posicaoMedia);
 
@@ -99,14 +98,13 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 			
 			System.out.println(recordIdAtual);
 
-			// System.out.println("Início do monitoramento do paciente...");
-
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// LaÃ§o para verificar os metadados de cada paciente e as
+			// informaÃ§Ãµes de leitura dos sinais vitais
 
 			int contadorPres = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
+			
 			for (String[] medicaoAtual : listaComSinaisVitais) {
 				if (contadorLinhas % this.intervalos == 0) {
 
@@ -134,35 +132,6 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 							recordIdAtual
 					);
 					
-					/*
-					// Distolica
-					representationService.representMonitoringVitalSign(
-							"pressao_sanguinea.ttl", "MonitoringBloodPressure",
-							Integer.toString(segundos), "PresSang", contadorP,
-							"VSO_0000005", "hasMonitoringBloodPressure",
-							"isMeasurementBloodPressure",
-							"valueDiastolicBloodPressure",
-							medicaoAtual[posicaoDiastolica],
-							"unitBloodPressure", "mmHg", recordIdAtual,
-							medicaoAtual[posicaoMedia]);
-					*/
-
-					/*
-					// Sistolica.
-					int posicaoDecimal = medicaoAtual[posicaoSistolica]
-							.lastIndexOf('.');
-					String medidaInteira = medicaoAtual[posicaoSistolica]
-							.substring(0, posicaoDecimal);
-					representationService
-							.getModeloMedicaoSinalVital()
-							.add(representationService.getNovaMedicaoAferida(),
-									ResourceFactory.createProperty(HWRepresentationServiceVitalSign
-											.getDefaultNamespace()
-											+ "valueSystolicBloodPressure"),
-									ResourceFactory.createTypedLiteral(new Integer(
-											Integer.parseInt(medidaInteira))));
-					*/
-
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -171,16 +140,15 @@ public class HWSensorBloodPressure extends HermesWidgetSensorClient implements
 
 					}
 
-					// if (contadorLinhas==0)
-					// representationService.modeloMedicaoSinalVital.write(System.out,
-					// "TURTLE");
-					//
-
 					representationService.setModeloMedicaoSinalVital(null);
 
 					contadorThreads++;
 				}
+			
 			contadorLinhas++;
+		
 		}
+	
 	}
+	
 }

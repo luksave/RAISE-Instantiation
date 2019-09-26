@@ -20,17 +20,16 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
  * 
  */
 
-public class HWSensorOxygenSaturation extends HermesWidgetSensorClient
-		implements Runnable {
+public class HWSensorOxygenSaturation extends HermesWidgetSensorClient implements Runnable {
 
 	private HermesBaseManager hermesBaseManager;
-	private HWRepresentationServiceSensor representationService;
 	
-	//private HashMap<String, String> objects;
+	private HWRepresentationServiceSensor representationService;
 
 	private ScheduledExecutorService threadPoolMedidas = null;
 
 	private File registroMimic;
+	
 	private int tempoTotalMedida = 0;
 
 	private int intervalos = 0;
@@ -50,9 +49,8 @@ public class HWSensorOxygenSaturation extends HermesWidgetSensorClient
 
 		ReaderCSV reader = new ReaderCSV(this.registroMimic);
 
-		// int totalLinhas = reader.getLinhas().size();
-		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4,
-				tempoTotalMedida);
+		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4, tempoTotalMedida);
+		
 		int totalThreads = (listaComSinaisVitais.size()) / intervalos;
 
 		System.out.println("Total threads: " + totalThreads);
@@ -64,11 +62,12 @@ public class HWSensorOxygenSaturation extends HermesWidgetSensorClient
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		for (String colunaCabecalho : cabecalho) {
-			if (colunaCabecalho.equals("'SpO2'")) {
-				posicaoSinalVital = contador;
-			}
+			if (colunaCabecalho.equals("'SpO2'")) posicaoSinalVital = contador;
+			
 			contador++;
+			
 		}
+		
 		System.out.println("...SpO2 = " + posicaoSinalVital);
 
 		if (posicaoSinalVital != 0) {
@@ -77,61 +76,52 @@ public class HWSensorOxygenSaturation extends HermesWidgetSensorClient
 					+ this.registroMimic.getName()
 					+ " started! Date: "
 					+ new Date().toString();
+		
 			HWLog.recordLog(log);
+			
 			System.out.println(log + "\n");
 
 			int posicaoExtensao = registroMimic.getName().lastIndexOf('.');
 
-			String recordIdAtual = registroMimic.getName().substring(0,
-					posicaoExtensao);
+			String recordIdAtual = registroMimic.getName().substring(0, posicaoExtensao);
 
 			System.out.println("Paciente: "+recordIdAtual);
 
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// LaÃ§o para verificar os metadados de cada paciente e as
+			// informaÃ§Ãµes de leitura dos sinais vitais
 			int contadorOxygenSaturation = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			for (String[] medicaoAtual : listaComSinaisVitais) {
-				// && Float.parseFloat(medicaoAtual[posicaoSinalVital]) > 0
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int segundos = Math.round(segfloat);
 
 					int contadorOS = contadorOxygenSaturation++;
-
-					//System.out.println(medicaoAtual[posicaoSinalVital] + " - " + contadorOS);
-
 					
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"saturacao_oxigenio.ttl",
-							Integer.toString(segundos), 
-							"SatOxig",
-							contadorOS, 
+							"saturacao_oxigenio.ttl", Integer.toString(segundos), 
+							"SatOxig", contadorOS, 
 							"OxygenSaturationMeasurementDatum",
 							medicaoAtual[posicaoSinalVital].substring(0, medicaoAtual[posicaoSinalVital].lastIndexOf('.')), 
-							null,
-							"%",
-							recordIdAtual
+							null, "%", recordIdAtual
 					);
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 
 					threadPoolMedidas.schedule(this.getNotificationService(
-							hermesBaseManager, hermesWidgetTO), segundos,
-							TimeUnit.SECONDS);
+							hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 
-					// if (contadorLinhas==0)
-					// representationService.modeloMedicaoSinalVital.write(System.out,
-					// "TURTLE");
-					//
 					representationService.setModeloMedicaoSinalVital(null);
 					
 					contadorThreads++;
+				
 				}
+				
 				contadorLinhas++;
 			}
+			
 		}
 
 	}

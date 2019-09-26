@@ -16,18 +16,16 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorTemperature extends HermesWidgetSensorClient implements Runnable {
 
-	// Instância do serviço de comunicação
 	private HermesBaseManager hermesBaseManager;
 
 	private HWRepresentationServiceSensor representationService;
-	
-	//private HashMap<String, String> objects;
 
 	private ScheduledExecutorService threadPoolMedidas;
 
 	private File registroMimic;
 	
 	private int tempoTotalMedida = 0;
+	
 	private int intervalos = 0;
 
 	long tTotalRepresentation;
@@ -39,6 +37,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		this.representationService = this.getRepresentationService();
 		this.tempoTotalMedida = Integer.parseInt(tempo[0]);
 		this.intervalos = Integer.parseInt(tempo[1]);
+	
 	}
 
 	@Override
@@ -46,8 +45,8 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 		ReaderCSV reader = new ReaderCSV(this.registroMimic);
 
-		// int totalLinhas = reader.getLinhas().size();
 		List<String[]> listaComSinaisVitais = reader.getLinhas().subList(4, tempoTotalMedida);
+		
 		int totalThreads = (listaComSinaisVitais.size()) / intervalos;
 		
 		System.out.println("Total threads: "+totalThreads);
@@ -58,20 +57,15 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		int posicaoSinalVital = 0;
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
-		for (String colunaCabecalho : cabecalho) 
-		{
-			if (colunaCabecalho.equals("'Tblood'")) {
-				
-				posicaoSinalVital = contador;
-			}
+		for (String colunaCabecalho : cabecalho) {
+			if (colunaCabecalho.equals("'Tblood'")) posicaoSinalVital = contador;
+			
 			contador++;
+			
 		}
 
 		if (posicaoSinalVital != 0) {
 			
-			/*
-			 * Log
-			 */
 			String log = "Hermes Widget Sensor Temperature for patient ---> "
 					+ this.registroMimic.getName() + " started! In: "
 					+ new Date().toString();
@@ -84,25 +78,19 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 			System.out.println(recordIdAtual);
 
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// LaÃ§o para verificar os metadados de cada paciente e as
+			// informaÃ§Ãµes de leitura dos sinais vitais
 			int contadorTemp = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
-			for (String[] medicaoAtual : listaComSinaisVitais) 
-			{
-				if (contadorLinhas % intervalos == 0) 
-				{
-					
-					// int segundos = Integer.valueOf(medicaoAtual[0]);
+			for (String[] medicaoAtual : listaComSinaisVitais) {
+				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int segundos = Math.round(segfloat);
 
 					int contadorT = contadorTemp++;
 					
-					//System.out.println(medicaoAtual[posicaoSinalVital] +" - "+ contadorT);
 
-					
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"temperatura_corporea.ttl",
 							Integer.toString(segundos), 
@@ -114,21 +102,6 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 							"Celsius",
 							recordIdAtual
 					);
-							
-							/*
-							representationService
-							.representMonitoringVitalSign(
-									"temperatura_corporea.ttl",
-									"MonitoringTemperature",
-									Integer.toString(segundos), "Temperatura",
-									contadorT, "VSO_0000008",
-									"hasMonitoringTemperature",
-									"isMeasurementTemperature",
-									"valueTemperature",
-									medicaoAtual[posicaoSinalVital],
-									"unitTemperature", "Celsius",
-									recordIdAtual, null);
-									*/
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -137,8 +110,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 					
 					
-					// Limpa o modelo de representação para a próxima instância
-					
+					// Limpa o modelo de representaÃ§Ã£o para a prÃ³xima instÃ¢ncia					
 					representationService.setModeloMedicaoSinalVital(null);
 
 					contadorThreads++;
@@ -146,6 +118,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 				contadorLinhas++;
 			}
+			
 		}
 
 	}

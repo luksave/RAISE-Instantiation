@@ -8,7 +8,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.facade.HWManagerFacade;
  * 
  * @author Ernesto
  * 
- * Classe herda demais métodos da classe extendida
+ * Classe herda demais mÃ©todos da classe extendida
  *
  */
 
@@ -16,6 +16,7 @@ public class HWSensorFacade extends HWManagerFacade {
 
 	public HWRepresentationServiceSensor getHermesWidgetRepresentationService() {
 		return HWSensorServiceFactory.getRepresentationService();
+		
 	}
 	
 }

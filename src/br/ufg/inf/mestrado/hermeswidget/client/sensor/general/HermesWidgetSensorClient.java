@@ -13,59 +13,40 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
  */
 
 public class HermesWidgetSensorClient extends HWManagerClient {
-	
-	/*
-	private static HashMap<String, String> pacientes = new HashMap<String, String>();
-	private static HashMap<String, String> propriedades = new HashMap<String, String>();
-	
-	public HashMap<String, String> getPacientes() {
-		return pacientes;
-	}
-
-	public void setPacientes(HashMap<String, String> pacientes) {
-		HermesWidgetSensorClient.pacientes = pacientes;
-	}
-
-	public HashMap<String, String> getPropriedades() {
-		return propriedades;
-	}
-
-	public void setPropriedades(HashMap<String, String> propriedades) {
-		HermesWidgetSensorClient.propriedades = propriedades;
-	}
-	*/
 
 	/**
-	 * Inst‚ncia de faÁade (HermesWidgetFacade) utilizada para inicializar os
-	 * serviÁos de um Hermes Widget.
+	 * Inst√¢ncia de fa√ßade (HermesWidgetFacade) utilizada para inicializar os
+	 * servi√ßos de um Hermes Widget.
 	 */
 	private static HWSensorFacade facade = new HWSensorFacade();
 
 	/**
-	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
+	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public void startConfigurationService(String configuration) {
 		facade.startHermesWidgetConfigurationService(configuration);
+		
 	}
 
 	/**
-	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
+	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public HermesBaseManager getCommunicationService() {
 		return facade.startHermesWidgetCommunicationService().getHermesBaseManager();
-		//return null;
+		
 	}
 
 	/**
-	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
+	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public HWNotificationService getNotificationService(HermesBaseManager hermesBase, HWTransferObject hermesWidgetTO) {
-		return facade.getHermesWidgetNotificationService(hermesBase,
-				hermesWidgetTO);
+		return facade.getHermesWidgetNotificationService(hermesBase, hermesWidgetTO);
+		
 	}
 
 	public HWRepresentationServiceSensor getRepresentationService() {
 		return facade.getHermesWidgetRepresentationService();
+		
 	}
 
 }

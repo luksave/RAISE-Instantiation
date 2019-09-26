@@ -11,18 +11,23 @@ public class HermesWidgetObjects {
 	
 	public HermesWidgetObjects() {
 		this.objects = new ConcurrentHashMap<String, String>();
+		
 	}
 
 	public ConcurrentHashMap<String, String> getObjects() {
 		return this.objects;
+		
 	}
 
 	public void setObjects(ConcurrentHashMap<String, String> objects) {
 		this.objects = objects;
+		
 	}
 	
 	public void insertObject(String object) {
 		if (!this.objects.containsKey(object)) 
 			this.objects.put(object, SSN.NS + object +"-"+ UUID.randomUUID().toString());
+		
 	}
+	
 }
