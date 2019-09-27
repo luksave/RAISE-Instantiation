@@ -32,8 +32,6 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
 	// O parâmetro de tempo vem do input args.
 	public HWSensorHumidity(File registroAtual, String tempo[]) {
-		//TODO criar arquivo de configuração para o registro dos Compostos Orgânicos Voláteis
-		
 		this.registroAirPure = registroAtual;
 		this.startConfigurationService("./settings/topics_humidity.json");
 		this.hermesBaseManager = this.getCommunicationService();
@@ -45,9 +43,6 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 	@Override
 	public void run() {
-		// TODO Implementar registro dos dados ambientais em um arquivo CSV que será usado como entrada 
-		// Ver o modelo do arquivo CSV na pasta mimics/041n.csv e adaptar para airPure/medidas.csv 
-		// Alterar este código de acordo com as colunas do CSV.
 		ReaderCSV reader = new ReaderCSV(this.registroAirPure);
 
 		List<String[]> listaComDadosAmbientais = reader.getLinhas().subList(4, tempoTotalMedida);
@@ -60,25 +55,26 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
 		int posicaoDadoAmbiental = 0;
-		
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
 			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
-			if (colunaCabecalho.equals("'SpO2'")) posicaoDadoAmbiental = contador;
+			// MUDOU PARA: 'RHum'
+			if (colunaCabecalho.equals("'RHum'")) posicaoDadoAmbiental = contador;
 			
 			contador++;
 			
 		}
 		
 		// Sp02 vai mudar de acordo com o novo CSV: identificador para a coluna do VOC
-		System.out.println("...SpO2 = " + posicaoDadoAmbiental);
+		// MUDOU PARA: RHum
+		System.out.println("...RHum = " + posicaoDadoAmbiental);
 
 		if (posicaoDadoAmbiental != 0) {
 
 			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
-					+ this.registroAirPure.getName() //nome do ambiente?
+					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
 					+ new Date().toString();
 		
@@ -90,11 +86,11 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
-			System.out.println("Paciente: "+recordIdAtual);
+			System.out.println("Ambiente: "+recordIdAtual);
 
 			// Laço para verificar os metadados de cada ambiente e as
 			// informações de leitura dos dados ambientais
-			int contadorOxygenSaturation = 0;
+			int contadorHumidity = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
@@ -102,13 +98,13 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int   segundos = Math.round(segfloat);
-					int contadorOS = contadorOxygenSaturation++;
+					int contadorRH = contadorHumidity++;
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"saturacao_oxigenio.ttl", Integer.toString(segundos), 
-							"SatOxig", contadorOS, 
-							"OxygenSaturationMeasurementDatum",
+							"relative_humidity.ttl", Integer.toString(segundos), 
+							"RelHum", contadorRH, 
+							"RelativeHUmidity", // Nome do tópico no arquivo topics_humidity
 							medicaoAtual[posicaoDadoAmbiental].substring(0, medicaoAtual[posicaoDadoAmbiental].lastIndexOf('.')), 
 							null, "%", recordIdAtual);
 
@@ -124,6 +120,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 				}
 				
 				contadorLinhas++;
+				
 			}
 			
 		}

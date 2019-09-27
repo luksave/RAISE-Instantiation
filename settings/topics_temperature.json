@@ -5,10 +5,10 @@
 			
 			"defaultnamespace":"",
 			
-			"registrar":"VSO_0000008H",
+			"registrar":"Temperature",
 			
 			"publicar":[
-				{"nome":"VSO_0000008H", "complementoTopico":"reason"}
+				{"nome":"Temperature", "complementoTopico":"reason"}
 				],
 		
 			"assinar":[],

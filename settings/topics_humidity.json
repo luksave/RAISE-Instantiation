@@ -1,0 +1,22 @@
+{
+	"topicos":[
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"Humidity",
+			
+			"publicar":[
+				{"nome":"RelativeHumidity", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		}
+	]	
+} 

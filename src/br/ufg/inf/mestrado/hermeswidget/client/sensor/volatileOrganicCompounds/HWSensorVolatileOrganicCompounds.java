@@ -39,8 +39,6 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
 	// O parâmetro de tempo vem do input args.
 	public HWSensorVolatileOrganicCompounds(File registroAtual, String tempo[]) {
-		//TODO criar arquivo de configuração para o registro dos Compostos Orgânicos Voláteis
-		
 		this.registroAirPure = registroAtual;
 		this.startConfigurationService("./settings/topics_vocs.json");
 		this.hermesBaseManager = this.getCommunicationService();
@@ -73,19 +71,21 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		
 		for (String colunaCabecalho : cabecalho) {
 			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
-			if (colunaCabecalho.equals("'SpO2'")) posicaoDadoAmbiental = contador;
+			// Mudou para 'TVOC'
+			if (colunaCabecalho.equals("'TVOC'")) posicaoDadoAmbiental = contador;
 			
 			contador++;
 			
 		}
 		
 		// Sp02 vai mudar de acordo com o novo CSV: identificador para a coluna do VOC
-		System.out.println("...SpO2 = " + posicaoDadoAmbiental);
+		// Mudou para TVOC
+		System.out.println("...TVOC = " + posicaoDadoAmbiental);
 
 		if (posicaoDadoAmbiental != 0) {
 
 			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
-					+ this.registroAirPure.getName() //nome do ambiente?
+					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
 					+ new Date().toString();
 		
@@ -97,11 +97,11 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
-			System.out.println("Paciente: "+recordIdAtual);
+			System.out.println("Ambiente: "+recordIdAtual);
 
 			// Laço para verificar os metadados de cada ambiente e as
 			// informações de leitura dos dados ambientais
-			int contadorOxygenSaturation = 0;
+			int contadorVolatileOrganicCompound = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
@@ -109,15 +109,15 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int   segundos = Math.round(segfloat);
-					int contadorOS = contadorOxygenSaturation++;
+					int contadorVOC = contadorVolatileOrganicCompound++;
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"saturacao_oxigenio.ttl", Integer.toString(segundos), 
-							"SatOxig", contadorOS, 
-							"OxygenSaturationMeasurementDatum",
+							"tvoc.ttl", Integer.toString(segundos), 
+							"TVOC", contadorVOC, 
+							"VolatileOrganicCompounds", // Nome do tópico no arquivo topics_vocs
 							medicaoAtual[posicaoDadoAmbiental].substring(0, medicaoAtual[posicaoDadoAmbiental].lastIndexOf('.')), 
-							null, "%", recordIdAtual);
+							null, "ppb", recordIdAtual);
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -131,6 +131,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 				}
 				
 				contadorLinhas++;
+				
 			}
 			
 		}		

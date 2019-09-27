@@ -31,7 +31,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo); //São os modelos para representar as informações
 		
 		
-		modeloMedicaoSinalVital = ModelFactory.createOntologyModel();
+		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();
 		
 		String sensorOutput = "sensorOutput-"+nomeClasseSinalVital;
 		String observationValue = "observationValue";
@@ -49,18 +49,18 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		}
 		
 		
-		modeloMedicaoSinalVital = representObservation(abreveaturaSinalVital, "property-"+abreveaturaSinalVital, 
+		modeloMedicaoDadoAmbiental = representObservation(abreveaturaSinalVital, "property-"+abreveaturaSinalVital, 
 													   						  "sensor-"  +nomeClasseSinalVital, sensorOutput, 
 													   						  "observation-"+abreveaturaSinalVital, observationValue, 
 													   						   values, unidadeMedida, idPaciente);
 		
 		
 		
-		if (contadorSinalVital == 0)	modeloMedicaoSinalVital.write(System.out, "TURTLE");
+		if (contadorSinalVital == 0)	modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();
 		
-		modeloMedicaoSinalVital.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
+		modeloMedicaoDadoAmbiental.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
 		
 		byte[] byteArray = baosContextoFiltrado.toByteArray();
 		
@@ -96,7 +96,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		
 		String sensorIRI = SSN.NS + sensor +"-"+ UUID.randomUUID().toString();
 		
-		Resource featureOfInterestResource = modeloMedicaoSinalVital
+		Resource featureOfInterestResource = modeloMedicaoDadoAmbiental
 				.createResource(featureIRI)
 					.addProperty(RDF.type, SSN.FeatureOfInterest);
 		
@@ -106,7 +106,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		 * an aspect of an entity that is intrinsic to and cannot exist without
 		 * the entity and is observable by a sensor.
 		 */
-		Resource propertyResource = modeloMedicaoSinalVital
+		Resource propertyResource = modeloMedicaoDadoAmbiental
 				.createResource(propertyIRI)
 					.addProperty(RDF.type, SSN.Property);
 
@@ -117,7 +117,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		 * methods, a laboratory setup with a person following a method, or any
 		 * other thing that can follow a Sensing Method to observe a Property.
 		 */
-		Resource sensorResource = modeloMedicaoSinalVital
+		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.SensingDevice)
 					.addProperty(SSN.observes, propertyResource);
@@ -128,7 +128,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		 */
 		Resource sensorOutputResource;	
 		
-		sensorOutputResource = modeloMedicaoSinalVital
+		sensorOutputResource = modeloMedicaoDadoAmbiental
 				.createResource(SSN.NS + sensorOutput +"-"+ UUID.randomUUID().toString())
 					.addProperty(RDF.type, SSN.SensorOutput)
 					.addProperty(SSN.isProducedBy, sensorResource);
@@ -158,21 +158,21 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		}
 		
 		
-		modeloMedicaoSinalVital.createResource(SSN.NS + observation +"-"+ UUID.randomUUID().toString())
+		modeloMedicaoDadoAmbiental.createResource(SSN.NS + observation +"-"+ UUID.randomUUID().toString())
 			.addProperty(RDF.type, SSN.Observation)
 			.addProperty(SSN.observedBy, sensorResource)
 			.addProperty(SSN.observedProperty, propertyResource)
 			.addProperty(SSN.observationResult, sensorOutputResource)
 			.addProperty(SSN.featureOfInterest, featureOfInterestResource)
-			.addProperty(SSN.observationResultTime, modeloMedicaoSinalVital.createTypedLiteral(dateTime.toString(), XSDDatatype.XSDdateTime));
+			.addProperty(SSN.observationResultTime, modeloMedicaoDadoAmbiental.createTypedLiteral(dateTime.toString(), XSDDatatype.XSDdateTime));
 		
 		
 		if (sinal == "Temp") {
 			sensorOutputResource.addProperty(SSN.hasValue, 
-				modeloMedicaoSinalVital.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())
+				modeloMedicaoDadoAmbiental.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())
 					.addProperty(RDF.type, SSN.ObservationValue)
-					.addProperty(SSN.hasOutputValue, modeloMedicaoSinalVital.createTypedLiteral(values[0], XSDDatatype.XSDfloat))
-					.addProperty(SSN.hasOutputUnit, modeloMedicaoSinalVital.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
+					.addProperty(SSN.hasOutputValue, modeloMedicaoDadoAmbiental.createTypedLiteral(values[0], XSDDatatype.XSDfloat))
+					.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
 			);
 			
 		} else if (sinal == "PresSang") {
@@ -180,19 +180,19 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 			for (int i = 0; i < values.length; i++) {
 				if (i == 0) {
 					sensorOutputResource.addProperty(SSN.hasValue, 
-						modeloMedicaoSinalVital.createResource(uri)
+						modeloMedicaoDadoAmbiental.createResource(uri)
 							.addProperty(RDF.type, SSN.ObservationValue)
-							.addProperty(SSN.hasOutputValueAux, modeloMedicaoSinalVital.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
-							.addProperty(SSN.hasOutputUnit, modeloMedicaoSinalVital.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
+							.addProperty(SSN.hasOutputValueAux, modeloMedicaoDadoAmbiental.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
+							.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
 					);
 					
 				}
 				else {
 					sensorOutputResource.addProperty(SSN.hasValue, 
-						modeloMedicaoSinalVital.createResource(uri)
+						modeloMedicaoDadoAmbiental.createResource(uri)
 							.addProperty(RDF.type, SSN.ObservationValue)
-							.addProperty(SSN.hasOutputValue, modeloMedicaoSinalVital.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
-							.addProperty(SSN.hasOutputUnit, modeloMedicaoSinalVital.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
+							.addProperty(SSN.hasOutputValue, modeloMedicaoDadoAmbiental.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
+							.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
 					);
 					
 				}
@@ -201,20 +201,20 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 			
 		} 	else {
 			sensorOutputResource.addProperty(SSN.hasValue, 
-				modeloMedicaoSinalVital.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())
+				modeloMedicaoDadoAmbiental.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())
 					.addProperty(RDF.type, SSN.ObservationValue)
-					.addProperty(SSN.hasOutputValue, modeloMedicaoSinalVital.createTypedLiteral(values[0], XSDDatatype.XSDnonNegativeInteger))
-					.addProperty(SSN.hasOutputUnit, modeloMedicaoSinalVital.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
+					.addProperty(SSN.hasOutputValue, modeloMedicaoDadoAmbiental.createTypedLiteral(values[0], XSDDatatype.XSDnonNegativeInteger))
+					.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
 			);
 			
 		}
 		
-		return modeloMedicaoSinalVital;
+		return modeloMedicaoDadoAmbiental;
 	}
 	
 	
 	public void setModeloMedicaoSinalVital(OntModel modeloMedicaoSinalVital) {
-		this.modeloMedicaoSinalVital = modeloMedicaoSinalVital;
+		this.modeloMedicaoDadoAmbiental = modeloMedicaoSinalVital;
 	}
 	
 	

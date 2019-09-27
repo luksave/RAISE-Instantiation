@@ -1,0 +1,22 @@
+{
+	"topicos":[
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"CarbonDioxide",
+			
+			"publicar":[
+				{"nome":"CarbonDioxideConcentration", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		}
+	]	
+} 

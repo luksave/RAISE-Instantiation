@@ -1,0 +1,22 @@
+{
+	"topicos":[
+		{
+			"tipo":"notificacao",
+			
+			"defaultnamespace":"",
+			
+			"registrar":"VolatileOrganicCompounds",
+			
+			"publicar":[
+				{"nome":"VolatileOrganicCompounds", "complementoTopico":"reason"}
+				],
+		
+			"assinar":[],
+		
+			"objetos_negocio":[],
+			
+			"tipo_inferencia":[]
+			
+		}
+	]	
+} 

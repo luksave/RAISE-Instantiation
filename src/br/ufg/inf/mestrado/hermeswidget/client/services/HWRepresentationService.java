@@ -12,10 +12,10 @@ public class HWRepresentationService {
 
 	public String caminhoSchemaOntologico = "./src/ontologia/iotliteSchema.ttl";
 	public String tipoSerializacao = "Turtle";
-	public OntModel modeloMedicaoSinalVital = null;
+	public OntModel modeloMedicaoDadoAmbiental = null;
 	
 	public void criarModeloRDFDeArquivo(String caminhoArquivoRDF){
-		if (modeloMedicaoSinalVital == null) modeloMedicaoSinalVital = ModelFactory.createOntologyModel();	
+		if (modeloMedicaoDadoAmbiental == null) modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();	
 	
 	}
 	

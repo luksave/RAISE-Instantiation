@@ -27,18 +27,21 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 	public HWRepresentationServiceSensor() {}
 	
 	
-	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, String abreveaturaSinalVital, 
-			int contadorSinalVital, String nomeClasseSinalVital, String medidaColetada, String[] medidaComposta, String unidadeMedida, String idPaciente) {
+	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, 
+			                                          String abreviaturaDadoAmbiental, int contadorDadoAmbiental, 
+			                                          String nomeClasseDadoAmbiental, String medidaColetada, 
+			                                          String[] medidaComposta, String unidadeMedida, 
+			                                          String idAmbiente) {
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo);
 		
-		modeloMedicaoSinalVital = ModelFactory.createOntologyModel();
-		String sensorOutput = "sensorOutput-"+nomeClasseSinalVital;
+		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();
+		String sensorOutput = "sensorOutput-"+nomeClasseDadoAmbiental;
 		String observationValue = "observationValue";
 		
 		Object[] values; 
 		
-		if (abreveaturaSinalVital == "PresSang") {
+		if (abreviaturaDadoAmbiental == "PresSang") {
 			Object[] v = medidaComposta;
 			values = v;
 			
@@ -49,27 +52,27 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		}
 		
 		
-		modeloMedicaoSinalVital = representObservation(abreveaturaSinalVital, "property-"+abreveaturaSinalVital, "sensor-"+nomeClasseSinalVital, sensorOutput, "entity-"+abreveaturaSinalVital, observationValue, values, unidadeMedida, idPaciente);
+		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, "sensor-"+nomeClasseDadoAmbiental, sensorOutput, "entity-"+abreviaturaDadoAmbiental, observationValue, values, unidadeMedida, idAmbiente);
 	
 		
-		if (contadorSinalVital == 0) modeloMedicaoSinalVital.write(System.out, "TURTLE");
+		if (contadorDadoAmbiental == 0) modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();
-		modeloMedicaoSinalVital.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
+		modeloMedicaoDadoAmbiental.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
 		byte[] byteArray = baosContextoFiltrado.toByteArray();
 		
 		
 		// Configura transfer object
 		hermesWidgetTO = new HWTransferObject();
 		
-		hermesWidgetTO.setIdEntidade("person"+idPaciente);
-		hermesWidgetTO.setNomeTopico(nomeClasseSinalVital);
+		hermesWidgetTO.setIdEntidade("person"+idAmbiente);
+		hermesWidgetTO.setNomeTopico(nomeClasseDadoAmbiental);
 		hermesWidgetTO.setComplementoTopico("");
 		hermesWidgetTO.setContexto(byteArray);
 		hermesWidgetTO.setCaminhoOntologia(caminhoSchemaOntologico);
 		hermesWidgetTO.setTipoSerializacao(tipoSerializacao);
 		
-		if (abreveaturaSinalVital == "Temp") {
+		if (abreviaturaDadoAmbiental == "Temp") {
 			hermesWidgetTO.setSensorValue(medidaColetada);
 			
 		} else {
@@ -89,14 +92,14 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		String sensorIRI = sensor +"-"+ UUID.randomUUID().toString();
 		
 		/** Sensor */
-		Resource sensorResource = modeloMedicaoSinalVital
+		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.Sensor)
 					.addProperty(IoT_Lite.hasUnit, "qu:degree_Celcius") // importar de qu
 					.addProperty(IoT_Lite.hasQuantityKind, "qu:temperature"); // importar de qu
 		
 		/** Sensing Device INCLUIR */
-		Resource sensingDeviceResource = modeloMedicaoSinalVital
+		Resource sensingDeviceResource = modeloMedicaoDadoAmbiental
 				.createResource("device"+sinal)
 					.addProperty(RDF.type, SSN.SensingDevice)
 					.addProperty(IoT_Lite.exposedBy, sensorResource);
@@ -104,7 +107,7 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 
 		
 		/** Point INCLUIR */
-		Resource locationResource = modeloMedicaoSinalVital
+		Resource locationResource = modeloMedicaoDadoAmbiental
 				.createResource("location")
 					.addProperty(RDF.type, "geo:Point")
 					.addProperty(Geo.long_, "-49.255") 
@@ -112,7 +115,7 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 					
 		
 		/** Service INCLUIR */
-		Resource serviceResource = modeloMedicaoSinalVital
+		Resource serviceResource = modeloMedicaoDadoAmbiental
 				.createResource("service"+sinal)
 					.addProperty(RDF.type, IoT_Lite.Service)
 					.addProperty(IoT_Lite.endpoint, "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1"+"^^xsd:anyURI"); 
@@ -150,27 +153,27 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		
 		try {
 			df = DatatypeFactory.newInstance();
-			
 			dateTime = df.newXMLGregorianCalendar(calendar);
+			
 		} catch (DatatypeConfigurationException e) {
 			e.printStackTrace();
 			
 		}
 		
-		modeloMedicaoSinalVital.createResource(entity +"-"+ UUID.randomUUID().toString())
+		modeloMedicaoDadoAmbiental.createResource(entity +"-"+ UUID.randomUUID().toString())
 			.addProperty(RDF.type, IoT_Lite.Entity)
 			.addProperty(IoT_Lite.hasSensingDevice, sensingDeviceResource)
 			.addProperty(Geo.location, locationResource)
 			.addProperty(IoT_Lite.hasMetadata, serviceResource)
-			.addProperty(SSN.observationResultTime, modeloMedicaoSinalVital.createTypedLiteral(dateTime.toString(), XSDDatatype.XSDdateTime));
+			.addProperty(SSN.observationResultTime, modeloMedicaoDadoAmbiental.createTypedLiteral(dateTime.toString(), XSDDatatype.XSDdateTime));
 
 		
-		return modeloMedicaoSinalVital;
+		return modeloMedicaoDadoAmbiental;
 	}
 	
 	
 	public void setModeloMedicaoSinalVital(OntModel modeloMedicaoSinalVital) {
-		this.modeloMedicaoSinalVital = modeloMedicaoSinalVital;
+		this.modeloMedicaoDadoAmbiental = modeloMedicaoSinalVital;
 		
 	}
 	
