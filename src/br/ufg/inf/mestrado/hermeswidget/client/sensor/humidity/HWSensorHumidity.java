@@ -14,6 +14,12 @@ import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
+/**
+ * 
+ * @author Lucas Felipe
+ *
+ */
+
 public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnable {
 
 	private HermesBaseManager hermesBaseManager;
@@ -113,7 +119,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 
-					representationService.setModeloMedicaoSinalVital(null);
+					representationService.setModeloMedicaoDadoAmbiental(null);
 					
 					contadorThreads++;
 				

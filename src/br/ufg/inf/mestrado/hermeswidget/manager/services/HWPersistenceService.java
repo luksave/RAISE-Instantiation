@@ -24,8 +24,7 @@ public class HWPersistenceService {
 	public void createConection() {
 		String diretorio = "HermesDatabases/DatasetHW";
 		dataset = TDBFactory.createDataset(diretorio);
-		// String assemblerFile = "Store/tdb-assembler.ttl";
-		// dataset = TDBFactory.assembleDataset(assemblerFile);
+
 	}
 
 	public void update(Model model) {
@@ -34,10 +33,12 @@ public class HWPersistenceService {
 			Model modelTDB = dataset.getDefaultModel();
 			modelTDB.add(model);
 			dataset.commit();
-			//System.out.println("\nModelo armazenado com sucesso!\n");
+			
 		} finally {
 			dataset.end();
+			
 		}
+		
 	}
 
 	public void consultar(String query) {
@@ -45,19 +46,23 @@ public class HWPersistenceService {
 		try {
 			QueryExecution qexec = QueryExecutionFactory.create(query, dataset);
 			ResultSet rs = qexec.execSelect();
+			
 			try {
 				ResultSetFormatter.out(rs);
+				
 			} finally {
 				qexec.close();
+				
 			}
-			// Model model = dataset.getDefaultModel();
 		} finally {
+			
 			dataset.end();
 		}
 	}
 
 	public void fecharConexao() {
 		dataset.close();
+		
 	}	
 
 }

@@ -18,7 +18,7 @@ public class HWTransferObject {
 	private String nomeTopico;
 	private String complementoTopico;
 	private byte[] contexto;
-	private Model modelContexto;
+	private Model  modelContexto;
 	private String idEntidade;
 	private String caminhoOntologia;
 	private String tipoSerializacao;

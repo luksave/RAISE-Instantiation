@@ -9,7 +9,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObject
 
 /**
  * 
- * @author Ernesto
+ * @author Lucas Felipe
  *
  */
 

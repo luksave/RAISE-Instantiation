@@ -124,7 +124,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 
-					representationService.setModeloMedicaoSinalVital(null);
+					representationService.setModeloMedicaoDadoAmbiental(null);
 					
 					contadorThreads++;
 				

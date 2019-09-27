@@ -17,10 +17,8 @@ public class HWSensorServiceFactory extends HWManagerServiceFactory {
 	 * 
 	 * 
 	 */
-
 	public static HWRepresentationServiceSensor getRepresentationService() {
 		hermesWidgetRepresentation = new HWRepresentationServiceSensor();
-
 		return hermesWidgetRepresentation;
 		
 	}

@@ -24,60 +24,62 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 	
 	public HWRepresentationServiceSensorIoT() {}
 	
-	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, String abreveaturaSinalVital, 
-													  int contadorSinalVital, String nomeClasseSinalVital, String medidaColetada, 
-													  String[] medidaComposta, String unidadeMedida, String idPaciente) {
+	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, 
+													  String abreviaturaDadoAmbiental, int contadorDadoAmbiental, 
+													  String nomeClasseDadoAmbiental, String medidaColetada, 
+													  String[] medidaComposta, String unidadeMedida, 
+													  String idAmbiente) {
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo); //São os modelos para representar as informações
 		
 		
 		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();
 		
-		String sensorOutput = "sensorOutput-"+nomeClasseSinalVital;
+		String sensorOutput = "sensorOutput-"+nomeClasseDadoAmbiental;
 		String observationValue = "observationValue";
 		
 		Object[] values; 
 		
-		if (abreveaturaSinalVital == "PresSang") {
+		// Não se aplica aos dados Ambientais coletados.
+		/*if (abreviaturaDadoAmbiental == "PresSang") {
 			Object[] v = medidaComposta;
 			values = v;
-		
-		} else {
+			
+		} else {*/
 			Object[] v = {medidaColetada};
 			values = v;
+			
+		//}
 		
-		}
-		
-		
-		modeloMedicaoDadoAmbiental = representObservation(abreveaturaSinalVital, "property-"+abreveaturaSinalVital, 
-													   						  "sensor-"  +nomeClasseSinalVital, sensorOutput, 
-													   						  "observation-"+abreveaturaSinalVital, observationValue, 
-													   						   values, unidadeMedida, idPaciente);
-		
+		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, 
+													   						        "sensor-"  +nomeClasseDadoAmbiental, sensorOutput, 
+													   						        "observation-"+abreviaturaDadoAmbiental, observationValue, 
+													   						         values, unidadeMedida, idAmbiente);
 		
 		
-		if (contadorSinalVital == 0)	modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
+		
+		if (contadorDadoAmbiental == 0)	modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();
-		
 		modeloMedicaoDadoAmbiental.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
-		
 		byte[] byteArray = baosContextoFiltrado.toByteArray();
 		
 		
 		// Configura transfer object
 		hermesWidgetTO = new HWTransferObject();
 		
-		hermesWidgetTO.setIdEntidade("person"+idPaciente);
-		hermesWidgetTO.setNomeTopico(nomeClasseSinalVital);
+		hermesWidgetTO.setIdEntidade("person"+idAmbiente);
+		hermesWidgetTO.setNomeTopico(nomeClasseDadoAmbiental);
 		hermesWidgetTO.setComplementoTopico("");
 		hermesWidgetTO.setContexto(byteArray);
 		hermesWidgetTO.setCaminhoOntologia(caminhoSchemaOntologico);
 		hermesWidgetTO.setTipoSerializacao(tipoSerializacao);
+		//Como todo os dados são de medidas simples, o valor do sensor será dado por medidaColetada
+		hermesWidgetTO.setSensorValue(medidaColetada); 
 		
-		if (abreveaturaSinalVital == "Temp") hermesWidgetTO.setSensorValue(medidaColetada);
-		else 								 hermesWidgetTO.setSensorValue(medidaComposta[0]+" e "+medidaComposta[1]);
-		
+		//if (abreviaturaDadoAmbiental == "Temp") hermesWidgetTO.setSensorValue(medidaColetada);
+		//else 									  hermesWidgetTO.setSensorValue(medidaComposta[0]+" e "+medidaComposta[1]);
+				
 		return hermesWidgetTO;
 	
 	}
@@ -199,7 +201,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 				
 			}
 			
-		} 	else {
+		} else {
 			sensorOutputResource.addProperty(SSN.hasValue, 
 				modeloMedicaoDadoAmbiental.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())
 					.addProperty(RDF.type, SSN.ObservationValue)
@@ -213,18 +215,20 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 	}
 	
 	
-	public void setModeloMedicaoSinalVital(OntModel modeloMedicaoSinalVital) {
-		this.modeloMedicaoDadoAmbiental = modeloMedicaoSinalVital;
+	public void setModeloMedicaoDadoAmbiental(OntModel modeloMedicaoDadoAmbiental) {
+		this.modeloMedicaoDadoAmbiental = modeloMedicaoDadoAmbiental;
+		
 	}
 	
 	
-	public HWTransferObject getDataTransferObject(String idPaciente, String nomeClasseSinalVital, String complementoTopico, byte[] medidaByteArray, String valorMedidaColetada, String instanteMedidaColetada) {
+	public HWTransferObject getDataTransferObject(String idAmbiente, String nomeClasseDadoAmbiental, 
+												  String complementoTopico, byte[] medidaByteArray, 
+												  String valorMedidaColetada, String instanteMedidaColetada) {
 		
 		hermesWidgetTO = new HWTransferObject();
 		
-		hermesWidgetTO.setIdEntidade("person"+idPaciente);
-		
-		hermesWidgetTO.setNomeTopico(nomeClasseSinalVital);
+		hermesWidgetTO.setIdEntidade("person"+idAmbiente);
+		hermesWidgetTO.setNomeTopico(nomeClasseDadoAmbiental);
 		hermesWidgetTO.setComplementoTopico(complementoTopico);
 		hermesWidgetTO.setContexto(medidaByteArray);
 		hermesWidgetTO.setCaminhoOntologia(caminhoSchemaOntologico);

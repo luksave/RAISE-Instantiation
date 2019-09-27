@@ -27,7 +27,7 @@ public class HWManagerServiceFactory {
 	 */
 	public static HWConfigurationService getConfigurationService() {
 		if (hermesWidgetConfiguration == null) hermesWidgetConfiguration = new HWConfigurationService();
-		
+	
 		return hermesWidgetConfiguration;
 		
 	}

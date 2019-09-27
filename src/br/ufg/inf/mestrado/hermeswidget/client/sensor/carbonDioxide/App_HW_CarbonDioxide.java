@@ -7,6 +7,12 @@ import java.util.concurrent.TimeUnit;
 
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObjects;
 
+/**
+ * 
+ * @author Lucas Felipe
+ *
+ */
+
 public class App_HW_CarbonDioxide extends HermesWidgetObjects {
 
 	public static void main(String[] args) {
