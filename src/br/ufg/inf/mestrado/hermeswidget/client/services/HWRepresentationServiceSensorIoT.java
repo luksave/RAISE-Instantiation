@@ -177,30 +177,6 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 					.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
 			);
 			
-		} else if (sinal == "PresSang") {
-			String uri = SSN.NS + observationValue +"-"+ UUID.randomUUID().toString();
-			for (int i = 0; i < values.length; i++) {
-				if (i == 0) {
-					sensorOutputResource.addProperty(SSN.hasValue, 
-						modeloMedicaoDadoAmbiental.createResource(uri)
-							.addProperty(RDF.type, SSN.ObservationValue)
-							.addProperty(SSN.hasOutputValueAux, modeloMedicaoDadoAmbiental.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
-							.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
-					);
-					
-				}
-				else {
-					sensorOutputResource.addProperty(SSN.hasValue, 
-						modeloMedicaoDadoAmbiental.createResource(uri)
-							.addProperty(RDF.type, SSN.ObservationValue)
-							.addProperty(SSN.hasOutputValue, modeloMedicaoDadoAmbiental.createTypedLiteral(values[i], XSDDatatype.XSDnonNegativeInteger))
-							.addProperty(SSN.hasOutputUnit, modeloMedicaoDadoAmbiental.createTypedLiteral(unidadeMedida, XSDDatatype.XSDstring))
-					);
-					
-				}
-				
-			}
-			
 		} else {
 			sensorOutputResource.addProperty(SSN.hasValue, 
 				modeloMedicaoDadoAmbiental.createResource(SSN.NS + observationValue +"-"+ UUID.randomUUID().toString())

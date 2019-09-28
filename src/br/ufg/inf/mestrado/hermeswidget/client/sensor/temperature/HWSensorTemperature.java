@@ -98,7 +98,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					int contadorT = contadorTemp++;
 					
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"temperatura_ambiental.ttl", Integer.toString(segundos), 
+							"temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
 							"Temperature", // Nome do tópico no arquivo topics_temperature 
 							medicaoAtual[posicaoSinalVital], 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://purl.oclc.org/NET/ssnx/ssn" uri="file:/home/lucas/Documentos/GitHub/Hermes-Widget/src/ontologia/ssn/ssn.owl"/>
+    <uri id="Imports Wizard Entry" name="http://purl.oclc.org/NET/UNIS/fiware/iot-lite#" uri="file:/home/lucas/Documentos/GitHub/Hermes-Widget/src/ontologia/iotliteSchema.owl"/>
+    <uri id="Imports Wizard Entry" name="http://purl.obolibrary.org/obo/TEMP" uri="file:/home/lucas/Documentos/GitHub/Hermes-Widget/src/ontologia/iotliteSchema.ttl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1569680738740" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="pressao_sanguinea.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569680738740" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="temperatura_corporea.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569680738740" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="frequencia_pulso.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569680738740" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="frequencia_respiratoria.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569680738740" name="duplicate:http://www.semanticweb.org/ontologies/2013/1/Ontology1361391792831.owl" uri="saturacao_oxigenio.owl"/>
+    </group>
+</catalog>

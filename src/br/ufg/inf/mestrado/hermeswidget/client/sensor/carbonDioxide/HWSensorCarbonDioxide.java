@@ -106,7 +106,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					int   segundos    = Math.round(segfloat);
 					int   contadorCO2 = contadorCarbonDioxide++;
 					
-					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
+					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 														"co2_concentration.ttl", // Este modelo deve ser ainda criado... 
 														Integer.toString(segundos), 

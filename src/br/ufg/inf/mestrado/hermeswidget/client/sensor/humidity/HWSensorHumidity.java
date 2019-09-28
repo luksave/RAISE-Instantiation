@@ -106,7 +106,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					int   segundos = Math.round(segfloat);
 					int contadorRH = contadorHumidity++;
 					
-					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
+					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
