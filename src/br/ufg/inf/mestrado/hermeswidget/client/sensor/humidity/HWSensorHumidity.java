@@ -111,7 +111,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 							"relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
 							"RelativeHUmidity", // Nome do tópico no arquivo topics_humidity
-							medicaoAtual[posicaoDadoAmbiental].substring(0, medicaoAtual[posicaoDadoAmbiental].lastIndexOf('.')), 
+							medicaoAtual[posicaoDadoAmbiental], 
 							null, "%", recordIdAtual);
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);

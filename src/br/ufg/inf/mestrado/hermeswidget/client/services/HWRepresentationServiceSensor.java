@@ -34,43 +34,28 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 			                                          String idAmbiente) {
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo);
-		
 		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();
 		String sensorOutput = "sensorOutput-"+nomeClasseDadoAmbiental;
-		String observationValue = "observationValue";
+		String observationValue = "observationValue"+medidaColetada;
 		
 		Object[] values; 
-		
-		// Não se aplica aos dados Ambientais coletados.
-		/*if (abreviaturaDadoAmbiental == "PresSang") {
-			Object[] v = medidaComposta;
-			values = v;
+	
+		Object[] v = {medidaColetada};
+		values = v;
 			
-		} else {*/
-			Object[] v = {medidaColetada};
-			values = v;
-			
-		//}
-		
 		
 		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, 
 				                                          "property-"+abreviaturaDadoAmbiental, 
-				                                          "sensor-"  +nomeClasseDadoAmbiental, 
-				                                                      sensorOutput, 
-				                                          "entity-"  +abreviaturaDadoAmbiental, 
-				                                                      observationValue, 
-				                                                      values, 
-				                                                      unidadeMedida, 
-				                                                      idAmbiente);
+				                                          "sensor-"  +nomeClasseDadoAmbiental, sensorOutput, 
+				                                          "entity-"  +abreviaturaDadoAmbiental, observationValue, 
+				                                                      values, unidadeMedida, idAmbiente);
 	
-		
 		if (contadorDadoAmbiental == 0) modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();
 		modeloMedicaoDadoAmbiental.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
 		byte[] byteArray = baosContextoFiltrado.toByteArray();
-		
-		
+			
 		// Configura transfer object
 		hermesWidgetTO = new HWTransferObject();
 		
@@ -80,11 +65,7 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		hermesWidgetTO.setContexto(byteArray);
 		hermesWidgetTO.setCaminhoOntologia(caminhoSchemaOntologico);
 		hermesWidgetTO.setTipoSerializacao(tipoSerializacao);
-		//Como todo os dados são de medidas simples, o valor do sensor será dado por medidaColetada
 		hermesWidgetTO.setSensorValue(medidaColetada); 
-		
-		//if (abreviaturaDadoAmbiental == "Temp") hermesWidgetTO.setSensorValue(medidaColetada);
-		//else 									  hermesWidgetTO.setSensorValue(medidaComposta[0]+" e "+medidaComposta[1]);
 		
 		return hermesWidgetTO;
 		
@@ -93,7 +74,6 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 	private OntModel representObservation(String sinal, String property, String sensor,  
 										  String sensorOutput, String entity, String observationValue, 
 										  Object[] values, String unidadeMedida, String feature) {
-	
 		
 		String sensorIRI = sensor +"-"+ UUID.randomUUID().toString();
 		

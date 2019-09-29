@@ -77,7 +77,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 			contador++;
 			
 		}
-		
+
 		// Sp02 vai mudar de acordo com o novo CSV: identificador para a coluna do VOC
 		// Mudou para TVOC
 		System.out.println("...TVOC = " + posicaoDadoAmbiental);
@@ -116,7 +116,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 							"tvoc.ttl", Integer.toString(segundos), 
 							"TVOC", contadorVOC, 
 							"VolatileOrganicCompounds", // Nome do tópico no arquivo topics_vocs
-							medicaoAtual[posicaoDadoAmbiental].substring(0, medicaoAtual[posicaoDadoAmbiental].lastIndexOf('.')), 
+							medicaoAtual[posicaoDadoAmbiental], 
 							null, "ppb", recordIdAtual);
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);

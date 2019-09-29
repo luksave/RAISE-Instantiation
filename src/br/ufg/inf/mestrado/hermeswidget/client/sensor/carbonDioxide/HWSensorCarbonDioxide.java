@@ -78,7 +78,6 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 		System.out.println("...CO2 = " + posicaoDadoAmbiental);
 
 		if (posicaoDadoAmbiental != 0) {
-
 			String log = "Hermes Widget Sensor Carbon Dioxide for environment ---> "
 					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
@@ -108,17 +107,16 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					
 					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-														"co2_concentration.ttl", // Este modelo deve ser ainda criado... 
-														Integer.toString(segundos), 
-														"ConCO2", 
-														contadorCO2, 
-														"CarbonDioxideConcentration", // Nome do tópico no arquivo topics_carbonDioxide
-														medicaoAtual[posicaoDadoAmbiental].substring(0, medicaoAtual[posicaoDadoAmbiental].lastIndexOf('.')), 
+														"co2_concentration.ttl", Integer.toString(segundos), "ConCO2", 
+														contadorCO2, "CarbonDioxideConcentration",
+														medicaoAtual[posicaoDadoAmbiental], 
 														null, "ppm", recordIdAtual);
-
+				
+					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 
+					
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 
 					representationService.setModeloMedicaoDadoAmbiental(null);

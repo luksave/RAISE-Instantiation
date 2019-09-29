@@ -59,20 +59,20 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		// Prepara o pool de threads
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
-		int posicaoSinalVital = 0;
+		int posicaoDadoAmbiental = 0;
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
 			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
 			// MUDOU PARA: 'Temp'
-			if (colunaCabecalho.equals("'Temp'")) posicaoSinalVital = contador;
+			if (colunaCabecalho.equals("'Temp'")) posicaoDadoAmbiental = contador;
 			
 			contador++;
 			
 		}
-
-		if (posicaoSinalVital != 0) {
+		
+		if (posicaoDadoAmbiental != 0) {
 			String log = "Hermes Widget Sensor Temperature for ambient ---> "
 					+ this.registroMimic.getName() + " started! In: "
 					+ new Date().toString();
@@ -101,7 +101,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 							"temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
 							"Temperature", // Nome do tópico no arquivo topics_temperature 
-							medicaoAtual[posicaoSinalVital], 
+							medicaoAtual[posicaoDadoAmbiental], 
 							null, "Celsius", recordIdAtual
 					);
 					
