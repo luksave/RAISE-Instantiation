@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1569694148385" name="http://www.semanticweb.org/lucas/ontologies/2019/8/temperature.owl" uri="temperature.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569884576525" name="http://www.semanticweb.org/lucas/ontologies/2019/8/co2Concentration.owl" uri="co2_concentration.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569884576525" name="http://www.semanticweb.org/lucas/ontologies/2019/8/humidity.owl" uri="relative_humidity.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569884576525" name="http://www.semanticweb.org/lucas/ontologies/2019/8/temperature.owl" uri="temperature.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1569884576525" name="http://www.semanticweb.org/lucas/ontologies/2019/8/tvoc.owl" uri="tvoc.owl"/>
     </group>
 </catalog>
