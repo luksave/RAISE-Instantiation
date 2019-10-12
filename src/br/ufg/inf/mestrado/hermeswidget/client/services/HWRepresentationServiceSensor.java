@@ -81,7 +81,7 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.Sensor)
-					.addProperty(IoT_Lite.hasUnit, "qu:degree_Celcius") // importar de qu
+					.addProperty(IoT_Lite.hasUnit, "qu:degree_Celsius") // importar de qu
 					.addProperty(IoT_Lite.hasQuantityKind, "qu:temperature"); // importar de qu
 		
 		/** Sensing Device INCLUIR */

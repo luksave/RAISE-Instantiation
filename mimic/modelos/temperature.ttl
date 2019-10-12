@@ -18,7 +18,7 @@
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasQuantityKind>
               "qu:temperature" ;
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasUnit>
-              "qu:degree_Celcius" .
+              "qu:degree_Celsius" .
 
 <entity-Temp-82f7f917-d5cd-43da-829d-57bdcd61c9de>
       a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Entity> ;

@@ -1,26 +1,35 @@
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn:      <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix iot-lite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
+@qu-rec20:        <http://purl.oclc.org/NET/ssnx/qu/qu-rec20> .
 
 <deviceCO2>
-      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
-      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#exposedBy>
-              <sensor-VSO_0000009-0b073d75-b37b-40e5-bacb-eeecb180c2f3> .
+      a       ssn:SensingDevice ;
+      iot-lite:exposedBy <sensor-VSO_0000009-0b073d75-b37b-40e5-bacb-eeecb180c2f3> .
+
 
 
 <serviceCO2>
-      a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Service> ;
-      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#endpoint>
+      a       iot-lite:Service ;
+      iot-lite:endpoint
               "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1^^xsd:anyURI" .
 
+
 <sensor-VSO_0000009-0b073d75-b37b-40e5-bacb-eeecb180c2f3>
-      a       <http://purl.oclc.org/NET/ssnx/ssn#Sensor> ;
-      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasQuantityKind>
-              "qu:concentration" ;
+      a       ssn:Sensor ;
+      iot-lite:hasQuantityKind
+              qu-rec20:concentration ;
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasUnit>
-              "qu:Dimensionless" 
+              <ppb-dimensionless-02543857474> .
+
+
+<ppb-dimensionless-02543857474>
+      a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasUnit>
+              "qu:Dimensionless" .
+
 
 <entity-CO2-82f7f917-d5cd-43da-829d-57bdcd61c9de>
       a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Entity> ;
