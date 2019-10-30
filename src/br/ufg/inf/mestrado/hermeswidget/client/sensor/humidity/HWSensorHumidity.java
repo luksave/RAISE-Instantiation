@@ -22,17 +22,15 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager hermesBaseManager;
-
+	private HermesBaseManager             hermesBaseManager;
 	private HWRepresentationServiceSensor representationService;
+
+	private int tempoTotalMedida = 0;
+	private int intervalos = 0;
 
 	private File registroAirPure;
 	
 	private ScheduledExecutorService threadPoolMedidas = null;
-
-	private int tempoTotalMedida = 0;
-
-	private int intervalos = 0;
 	
 	
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
@@ -65,18 +63,16 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificaÃ§Ã£o deste cabecalho vai mudar de acordo com o novo CSV
-			// MUDOU PARA: 'RHum'
-			if (colunaCabecalho.equals("'RHum'")) posicaoRelativeHumidity = contador;
+			if (colunaCabecalho.equals("'Rhum'")) posicaoRelativeHumidity = contador;
 			
 			contador++;
 			
 		}
 		
-		System.out.println("...RHum = " + posicaoRelativeHumidity);
+		System.out.println("...Rhum = " + posicaoRelativeHumidity);
 
 		if (posicaoRelativeHumidity != 0) {
-			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
+			String log = "Hermes Widget Sensor Relative Humidity for environment ---> "
 					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
 					+ new Date().toString();
@@ -89,7 +85,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
-			System.out.println("Ambiente: "+recordIdAtual);
+			System.out.println("Ambiente: "+recordIdAtual+ " [Humidity]");
 
 			// Laco para verificar os metadados de cada ambiente e as
 			// informacoes de leitura dos dados ambientais
@@ -107,11 +103,11 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
-							"RelativeHUmidity", // Nome do topico no arquivo topics_humidity
+							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 
 							null, "%", recordIdAtual);
 
-					System.out.println("Contador: "+ contadorRH + "   ----   Medicao: " +medicaoAtual[posicaoRelativeHumidity] + "%");
+					System.out.println("Counter: "+ contadorRH + "   ----   Measure: " +medicaoAtual[posicaoRelativeHumidity] + "%");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

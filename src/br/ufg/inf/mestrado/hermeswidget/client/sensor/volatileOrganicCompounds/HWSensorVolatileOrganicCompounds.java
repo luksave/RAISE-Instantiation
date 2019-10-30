@@ -23,8 +23,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager hermesBaseManager;
-
+	private HermesBaseManager             hermesBaseManager;
 	private HWRepresentationServiceSensor representationService;
 
 	private File registroAirPure;
@@ -32,7 +31,6 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 	private ScheduledExecutorService threadPoolMedidas = null;
 
 	private int tempoTotalMedida = 0;
-
 	private int intervalos = 0;
 	
 	
@@ -80,7 +78,6 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		System.out.println("...TVOC = " + posicaoTVOC);
 
 		if (posicaoTVOC != 0) {
-
 			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
 					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
@@ -94,7 +91,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
-			System.out.println("Ambiente: "+recordIdAtual);
+			System.out.println("Ambiente: "+recordIdAtual+" [TVOC]");
 
 			// Laco para verificar os metadados de cada ambiente e as
 			// informacoes de leitura dos dados ambientais
@@ -116,7 +113,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 							medicaoAtual[posicaoTVOC], 
 							null, "ppb", recordIdAtual);
 
-					System.out.println("Contador: "+ contadorTVOC + "   ----   Medicao: " +medicaoAtual[posicaoTVOC] + " ppb");
+					System.out.println("Counter: "+ contadorTVOC + "   ----   Measure: " +medicaoAtual[posicaoTVOC] + " ppb");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

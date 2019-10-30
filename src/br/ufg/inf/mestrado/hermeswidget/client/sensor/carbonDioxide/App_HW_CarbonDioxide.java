@@ -23,7 +23,7 @@ public class App_HW_CarbonDioxide extends HermesWidgetObjects {
 		//System.out.println("Arquivos no diretorio: " +diretorioAirPure.listFiles().length);
 		
 		// Preparacao da pool de threads de acordo com a quantidade de arquivos que contem os dados ambientais
-		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
+		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length);
 
 		/*for (File registroAtual : diretorioAirPure.listFiles()){	
 			//Enviar os dados adquiridos 
@@ -41,7 +41,7 @@ public class App_HW_CarbonDioxide extends HermesWidgetObjects {
 		poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
 		
 		//Finaliza a pool do widget
-		poolWidgets.shutdown();
+		//poolWidgets.shutdown();
 		
 		//while(true) {}
 

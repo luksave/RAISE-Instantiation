@@ -74,6 +74,7 @@ public class HWRepresentationServiceSensorIoT extends HWRepresentationService {
 		hermesWidgetTO.setContexto(byteArray);
 		hermesWidgetTO.setCaminhoOntologia(caminhoSchemaOntologico);
 		hermesWidgetTO.setTipoSerializacao(tipoSerializacao);
+		
 		//Como todo os dados são de medidas simples, o valor do sensor será dado por medidaColetada
 		hermesWidgetTO.setSensorValue(medidaColetada); 
 		

@@ -22,17 +22,16 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements Runnable {
 	
-	private HermesBaseManager hermesBaseManager;
-	
+	private HermesBaseManager             hermesBaseManager;
 	private HWRepresentationServiceSensor representationService;
+	
+	private int tempoTotalMedida = 0;
+	private int intervalos = 0;
 	
 	private File registroAirPure;
 	
 	private ScheduledExecutorService threadPoolMedidas = null;
 	
-	private int tempoTotalMedida = 0;
-	
-	private int intervalos = 0;
 	
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
 	// O parametro de tempo vem do input args.
@@ -65,8 +64,6 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
-			// MUDOU PARA: 'CO2'
 			if (colunaCabecalho.equals("'CO2'")) posicaoCarbonDioxide = contador;
 			
 			contador++;
@@ -77,7 +74,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 
 		if (posicaoCarbonDioxide != 0) {
 			String log = "Hermes Widget Sensor Carbon Dioxide for environment ---> "
-					+ this.registroAirPure.getName() //nome do ambiente
+					+ this.registroAirPure.getName()
 					+ " started! Date: "
 					+ new Date().toString();
 		
@@ -89,7 +86,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
-			System.out.println("Ambiente: "+recordIdAtual);
+			System.out.println("Ambiente: "+recordIdAtual+ " [Carbon Dioxide]");
 
 			// Laco para verificar os metadados de cada ambiente e as
 			// informacoes de leitura dos dados ambientais
@@ -97,7 +94,6 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
-			//O PROGRAMA NAO ESTA SAINDO DESSE LACO!
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat    = Float.valueOf(medicaoAtual[0]);
@@ -111,7 +107,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 														medicaoAtual[posicaoCarbonDioxide], 
 														null, "ppm", recordIdAtual);
 				
-					System.out.println("Contador: "+ contadorCO2 + "   ----   Medicao: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+					System.out.println("Counter: "+ contadorCO2 + "   ----   Measure: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

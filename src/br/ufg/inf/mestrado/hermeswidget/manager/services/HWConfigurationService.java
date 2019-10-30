@@ -8,8 +8,8 @@ import br.ufg.inf.mestrado.hermeswidget.manager.configurator.HWManagerConfigurat
 /**
  * @author Ernesto
  * 
- *         Classe responsável pela configuração do HermesWidget, no que diz
- *         respeito a criação do tópicos para publicaçao do contexto obtido e
+ *         Classe responsï¿½vel pela configuraï¿½ï¿½o do HermesWidget, no que diz
+ *         respeito a criaï¿½ï¿½o do tï¿½picos para publicaï¿½ao do contexto obtido e
  *         representado.
  * 
  *         Realiza interface com o componente Hermes Base.
@@ -18,13 +18,13 @@ import br.ufg.inf.mestrado.hermeswidget.manager.configurator.HWManagerConfigurat
 public class HWConfigurationService {
 
 	/**
-	 * Instância do componente Hermes Base, responsável pela comunicação da
+	 * Instï¿½ncia do componente Hermes Base, responsï¿½vel pela comunicaï¿½ï¿½o da
 	 * infraestrutura Hermes.
 	 */
 	//private HermesBaseManager hermesBaseManager = HWManagerServiceFactory.getCommunicationService().getHermesBaseManager();
 
 	/**
-	 * Realiza a criação dos tópicos especificados no arquivo topicos.json
+	 * Realiza a criaï¿½ï¿½o dos tï¿½picos especificados no arquivo topicos.json
 	 */
 	public void createTopics(String configuration) {
 
@@ -36,9 +36,9 @@ public class HWConfigurationService {
 			//hermesBaseManager.createNotificationTopic(nomeTopicoNotificacao);
 			// --> MEXI AQUI
 			/*
-			System.out.println("Tópico criado: " + nomeTopicoNotificacao);
+			System.out.println("Created Topic: " + nomeTopicoNotificacao);
 			*/
-			System.out.println("Tópico criado: " + nomeTopicoNotificacao);
+			System.out.println("Created Topic: " + nomeTopicoNotificacao);
 		}
 	}
 

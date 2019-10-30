@@ -22,8 +22,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorTemperature extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager hermesBaseManager;
-
+	private HermesBaseManager             hermesBaseManager;
 	private HWRepresentationServiceSensor representationService;
 
 	private ScheduledExecutorService threadPoolMedidas;
@@ -31,7 +30,6 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 	private File registroMimic;
 	
 	private int tempoTotalMedida = 0;
-	
 	private int intervalos = 0;
 
 	long tTotalRepresentation;
@@ -64,13 +62,13 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
-			// MUDOU PARA: 'Temp'
 			if (colunaCabecalho.equals("'Temp'")) posicaoTemperature = contador;
 			
 			contador++;
 			
 		}
+		
+		System.out.println("...TEMP = " + posicaoTemperature);
 		
 		if (posicaoTemperature != 0) {
 			String log = "Hermes Widget Sensor Temperature for ambient ---> "
@@ -84,7 +82,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 			String recordIdAtual = registroMimic.getName().substring(0,	posicaoExtensao);
 
-			System.out.println("Ambiente:" +recordIdAtual);
+			System.out.println("Ambiente: " +recordIdAtual+ " [Temperature]");
 
 			// Laco para verificar os metadados de cada paciente e as
 			// informacoes de leitura dos sinais vitais
@@ -105,7 +103,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 							null, "Celsius", recordIdAtual
 					);
 
-					System.out.println("Contador: "+ contadorT + "   ----   Medicao: " +medicaoAtual[posicaoTemperature] + "Celsius");
+					System.out.println("Counter: "+ contadorT + "   ----   Measure: " +medicaoAtual[posicaoTemperature] + " °C");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
