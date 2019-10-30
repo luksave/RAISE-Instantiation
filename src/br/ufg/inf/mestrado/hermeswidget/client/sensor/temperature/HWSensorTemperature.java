@@ -64,7 +64,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
+			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
 			// MUDOU PARA: 'Temp'
 			if (colunaCabecalho.equals("'Temp'")) posicaoTemperature = contador;
 			
@@ -86,8 +86,8 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 			System.out.println("Ambiente:" +recordIdAtual);
 
-			// Laço para verificar os metadados de cada paciente e as
-			// informações de leitura dos sinais vitais
+			// Laco para verificar os metadados de cada paciente e as
+			// informacoes de leitura dos sinais vitais
 			int contadorTemp = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
@@ -100,12 +100,12 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
-							"Temperature", // Nome do tópico no arquivo topics_temperature 
+							"Temperature", // Nome do topico no arquivo topics_temperature 
 							medicaoAtual[posicaoTemperature], 
 							null, "Celsius", recordIdAtual
 					);
 
-					System.out.println("Contador: "+ contadorT + "   ----   Medi��o: " +medicaoAtual[posicaoTemperature] + "Celsius");
+					System.out.println("Contador: "+ contadorT + "   ----   Medicao: " +medicaoAtual[posicaoTemperature] + "Celsius");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -113,7 +113,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
 					
-					// Limpa o modelo de representação para a próxima instância					
+					// Limpa o modelo de representacao para a proxima instancia					
 					representationService.setModeloMedicaoDadoAmbiental(null);
 
 					contadorThreads++;
