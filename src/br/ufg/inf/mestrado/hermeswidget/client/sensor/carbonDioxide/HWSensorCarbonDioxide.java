@@ -35,7 +35,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 	private int intervalos = 0;
 	
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
-	// O par√¢metro de tempo vem do input args.
+	// O parametro de tempo vem do input args.
 	public HWSensorCarbonDioxide(File registroAtual, String tempo[]) {
 		this.registroAirPure = registroAtual;
 		this.startConfigurationService("./settings/topics_carbonDioxide.json");
@@ -65,7 +65,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identifica√ß√£o deste cabe√ßalho vai mudar de acordo com o novo CSV
+			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
 			// MUDOU PARA: 'CO2'
 			if (colunaCabecalho.equals("'CO2'")) posicaoCarbonDioxide = contador;
 			
@@ -91,13 +91,13 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 
 			System.out.println("Ambiente: "+recordIdAtual);
 
-			// La√ßo para verificar os metadados de cada ambiente e as
-			// informa√ß√µes de leitura dos dados ambientais
+			// Laco para verificar os metadados de cada ambiente e as
+			// informacoes de leitura dos dados ambientais
 			int contadorCarbonDioxide = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
-			//O PROGRAMA N√O EST¡ SAINDO DESSE LA«O!
+			//O PROGRAMA NAO ESTA SAINDO DESSE LACO!
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat    = Float.valueOf(medicaoAtual[0]);
@@ -111,7 +111,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 														medicaoAtual[posicaoCarbonDioxide], 
 														null, "ppm", recordIdAtual);
 				
-					System.out.println("Contador: "+ contadorCO2 + "   ----   MediÁ„o: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+					System.out.println("Contador: "+ contadorCO2 + "   ----   Medicao: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
 
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
