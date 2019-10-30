@@ -37,7 +37,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 	
 	
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
-	// O parâmetro de tempo vem do input args.
+	// O parametro de tempo vem do input args.
 	public HWSensorVolatileOrganicCompounds(File registroAtual, String tempo[]) {
 		this.registroAirPure = registroAtual;
 		this.startConfigurationService("./settings/topics_vocs.json");
@@ -50,9 +50,6 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 	@Override
 	public void run() {
-		// TODO Implementar registro dos dados ambientais em um arquivo CSV que será usado como entrada 
-		// Ver o modelo do arquivo CSV na pasta mimics/041n.csv e adaptar para airPure/medidas.csv 
-		// Alterar este código de acordo com as colunas do CSV.
 		ReaderCSV reader = new ReaderCSV(this.registroAirPure);
 
 		List<String[]> listaComDadosAmbientais = reader.getLinhas().subList(4, tempoTotalMedida);
@@ -70,7 +67,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
+			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
 			// Mudou para 'TVOC'
 			if (colunaCabecalho.equals("'TVOC'")) posicaoTVOC = contador;
 			
@@ -99,8 +96,8 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 			System.out.println("Ambiente: "+recordIdAtual);
 
-			// Laço para verificar os metadados de cada ambiente e as
-			// informações de leitura dos dados ambientais
+			// Laco para verificar os metadados de cada ambiente e as
+			// informacoes de leitura dos dados ambientais
 			int contadorVolatileOrganicCompound = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
@@ -115,11 +112,11 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"tvoc.ttl", Integer.toString(segundos), 
 							"TVOC", contadorTVOC, 
-							"VolatileOrganicCompounds", // Nome do tópico no arquivo topics_vocs
+							"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
 							medicaoAtual[posicaoTVOC], 
 							null, "ppb", recordIdAtual);
 
-					System.out.println("Contador: "+ contadorTVOC + "   ----   Medi��o: " +medicaoAtual[posicaoTVOC] + " ppb");
+					System.out.println("Contador: "+ contadorTVOC + "   ----   Medicao: " +medicaoAtual[posicaoTVOC] + " ppb");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
