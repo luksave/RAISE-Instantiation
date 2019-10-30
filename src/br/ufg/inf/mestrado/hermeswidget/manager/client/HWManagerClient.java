@@ -7,7 +7,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 /**
  * @author Ernesto
  * 
- *         Classe que invoca a inicializa√ß√£o de um Hermes Widget.
+ *         Classe que invoca a inicializaÁ„o de um Hermes Widget.
  * 
  */
 
@@ -16,12 +16,12 @@ public abstract class HWManagerClient {
 	/**
 	 * @param configuration
 	 * 
-	 *            M√©todo abstrato cuja implementa√ß√£o inicia o Servi√ßo de
-	 *            Configura√ß√£o do Hermes Widget.
+	 *            MÈtodo abstrato cuja implementaÁ„o inicia o ServiÁo de
+	 *            ConfiguraÁ„o do Hermes Widget.
 	 * 
-	 *            O servi√ßo de configura√ß√£o utiliza o componente Hermes Base
-	 *            para criar os t√≥picos que receber√£o as publica√ß√µes de cada
-	 *            Hermes Widget, ou seja, os t√≥picos de notifica√ß√£o.
+	 *            O serviÁo de configuraÁ„o utiliza o componente Hermes Base
+	 *            para criar os tÛpicos que receber„o as publicaÁıes de cada
+	 *            Hermes Widget, ou seja, os tÛpicos de notificaÁ„o.
 	 * 
 	 */
 	public abstract void startConfigurationService(String configuration);
@@ -29,8 +29,8 @@ public abstract class HWManagerClient {
 	/**
 	 * @return
 	 * 
-	 *         Retorna uma inst√¢ncia de HermesBaseManager, que realiza o servi√ßo
-	 *         de comunica√ß√£o do Hermes.
+	 *         Retorna uma inst‚ncia de HermesBaseManager, que realiza o serviÁo
+	 *         de comunicaÁ„o do Hermes.
 	 */
 	public abstract HermesBaseManager getCommunicationService();
 

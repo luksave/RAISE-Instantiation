@@ -17,7 +17,7 @@ public class HWLog {
 			if (!arquivo.exists()) arquivo.createNewFile();
 			
 
-			// Caso seja um diretÃ³rio, Ã© possÃ­vel listar seus arquivos e diretÃ³rios:
+			// Caso seja um diretório, é possível listar seus arquivos e diretórios:
 			//File[] arquivos = arquivo.listFiles();
 
 			// escreve no arquivo

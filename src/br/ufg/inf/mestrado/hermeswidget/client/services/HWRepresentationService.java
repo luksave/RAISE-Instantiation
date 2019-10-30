@@ -6,8 +6,8 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 public class HWRepresentationService {
 	
 	/*
-	 * Verificar a utilizaÃ§Ã£o destes atributos privados, para evitar acesso direto.
-	 * Verificar impacto nas classes que estendem esse objeto de representaÃ§Ã£o.
+	 * Verificar a utilização destes atributos privados, para evitar acesso direto.
+	 * Verificar impacto nas classes que estendem esse objeto de representação.
 	 */
 
 	public String caminhoSchemaOntologico = "./src/ontologia/iotliteSchema.ttl";

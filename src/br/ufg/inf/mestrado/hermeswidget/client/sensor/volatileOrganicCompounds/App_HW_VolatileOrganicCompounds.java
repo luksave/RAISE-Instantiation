@@ -21,17 +21,8 @@ public class App_HW_VolatileOrganicCompounds extends HermesWidgetObjects {
 		File registroAirPure  = new File("./airPure/medidas.csv");
 		
 		// Preparacao do pool de threads de acordo com a quantidade de arquivos que contem os dados ambientais
-		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length);
+		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
-		/*for (File registroAtual : diretorioAirPure.listFiles()){	
-			//Enviar os dados adquiridos 
-			HWSensorVolatileOrganicCompounds widget = new HWSensorVolatileOrganicCompounds(registroAtual, args);	
-			
-			// A cada 5 segundos agenda uma leitura
-			poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
-			
-		}*/
-		
 		//Enviar os dados adquiridos 
 		HWSensorVolatileOrganicCompounds widget = new HWSensorVolatileOrganicCompounds(registroAirPure, args);	
 		
@@ -39,7 +30,7 @@ public class App_HW_VolatileOrganicCompounds extends HermesWidgetObjects {
 		poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
 		
 		//Finaliza a pool do widget
-		//poolWidgets.shutdown();
+		poolWidgets.shutdown();
 		//while(true) {}
 		
 	}

@@ -1,6 +1,8 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.temperature;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -103,7 +105,16 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 							null, "Celsius", recordIdAtual
 					);
 
-					System.out.println("Counter: "+ contadorT + "   ----   Measure: " +medicaoAtual[posicaoTemperature] + " Â°C");
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+							     +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
+					
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date data = null;
+					
+					try { data = formato.parse(dataTempo);
+					} catch (ParseException e) {e.printStackTrace();}
+					
+					System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

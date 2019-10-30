@@ -15,13 +15,13 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 public class HermesWidgetSensorClient extends HWManagerClient {
 
 	/**
-	 * Inst√¢ncia de fa√ßade (HermesWidgetFacade) utilizada para inicializar os
-	 * servi√ßos de um Hermes Widget.
+	 * Inst‚ncia de faÁade (HermesWidgetFacade) utilizada para inicializar os
+	 * serviÁos de um Hermes Widget.
 	 */
 	private static HWSensorFacade facade = new HWSensorFacade();
 
 	/**
-	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
+	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public void startConfigurationService(String configuration) {
 		facade.startHermesWidgetConfigurationService(configuration);
@@ -29,7 +29,7 @@ public class HermesWidgetSensorClient extends HWManagerClient {
 	}
 
 	/**
-	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
+	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public HermesBaseManager getCommunicationService() {
 		return facade.startHermesWidgetCommunicationService().getHermesBaseManager();
@@ -37,7 +37,7 @@ public class HermesWidgetSensorClient extends HWManagerClient {
 	}
 
 	/**
-	 * M√©todo implementado da classe abstrata HermesWidgetManagerClient
+	 * MÈtodo implementado da classe abstrata HermesWidgetManagerClient
 	 */
 	public HWNotificationService getNotificationService(HermesBaseManager hermesBase, HWTransferObject hermesWidgetTO) {
 		return facade.getHermesWidgetNotificationService(hermesBase, hermesWidgetTO);

@@ -1,6 +1,8 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.carbonDioxide;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -107,8 +109,17 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 														medicaoAtual[posicaoCarbonDioxide], 
 														null, "ppm", recordIdAtual);
 				
-					System.out.println("Counter: "+ contadorCO2 + "   ----   Measure: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
-
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+					             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					
+					Date data = null;
+					
+					try { data = formato.parse(dataTempo);
+					} catch (ParseException e) {e.printStackTrace();}
+					
+					System.out.println(data+ "   ----   CARBON DIOXIDE: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+			
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 					

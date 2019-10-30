@@ -13,8 +13,8 @@ import org.json.JSONTokener;
  * 
  * @author Ernesto
  * 
- *         Classe que acessa o arquivo de configura√ß√£o json para verificar os
- *         t√≥picos onde o Hermes Widget dever√° publicar.
+ *         Classe que acessa o arquivo de configuraÁ„o json para verificar os
+ *         tÛpicos onde o Hermes Widget dever· publicar.
  * 
  */
 

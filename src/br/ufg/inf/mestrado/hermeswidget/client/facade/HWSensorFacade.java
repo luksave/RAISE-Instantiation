@@ -8,7 +8,7 @@ import br.ufg.inf.mestrado.hermeswidget.manager.facade.HWManagerFacade;
  * 
  * @author Ernesto
  * 
- * Classe herda demais mÃ©todos da classe extendida
+ * Classe herda demais métodos da classe extendida
  *
  */
 

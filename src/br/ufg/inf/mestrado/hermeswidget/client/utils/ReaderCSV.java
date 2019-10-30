@@ -23,8 +23,8 @@ public class ReaderCSV {
 		// Objeto para leitura de um arquivo CSV
 		try {
 			reader = new CSVReader(new FileReader(registroMimic));
-			// Armazena cada linha do arquivo CSV em uma posiÃ§Ã£o de uma lista de vetores de strings
-			// Cada posiÃ§Ã£o Ã© um vetor de strings, com uma posiÃ§Ã£o para cada informaÃ§Ã£o da linha
+			// Armazena cada linha do arquivo CSV em uma posição de uma lista de vetores de strings
+			// Cada posição é um vetor de strings, com uma posição para cada informação da linha
 			linhas = reader.readAll();
 			reader.close();
 			
