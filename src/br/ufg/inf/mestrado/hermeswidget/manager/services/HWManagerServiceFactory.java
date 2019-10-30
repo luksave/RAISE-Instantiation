@@ -6,8 +6,8 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 /**
  * @author Ernesto
  * 
- *         Fornece objetos singleton para os serviÃ§os do Hermes Widget
- *         (comunciaÃ§Ã£o, persistÃªncia, representaÃ§Ã£o)
+ *         Fornece objetos singleton para os serviços do Hermes Widget
+ *         (comunciação, persistência, representação)
  */
 
 public class HWManagerServiceFactory {
@@ -22,8 +22,8 @@ public class HWManagerServiceFactory {
 	/**
 	 * @return
 	 * 
-	 *         MÃ©todo que retorna uma instÃ¢ncia do objeto de comunicaÃ§Ã£o, o qual
-	 *         possui uma instÃ¢ncia de HermesBaseObject
+	 *         Método que retorna uma instância do objeto de comunicação, o qual
+	 *         possui uma instância de HermesBaseObject
 	 */
 	public static HWConfigurationService getConfigurationService() {
 		if (hermesWidgetConfiguration == null) hermesWidgetConfiguration = new HWConfigurationService();

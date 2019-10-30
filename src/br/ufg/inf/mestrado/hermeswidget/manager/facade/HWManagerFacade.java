@@ -10,16 +10,16 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 /**
  * @author Ernesto
  * 
- *         Classe que realiza a inicializa√ß√£o de um HermesWidget, juntamente com
- *         o servi√ßo de comunica√ß√£o do mesmo com a infraestrutura.
+ *         Classe que realiza a inicializaÁ„o de um HermesWidget, juntamente com
+ *         o serviÁo de comunicaÁ„o do mesmo com a infraestrutura.
  * 
  *         Session Facade: Simplificar a interface do cliente e controlar o
- *         acesso e a comunica√ß√£o. Session Facade representa uma fun√ß√£o ou
- *         v√°rias fun√ß√µes exercidas por um sistema.
+ *         acesso e a comunicaÁ„o. Session Facade representa uma funÁ„o ou
+ *         v·rias funÁıes exercidas por um sistema.
  * 
- *         Remove dos clientes o acesso direto √†s camadas de neg√≥cio do
- *         componente por meio de uma interface com m√©todos para registro,
- *         publica√ß√£o e assinatura de t√≥picos.
+ *         Remove dos clientes o acesso direto ‡s camadas de negÛcio do
+ *         componente por meio de uma interface com mÈtodos para registro,
+ *         publicaÁ„o e assinatura de tÛpicos.
  */
 
 public class HWManagerFacade {
@@ -27,15 +27,15 @@ public class HWManagerFacade {
 	public HWManagerFacade() {}
 
 	/**
-	 * Inicializa o servi√ßo de configura√ß√£o, obtendo ou criando uma inst√¢ncia de
+	 * Inicializa o serviÁo de configuraÁ„o, obtendo ou criando uma inst‚ncia de
 	 * HermesWidgetConfigurationService
 	 */
 	public void startHermesWidgetConfigurationService(String configuration) {
 		HWConfigurationService configurationService = HWManagerServiceFactory.getConfigurationService();
 
 		/**
-		 * Invoca√ß√£o dos m√©todos do servi√ßo de comunica√ß√£o para cria√ß√£o dos
-		 * t√≥picos, registro de publicadores e assinatura de t√≥picos
+		 * InvocaÁ„o dos mÈtodos do serviÁo de comunicaÁ„o para criaÁ„o dos
+		 * tÛpicos, registro de publicadores e assinatura de tÛpicos
 		 */
 		configurationService.createTopics(configuration);
 

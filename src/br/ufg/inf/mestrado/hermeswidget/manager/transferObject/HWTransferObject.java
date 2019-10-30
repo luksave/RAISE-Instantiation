@@ -6,10 +6,10 @@ import com.hp.hpl.jena.rdf.model.Model;
  * 
  * @author Ernesto
  * 
- *         Objeto utilizado para transferir dados entre as camadas de neg√≥cio,
- *         apresenta√ß√£o e integra√ß√£o.
+ *         Objeto utilizado para transferir dados entre as camadas de negÛcio,
+ *         apresentaÁ„o e integraÁ„o.
  * 
- *         Encapsula os dados que ser√£o notificados por um Hermes Widget.
+ *         Encapsula os dados que ser„o notificados por um Hermes Widget.
  * 
  */
 

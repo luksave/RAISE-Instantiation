@@ -48,7 +48,7 @@ public class HWNotificationService implements Runnable {
 			System.out.println("\n" + log);
 
 		} else 	
-			System.out.println("Erro de publicaÃ§Ã£o no tÃ³pico " + hermesWidgetTO.getNomeTopico());
+			System.out.println("Erro de publicação no tópico " + hermesWidgetTO.getNomeTopico());
 		
 	}
 
