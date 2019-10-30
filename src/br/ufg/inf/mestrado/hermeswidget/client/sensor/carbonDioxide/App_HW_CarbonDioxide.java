@@ -19,10 +19,10 @@ public class App_HW_CarbonDioxide extends HermesWidgetObjects {
 		File diretorioAirPure = new File("./airPure/");
 		File registroAirPure  = new File("./airPure/medidas.csv");
 		
-		//Por qu� tem 2 arquivos no diret�rio se s� tem 1?????
+		//Por quê tem 2 arquivos no diretório se só tem 1?????
 		//System.out.println("Arquivos no diretorio: " +diretorioAirPure.listFiles().length);
 		
-		// Preparação do pool de threads de acordo com a quantidade de arquivos que contém os dados ambientais
+		// Preparacao da pool de threads de acordo com a quantidade de arquivos que contem os dados ambientais
 		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
 		/*for (File registroAtual : diretorioAirPure.listFiles()){	
