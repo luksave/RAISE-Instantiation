@@ -43,13 +43,13 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 		Object[] v = {medidaColetada};
 		values = v;
 			
-		
 		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, 
 				                                          "property-"+abreviaturaDadoAmbiental, 
 				                                          "sensor-"  +nomeClasseDadoAmbiental, sensorOutput, 
 				                                          "entity-"  +abreviaturaDadoAmbiental, observationValue, 
 				                                                      values, unidadeMedida, idAmbiente);
 	
+		
 		if (contadorDadoAmbiental == 0) modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();

@@ -16,21 +16,29 @@ import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObject
 public class App_HW_Temperature extends HermesWidgetObjects {
 	
 	public static void main(String[] args) {
-		// TODO Implementar a aquisição e registro dos dados do sensor no arquivo medidas.csv
-		// Pasta com os registros MIMIC, agora AirPure, utilizados pelo HW
 		File diretorioAirPure = new File("./airPure/");
-
+		File registroAirPure  = new File("./airPure/medidas.csv");
+		
 		// Preparação do pool de threads de acordo com a quantidade de arquivos que contém os sinais vitais
-		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length);
+		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
-		for (File registroAtual : diretorioAirPure.listFiles()){	
+		/*for (File registroAtual : diretorioAirPure.listFiles()){	
 			HWSensorTemperature widget = new HWSensorTemperature(registroAtual, args);
 
-			poolWidgets.schedule(widget, 2, TimeUnit.SECONDS);
+			poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
 			
-		}
+		}*/
+
+		//Enviar os dados adquiridos 
+		HWSensorTemperature widget = new HWSensorTemperature(registroAirPure, args);
 		
-		while(true) {}
+		//A cada 6 segundos agenda uma leitura
+		poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
+		
+		//Finaliza o pool do widget
+		poolWidgets.shutdown();
+		
+		//while(true) {}
 
 	}
 	

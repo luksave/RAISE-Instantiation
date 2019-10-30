@@ -64,7 +64,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		// Prepara o pool de threads
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
-		int posicaoDadoAmbiental = 0;
+		int posicaoTVOC = 0;
 		
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
@@ -72,7 +72,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		for (String colunaCabecalho : cabecalho) {
 			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
 			// Mudou para 'TVOC'
-			if (colunaCabecalho.equals("'TVOC'")) posicaoDadoAmbiental = contador;
+			if (colunaCabecalho.equals("'TVOC'")) posicaoTVOC = contador;
 			
 			contador++;
 			
@@ -80,9 +80,9 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 
 		// Sp02 vai mudar de acordo com o novo CSV: identificador para a coluna do VOC
 		// Mudou para TVOC
-		System.out.println("...TVOC = " + posicaoDadoAmbiental);
+		System.out.println("...TVOC = " + posicaoTVOC);
 
-		if (posicaoDadoAmbiental != 0) {
+		if (posicaoTVOC != 0) {
 
 			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
 					+ this.registroAirPure.getName() //nome do ambiente
@@ -109,16 +109,18 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int   segundos = Math.round(segfloat);
-					int contadorVOC = contadorVolatileOrganicCompound++;
+					int contadorTVOC = contadorVolatileOrganicCompound++;
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"tvoc.ttl", Integer.toString(segundos), 
-							"TVOC", contadorVOC, 
+							"TVOC", contadorTVOC, 
 							"VolatileOrganicCompounds", // Nome do tópico no arquivo topics_vocs
-							medicaoAtual[posicaoDadoAmbiental], 
+							medicaoAtual[posicaoTVOC], 
 							null, "ppb", recordIdAtual);
 
+					System.out.println("Contador: "+ contadorTVOC + "   ----   Medi��o: " +medicaoAtual[posicaoTVOC] + " ppb");
+					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 

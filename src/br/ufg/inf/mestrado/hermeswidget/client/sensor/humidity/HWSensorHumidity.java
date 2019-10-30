@@ -60,25 +60,22 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 		// Prepara o pool de threads
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
-		int posicaoDadoAmbiental = 0;
+		int posicaoRelativeHumidity = 0;
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
 			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
 			// MUDOU PARA: 'RHum'
-			if (colunaCabecalho.equals("'RHum'")) posicaoDadoAmbiental = contador;
+			if (colunaCabecalho.equals("'RHum'")) posicaoRelativeHumidity = contador;
 			
 			contador++;
 			
 		}
 		
-		// Sp02 vai mudar de acordo com o novo CSV: identificador para a coluna do VOC
-		// MUDOU PARA: RHum
-		System.out.println("...RHum = " + posicaoDadoAmbiental);
+		System.out.println("...RHum = " + posicaoRelativeHumidity);
 
-		if (posicaoDadoAmbiental != 0) {
-
+		if (posicaoRelativeHumidity != 0) {
 			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> "
 					+ this.registroAirPure.getName() //nome do ambiente
 					+ " started! Date: "
@@ -96,7 +93,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 			// Laço para verificar os metadados de cada ambiente e as
 			// informações de leitura dos dados ambientais
-			int contadorHumidity = 0;
+			int contadorRelativeHumidity = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
@@ -104,16 +101,18 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int   segundos = Math.round(segfloat);
-					int contadorRH = contadorHumidity++;
+					int contadorRH = contadorRelativeHumidity++;
 					
 					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
 							"RelativeHUmidity", // Nome do tópico no arquivo topics_humidity
-							medicaoAtual[posicaoDadoAmbiental], 
+							medicaoAtual[posicaoRelativeHumidity], 
 							null, "%", recordIdAtual);
 
+					System.out.println("Contador: "+ contadorRH + "   ----   Medi��o: " +medicaoAtual[posicaoRelativeHumidity] + "%");
+					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 
