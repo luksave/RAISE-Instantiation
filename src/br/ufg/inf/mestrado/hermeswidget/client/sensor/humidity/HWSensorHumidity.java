@@ -36,7 +36,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 	
 	
 	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
-	// O parâmetro de tempo vem do input args.
+	// O parametro de tempo vem do input args.
 	public HWSensorHumidity(File registroAtual, String tempo[]) {
 		this.registroAirPure = registroAtual;
 		this.startConfigurationService("./settings/topics_humidity.json");
@@ -65,7 +65,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
-			// A identificação deste cabeçalho vai mudar de acordo com o novo CSV
+			// A identificaÃ§Ã£o deste cabecalho vai mudar de acordo com o novo CSV
 			// MUDOU PARA: 'RHum'
 			if (colunaCabecalho.equals("'RHum'")) posicaoRelativeHumidity = contador;
 			
@@ -91,8 +91,8 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 
 			System.out.println("Ambiente: "+recordIdAtual);
 
-			// Laço para verificar os metadados de cada ambiente e as
-			// informações de leitura dos dados ambientais
+			// Laco para verificar os metadados de cada ambiente e as
+			// informacoes de leitura dos dados ambientais
 			int contadorRelativeHumidity = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
@@ -107,11 +107,11 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
-							"RelativeHUmidity", // Nome do tópico no arquivo topics_humidity
+							"RelativeHUmidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 
 							null, "%", recordIdAtual);
 
-					System.out.println("Contador: "+ contadorRH + "   ----   Medi��o: " +medicaoAtual[posicaoRelativeHumidity] + "%");
+					System.out.println("Contador: "+ contadorRH + "   ----   Medicao: " +medicaoAtual[posicaoRelativeHumidity] + "%");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
