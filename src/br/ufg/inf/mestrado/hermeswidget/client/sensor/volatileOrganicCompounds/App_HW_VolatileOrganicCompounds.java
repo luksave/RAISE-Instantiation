@@ -20,7 +20,7 @@ public class App_HW_VolatileOrganicCompounds extends HermesWidgetObjects {
 		File diretorioAirPure = new File("./airPure/");
 		File registroAirPure  = new File("./airPure/medidas.csv");
 		
-		// Preparação do pool de threads de acordo com a quantidade de arquivos que contém os dados ambientais
+		// Preparacao do pool de threads de acordo com a quantidade de arquivos que contem os dados ambientais
 		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
 		/*for (File registroAtual : diretorioAirPure.listFiles()){	
