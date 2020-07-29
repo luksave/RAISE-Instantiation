@@ -32,6 +32,8 @@ public class Geo {
     /** <p>A comma-separated representation of a latitude, longitude coordinate.</p> */
     public static final OntProperty lat_long = m_model.createOntProperty( "http://www.w3.org/2003/01/geo/wgs84_pos#lat_long" );
     
+    public static final OntClass point = m_model.createClass("http://www.w3.org/2003/01/geo/wgs84_pos#Point");
+    
     /** <p>The relation between something and the point, or other geometrical thing in 
      *  space, where it is. For example, the realtionship between a radio tower and 
      *  a Point with a given lat and long. Or a relationship between a park and its 

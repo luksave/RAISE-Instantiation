@@ -2,91 +2,73 @@
 	"topicos":[
 		{
 			"tipo":"notificacao",
-			
+
 			"defaultnamespace":"",
-	
-			"registrar":"VSO_0000005",
-		
+
+			"registrar":"CarbonDioxide",
+
 			"publicar":[
-				{"nome":"VSO_0000005", "complementoTopico":"reason"}
+				{"nome":"CarbonDioxideConcentration", "complementoTopico":"reason"}
 				],
-		
+
 			"assinar":[],
-		
+
 			"objetos_negocio":[],
-			
+
 			 "tipo_inferencia":[]
 		},
 		{
 			"tipo":"notificacao",
-			
+
 			"defaultnamespace":"",
-			
-			"registrar":"OxygenSaturationMeasurementDatum",
-			
+
+			"registrar":"RelativeHumidity",
+
 			"publicar":[
-				{"nome":"OxygenSaturationMeasurementDatum", "complementoTopico":"reason"}
+				{"nome":"RelativeHumidity", "complementoTopico":"reason"}
 				],
-		
+
 			"assinar":[],
-		
+
 			"objetos_negocio":[],
-			
+
 			"tipo_inferencia":[]
-			
+
 		},
 		{
 			"tipo":"notificacao",
-			
+
 			"defaultnamespace":"",
-			
-			"registrar":"VSO_0000030",
-			
+
+			"registrar":"Temperature",
+
 			"publicar":[
-				{"nome":"VSO_0000030", "complementoTopico":"reason"}
+				{"nome":"Temperature", "complementoTopico":"reason"}
 				],
-		
+
 			"assinar":[],
-		
+
 			"objetos_negocio":[],
-			
-			"tipo_inferencia":[]		
+
+			"tipo_inferencia":[]
 		},
 		{
 			"tipo":"notificacao",
-			
+
 			"defaultnamespace":"",
-			
-			"registrar":"VSO_0000035",
-			
+
+			"registrar":"VolatileOrganicCompounds",
+
 			"publicar":[
-				{"nome":"VSO_0000035", "complementoTopico":"reason"}
+				{"nome":"VolatileOrganicCompounds", "complementoTopico":"reason"}
 				],
-		
+
 			"assinar":[],
-		
+
 			"objetos_negocio":[],
-			
+
 			"tipo_inferencia":[]
-			
-		},
-		{
-			"tipo":"notificacao",
-			
-			"defaultnamespace":"",
-			
-			"registrar":"VSO_0000008",
-			
-			"publicar":[
-				{"nome":"VSO_0000008", "complementoTopico":"reason"}
-				],
-		
-			"assinar":[],
-		
-			"objetos_negocio":[],
-			
-			"tipo_inferencia":[]
-			
+
 		}
-	]	
-} 
+	]
+}

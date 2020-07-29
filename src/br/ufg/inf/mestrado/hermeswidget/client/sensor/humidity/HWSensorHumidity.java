@@ -100,6 +100,9 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					float segfloat = Float.valueOf(medicaoAtual[0]);
 					int   segundos = Math.round(segfloat);
 					int contadorRH = contadorRelativeHumidity++;
+
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+				         	 +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 					
 					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
@@ -107,10 +110,8 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 							"RelHum", contadorRH, 
 							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 
-							null, "%", recordIdAtual);
+							null, "%", recordIdAtual, dataTempo);
 
-					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
-					         	 +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 			
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Date data = null;
