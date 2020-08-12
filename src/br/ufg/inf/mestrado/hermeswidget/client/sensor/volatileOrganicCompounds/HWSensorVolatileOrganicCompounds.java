@@ -12,9 +12,12 @@ import java.util.concurrent.TimeUnit;
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
 import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensor;
+import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 
 /**
@@ -25,8 +28,8 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager             hermesBaseManager;
-	private HWRepresentationServiceSensor representationService;
+	private HermesBaseManager                      hermesBaseManager;
+	private HWRepresentationServiceSensorIoTStream representationService;
 
 	private File registroAirPure;
 	
@@ -107,16 +110,18 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 					int   segundos = Math.round(segfloat);
 					int contadorTVOC = contadorVolatileOrganicCompound++;
 					
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+				             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
+				
+					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"tvoc.ttl", Integer.toString(segundos), 
 							"TVOC", contadorTVOC, 
 							"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
 							medicaoAtual[posicaoTVOC], 
-							null, "ppb", recordIdAtual);
-
-					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
-					             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
+							null, recordIdAtual, dataTempo, Unit.PPB, Quantitykind.TVOC);
+					
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Date data = null;

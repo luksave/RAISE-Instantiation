@@ -2,7 +2,7 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.general;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.facade.HWSensorFacade;
-import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensor;
+import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.manager.client.HWManagerClient;
 import br.ufg.inf.mestrado.hermeswidget.manager.services.HWNotificationService;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
@@ -44,7 +44,7 @@ public class HermesWidgetSensorClient extends HWManagerClient {
 		
 	}
 
-	public HWRepresentationServiceSensor getRepresentationService() {
+	public HWRepresentationServiceSensorIoTStream getRepresentationService() {
 		return facade.getHermesWidgetRepresentationService();
 		
 	}

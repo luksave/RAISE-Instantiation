@@ -10,15 +10,15 @@ import br.ufg.inf.mestrado.hermeswidget.manager.services.HWManagerServiceFactory
 
 public class HWSensorServiceFactory extends HWManagerServiceFactory {
 
-	private static HWRepresentationServiceSensor hermesWidgetRepresentation;
+	private static HWRepresentationServiceSensorIoTStream hermesWidgetRepresentation;
 
 	/**
 	 * @return
 	 * 
 	 * 
 	 */
-	public static HWRepresentationServiceSensor getRepresentationService() {
-		hermesWidgetRepresentation = new HWRepresentationServiceSensor();
+	public static HWRepresentationServiceSensorIoTStream getRepresentationService() {
+		hermesWidgetRepresentation = new HWRepresentationServiceSensorIoTStream();
 		return hermesWidgetRepresentation;
 		
 	}

@@ -7,12 +7,10 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoTStream;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Qudt;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.sosa;
 
+import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -24,8 +22,8 @@ private HWTransferObject hermesWidgetTO = null;
 	
 	public HWRepresentationServiceSensorIoTStream() {}
 	
-	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, String abreviaturaDadoAmbiental, int contadorDadoAmbiental, 
-			                                          String nomeClasseDadoAmbiental, String medidaColetada, String[] medidaComposta, String unidadeMedida, String idAmbiente, String dataTempo) {
+	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, String abreviaturaDadoAmbiental, int contadorDadoAmbiental, String nomeClasseDadoAmbiental, 
+													  String medidaColetada, String[] medidaComposta, String idAmbiente, String dataTempo, Individual unit, Individual quantity) {
 		
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo); //Cria o modelo RDF de acordo com o expressado no arquivo 
@@ -42,7 +40,7 @@ private HWTransferObject hermesWidgetTO = null;
 		
 		
 		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, "sensor-"  +nomeClasseDadoAmbiental, "entity-"  +abreviaturaDadoAmbiental, 
-														  sensorOutput, observationValue, values, unidadeMedida, idAmbiente, dataTempo);
+														  sensorOutput, observationValue, values, idAmbiente, dataTempo, unit, quantity);
 	
 		
 		if (contadorDadoAmbiental == 0) modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
@@ -65,7 +63,7 @@ private HWTransferObject hermesWidgetTO = null;
 		
 	}
 	
-	private OntModel representObservation(String sinal, String property, String sensor, String entity, String sensorOutput, String observationValue, Object[] values, String unidadeMedida, String feature, String dateTimeID) {
+	private OntModel representObservation(String sinal, String property, String sensor, String entity, String sensorOutput, String observationValue, Object[] values, String feature, String dateTimeID, Individual unit, Individual quantity) {
 		
 		
 		String sensorIRI   = sensor + "-" + UUID.randomUUID().toString();
@@ -93,43 +91,9 @@ private HWTransferObject hermesWidgetTO = null;
 		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, sosa.Sensor)
-					.addProperty(sosa.madeObservation, StreamObservation);
-		
-		
-		if(unidadeMedida == "ppm"){
-			/** Sensor */
-			sensorResource = modeloMedicaoDadoAmbiental
-				.createResource(sensorIRI)
-					.addProperty(RDF.type, sosa.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.PPM)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.CO2Concentration);
-		}
-		if(unidadeMedida == "ppb"){
-			/** Sensor */
-			sensorResource = modeloMedicaoDadoAmbiental
-				.createResource(sensorIRI)
-					.addProperty(RDF.type, sosa.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.PPB)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.TVOC);
-		}
-		if(unidadeMedida == "%"){
-			/** Sensor */
-			sensorResource = modeloMedicaoDadoAmbiental
-				.createResource(sensorIRI)
-					.addProperty(RDF.type, sosa.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.Percent)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.RelativeHumidity);
-		}
-		if(unidadeMedida == "Celsius"){
-			/** Sensor */
-				sensorResource = modeloMedicaoDadoAmbiental
-					.createResource(sensorIRI)
-						.addProperty(RDF.type, sosa.Sensor)
-						.addProperty(Qudt.hasUnit, Unit.DEG_C)
-						.addProperty(Qudt.hasQuantityKind, Quantitykind.CelsiusTemperature);
-			
-		}
-	
+					.addProperty(sosa.madeObservation, StreamObservation)
+					.addProperty(Qudt.hasUnit, unit)
+					.addProperty(Qudt.hasQuantityKind, quantity);	
 		
 		
 		/**

@@ -1,0 +1,29 @@
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:      <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn:      <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix iot-lite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
+@qu-rec20:        <http://purl.oclc.org/NET/ssnx/qu/qu-rec20> .
+
+
+
+<deviceAirPure>
+      a             ssn:Device;
+	 iot-lite:hasSubSystem  <AirPureSala1> .
+	 
+
+<AirPureSala1>
+      a                       ssn:SensingDevice ;
+      ssn:onPlatform         <localPaco_Municipal> 
+
+
+
+<localPaco_Municipal>
+      a                    ssn:Platform ;
+      wgs84_pos:location   <location> .
+
+<nomeAmbiente>
+      a                "geo:Point" ;
+      wgs84_pos:lat    "-16.7032" ;
+      wgs84_pos:long   "-49.2271" .

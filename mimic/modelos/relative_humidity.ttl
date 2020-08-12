@@ -1,0 +1,42 @@
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:         <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn:         <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix iot-lite:    <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
+@qu-rec20:           <http://purl.oclc.org/NET/ssnx/qu/qu-rec20> .
+@prefix sosa:        <http://www.w3.org/ns/sosa> .
+@prefix iot-stream:  <http://purl.org/iot/ontology/iot-stream#> .
+@prefix geo:         <http://www.w3.org/2003/01/geo/> .
+
+
+
+<streamRHum>
+	a				  iot-stream:IotStream ;
+	iot-stream:providedBy   <serviceDHT11> ;
+	iot-stream:generatedBy  <sensorDHT11> ;
+	geo:location		  <locationDHT11> .
+
+
+<sensorDHT11>
+      a                          ssn:Sensor ;
+      iot-lite:hasQuantityKind   "qu:humidity" ;
+      iot-lite:hasUnit           "qu:percent";
+	 iot-lite:hasSensingDevice  <AirPureSala1>;
+	 sosa:madeObservation       <observationRHum> .
+
+<observationRHum>
+	a 			      iot-stream:StreamObservation ;
+	sosa:hasSimpleResult   x ;
+	sosa:resultTime:       y.
+
+<locationDHT11>
+	a		geo:location;
+	geo:long   "-49.255" ;
+	geo:lat    "-16.6799" .	
+
+
+<serviceDHT11>
+      a                   iot-lite:Service ;
+      iot-lite:endpoint   "http://www.ebserh.gov.br/web/ufg/inf/sensors/measures/room1^^xsd:anyURI" .
+

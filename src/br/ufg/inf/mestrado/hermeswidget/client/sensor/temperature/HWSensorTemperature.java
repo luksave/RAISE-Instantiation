@@ -11,10 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
-import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensor;
+import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
  * 
@@ -24,8 +26,8 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorTemperature extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager             hermesBaseManager;
-	private HWRepresentationServiceSensor representationService;
+	private HermesBaseManager                      hermesBaseManager;
+	private HWRepresentationServiceSensorIoTStream representationService;
 
 	private ScheduledExecutorService threadPoolMedidas;
 
@@ -97,16 +99,16 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					int segundos = Math.round(segfloat);
 					int contadorT = contadorTemp++;
 					
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+						     +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
+					
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
 							"Temperature", // Nome do topico no arquivo topics_temperature 
 							medicaoAtual[posicaoTemperature], 
-							null, "Celsius", recordIdAtual
-					);
+							null, recordIdAtual, dataTempo, Unit.DEG_C, Quantitykind.CelsiusTemperature);
 
-					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
-							     +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					Date data = null;

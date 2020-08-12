@@ -11,10 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
-import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensor;
+import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
  * 
@@ -24,8 +26,8 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 
 public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnable {
 
-	private HermesBaseManager             hermesBaseManager;
-	private HWRepresentationServiceSensor representationService;
+	private HermesBaseManager                      hermesBaseManager;
+	private HWRepresentationServiceSensorIoTStream representationService;
 
 	private int tempoTotalMedida = 0;
 	private int intervalos = 0;
@@ -110,7 +112,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 							"RelHum", contadorRH, 
 							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 
-							null, "%", recordIdAtual, dataTempo);
+							null, recordIdAtual, dataTempo, Unit.Percent, Quantitykind.RelativeHumidity);
 
 			
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
