@@ -13,12 +13,11 @@
 
 <streamRHum>
 	a				  iot-stream:IotStream ;
-	iot-stream:providedBy   <serviceDHT11> ;
-	iot-stream:generatedBy  <sensorDHT11> ;
-	geo:location		  <locationDHT11> .
+	iot-stream:providedBy   <serviceDHT11RHum> ;
+	iot-stream:generatedBy  <sensorDHT11RHum> .
 
 
-<sensorDHT11>
+<sensorDHT11RHum>
       a                          ssn:Sensor ;
       iot-lite:hasQuantityKind   "qu:humidity" ;
       iot-lite:hasUnit           "qu:percent";
@@ -28,15 +27,10 @@
 <observationRHum>
 	a 			      iot-stream:StreamObservation ;
 	sosa:hasSimpleResult   x ;
-	sosa:resultTime:       y.
-
-<locationDHT11>
-	a		geo:location;
-	geo:long   "-49.255" ;
-	geo:lat    "-16.6799" .	
+	sosa:resultTime:       y.	
 
 
-<serviceDHT11>
+<serviceDHT11RHum>
       a                   iot-lite:Service ;
       iot-lite:endpoint   "http://www.ebserh.gov.br/web/ufg/inf/sensors/measures/room1^^xsd:anyURI" .
 

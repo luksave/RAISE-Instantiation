@@ -5,9 +5,12 @@ import br.ufg.inf.mestrado.hermeswidget.client.sensor.humidity.App_HW_Humidity;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.volatileOrganicCompounds.App_HW_VolatileOrganicCompounds;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.temperature.App_HW_Temperature;
 
+
 public class InicializarHermesWidgets {
 	
 	public static void main(String[] args) {
+		
+		
 		App_HW_CarbonDioxide.main(args);
 		App_HW_Humidity.main(args);
 		App_HW_VolatileOrganicCompounds.main(args);

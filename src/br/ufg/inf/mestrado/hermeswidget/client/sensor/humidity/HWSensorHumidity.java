@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.humidity;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,11 +10,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
 import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
+import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
@@ -123,6 +128,18 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					
 					System.out.println(data+ "   ----   RELATIVE HUMIDITY: " +medicaoAtual[posicaoRelativeHumidity] + "%");
 			
+					String url = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=GQK8L914F22F2B1H";
+					
+					try {
+						JSONObject json = ReaderJSon.readJsonFromUrl(url);
+						System.out.println(json.toString());
+						System.out.println(json.get("field1"));
+						
+					} catch (JSONException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
 

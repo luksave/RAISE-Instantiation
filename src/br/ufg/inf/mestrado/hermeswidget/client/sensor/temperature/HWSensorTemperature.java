@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.temperature;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,11 +10,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.json.JSONException;
+
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
 import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
+import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
@@ -117,6 +121,14 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					} catch (ParseException e) {e.printStackTrace();}
 					
 					System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
+					
+
+					try {
+						ReaderJSon.main();
+					} catch (JSONException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

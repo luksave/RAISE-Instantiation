@@ -12,12 +12,11 @@
 
 <streamTVOC>
 	a				  iot-stream:IotStream ;
-	iot-stream:providedBy   <serviceCCS811> ;
-	iot-stream:generatedBy  <sensorCCS811> ;
-	geo:location		  <locationCCS811> .
+	iot-stream:providedBy   <serviceCCS811TVOC> ;
+	iot-stream:generatedBy  <sensorCCS811TVOC> .
 
 
-<sensorCCS811>
+<sensorCCS811TVOC>
       a                          ssn:Sensor ;
       iot-lite:hasQuantityKind   "qu:concentration" ;
       iot-lite:hasUnit           "qu:dimensionless" ;
@@ -28,14 +27,10 @@
 	a 			      iot-stream:StreamObservation ;
 	sosa:hasSimpleResult   x ;
 	sosa:resultTime:       y.
-
-<locationCCS811>
-	a		geo:location;
-	geo:long   "-49.255" ;
-	geo:lat    "-16.6799" .	
+	
 
 
-<serviceCCS811>
+<serviceCCS811TVOC>
       a                   iot-lite:Service ;
       iot-lite:endpoint   "http://www.ebserh.gov.br/web/ufg/inf/sensors/measures/room1^^xsd:anyURI" .
 

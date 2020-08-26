@@ -11,12 +11,11 @@
 
 <streamCO2>
 	a				  iot-stream:IotStream ;
-	iot-stream:providedBy   <serviceMH-Z14A> ;
-	iot-stream:generatedBy  <sensorMH-Z14A> ;
-	geo:location		  <locationMH-Z14A> .
+	iot-stream:providedBy   <serviceMH-Z14ACO2> ;
+	iot-stream:generatedBy  <sensorMH-Z14ACO2> .
 
 
-<sensorMH-Z14A>
+<sensorMH-Z14ACO2>
       a                          ssn:Sensor ;
       iot-lite:hasQuantityKind   "qu:concentration" ;
       iot-lite:hasUnit           "qu:dimensionless";
@@ -28,13 +27,8 @@
 	sosa:hasSimpleResult   x ;
 	sosa:resultTime:       y.
 
-<locationMH-Z14A>
-	a		geo:location;
-	geo:long   "-49.255" ;
-	geo:lat    "-16.6799" .	
 
-
-<serviceMH-Z14A>
+<serviceMH-Z14ACO2>
       a                   iot-lite:Service ;
       iot-lite:endpoint   "http://www.ebserh.gov.br/web/ufg/inf/sensors/measures/room1^^xsd:anyURI" .
 

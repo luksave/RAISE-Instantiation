@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.volatileOrganicCompounds;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,12 +10,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+
+
+
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
-import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensor;
 import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
+import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
@@ -52,15 +61,15 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 	}
 
 	@Override
-	public void run() {
+	public void run(){
 		ReaderCSV reader = new ReaderCSV(this.registroAirPure);
-
+		
 		List<String[]> listaComDadosAmbientais = reader.getLinhas().subList(4, tempoTotalMedida);
 		
 		int totalThreads = (listaComDadosAmbientais.size()) / intervalos;
 
 		System.out.println("Total threads: " + totalThreads);
-
+		
 		// Prepara o pool de threads
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
@@ -72,7 +81,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 		for (String colunaCabecalho : cabecalho) {
 			// A identificacao deste cabecalho vai mudar de acordo com o novo CSV
 			// Mudou para 'TVOC'
-			if (colunaCabecalho.equals("'TVOC'")) posicaoTVOC = contador;
+			if (colunaCabecalho.equals("'TVOC'")) posicaoTVOC = contador;			
 			
 			contador++;
 			
