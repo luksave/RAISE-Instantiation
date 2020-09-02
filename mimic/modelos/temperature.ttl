@@ -19,7 +19,7 @@
 <sensorDHT11Temp>
       a                          ssn:Sensor ;
       iot-lite:hasQuantityKind   "qu:temperature" ;
-      iot-lite:hasUnit           "qu:degree_Celsius" ;
+      iot-lite:hasUnit           "qu:DEG_C" ;
 	 iot-lite:hasSensingDevice  <AirPureSala1>;
 	 sosa:madeObservation       <observationTemp> .
 

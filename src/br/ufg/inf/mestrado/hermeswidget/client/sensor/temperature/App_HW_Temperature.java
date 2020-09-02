@@ -17,16 +17,17 @@ public class App_HW_Temperature extends HermesWidgetObjects {
 	
 	public static void main(String[] args) {
 		File diretorioAirPure = new File("./airPure/");
-		File registroAirPure  = new File("./airPure/medidas.csv");
-		
-		// Preparacao do pool de threads de acordo com a quantidade de arquivos que contem os sinais vitais
+	  //File registroAirPure  = new File("./airPure/medidas.csv");          //Para esse o parâmetro é: 30000 300
+		File registroAirPure  = new File("./airPure/medidas_reduzido.csv"); //Para esse o parâmetro é: 1437 1
+						
+		// Preparacao do pool de threads de acordo com a quantidade de arquivos que contem os dados ambientais
 		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
 		//Enviar os dados adquiridos 
 		HWSensorTemperature widget = new HWSensorTemperature(registroAirPure, args);
 		
 		//A cada 6 segundos agenda uma leitura
-		poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
+		poolWidgets.schedule(widget, 22, TimeUnit.SECONDS);
 		
 		//Finaliza o pool do widget
 		poolWidgets.shutdown();

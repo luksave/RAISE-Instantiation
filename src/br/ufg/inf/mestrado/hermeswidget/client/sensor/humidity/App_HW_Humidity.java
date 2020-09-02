@@ -17,8 +17,9 @@ public class App_HW_Humidity extends HermesWidgetObjects {
 
 	public static void main(String[] args) {
 		File diretorioAirPure = new File("./airPure/");
-		File registroAirPure  = new File("./airPure/medidas.csv");
-		
+	  //File registroAirPure  = new File("./airPure/medidas.csv");          //Para esse o par‚metro È: 30000 300
+		File registroAirPure  = new File("./airPure/medidas_reduzido.csv"); //Para esse o par‚metro È: 1437 1
+				
 		// Preparacao do pool de threads de acordo com a quantidade de arquivos que cont√©m os dados ambientais
 		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(diretorioAirPure.listFiles().length - 1);
 
@@ -26,7 +27,7 @@ public class App_HW_Humidity extends HermesWidgetObjects {
 		HWSensorHumidity widget = new HWSensorHumidity(registroAirPure, args);	
 		
 		// A cada 6 segundos agenda uma leitura
-		poolWidgets.schedule(widget, 6, TimeUnit.SECONDS);
+		poolWidgets.schedule(widget, 11, TimeUnit.SECONDS);
 		
 		//Finaliza a pool do widget
 		poolWidgets.shutdown();

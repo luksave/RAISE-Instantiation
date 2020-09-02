@@ -1,5 +1,6 @@
 package br.ufg.inf.mestrado.hermeswidget.ontologies;
  
+import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -48,5 +49,33 @@ public class Qudt {
     //Object Property http_//qudt.org/schema/qudt/unit
     public static final ObjectProperty Unit = M_MODEL.createObjectProperty("http://qudt.org/schema/qudt/unit");
 
+
+    
+    //Individual http://qudt.org/schema/quantitykind/RelativeHumidity
+    public static final Individual RelativeHumidity = M_MODEL.createIndividual(Qudt.QuantityKind);
+    
+    //Individual http://qudt.org/schema/quantitykind/CelsiusTemperature
+    public static final Individual CelsiusTemperature = M_MODEL.createIndividual(Qudt.QuantityKind);
+    
+    //Individual http://qudt.org/schema/quantitykind/CO2Concentration
+    public static final Individual CO2Concentration = M_MODEL.createIndividual(Qudt.QuantityKind);
+    
+    //Individual http://qudt.org/schema/quantitykind/TVOC
+    public static final Individual TVOC = M_MODEL.createIndividual(Qudt.QuantityKind);
+    
+    
+    
+    //Individual http_//qudt.org/schema/qudt/Unit
+    public static final Individual Percent = M_MODEL.createIndividual(Qudt.Unit);
+    
+    //Individual http_//qudt.org/schema/qudt/TemperatureUnit
+    public static final Individual DEG_C = M_MODEL.createIndividual(Qudt.TemperatureUnit);
+    
+    //Individual http_//qudt.org/schema/qudt/PPM
+    public static final Individual PPM = M_MODEL.createIndividual(Qudt.DimensionlessUnit);
+
+    //Individual http_//qudt.org/schema/qudt/PPB
+    public static final Individual PPB = M_MODEL.createIndividual(Qudt.DimensionlessUnit);
+    
     
 }

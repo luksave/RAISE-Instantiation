@@ -1,7 +1,6 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.temperature;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,14 +9,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
 import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceSensorIoTStream;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
-import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
@@ -42,6 +39,8 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 	long tTotalRepresentation;
 
+	// Construtor recebe o registro e um vetor com o tempo total[0] e de intervalos[1]
+	// O parametro de tempo vem do input args.
 	public HWSensorTemperature(File registroAtual, String tempo[]) {
 		this.registroMimic = registroAtual;
 		this.startConfigurationService("./settings/topics_temperature.json");
@@ -66,12 +65,12 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 		threadPoolMedidas = Executors.newScheduledThreadPool(totalThreads);
 
 		int posicaoTemperature = 0;
+		
 		String[] cabecalho = reader.getLinhas().get(0);
 		int contador = 0;
 		
 		for (String colunaCabecalho : cabecalho) {
 			if (colunaCabecalho.equals("'Temp'")) posicaoTemperature = contador;
-			
 			contador++;
 			
 		}
@@ -94,18 +93,21 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 
 			// Laco para verificar os metadados de cada paciente e as
 			// informacoes de leitura dos sinais vitais
-			int contadorTemp = 0;
-			int contadorLinhas = 0;
+			int contadorTemp    = 0;
+			int contadorLinhas  = 0;
 			int contadorThreads = 1;
+			
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
-					float segfloat = Float.valueOf(medicaoAtual[0]);
-					int segundos = Math.round(segfloat);
-					int contadorT = contadorTemp++;
+					float  segfloat = Float.valueOf(medicaoAtual[0]);
+					int    segundos = Math.round(segfloat);
+					int   contadorT = contadorTemp++;
 					
-					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
+					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6) +"-"+ medicaoAtual[0].substring(6, 8)
 						     +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 					
+					
+					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
 							"temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
@@ -120,26 +122,17 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					try { data = formato.parse(dataTempo);
 					} catch (ParseException e) {e.printStackTrace();}
 					
-					System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
-					
-
-					try {
-						ReaderJSon.main();
-					} catch (JSONException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					//System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
-						
-					
+								
 					threadPoolMedidas.schedule(this.getNotificationService(hermesBaseManager, hermesWidgetTO), segundos, TimeUnit.SECONDS);
-					
-					// Limpa o modelo de representacao para a proxima instancia					
+									
 					representationService.setModeloMedicaoDadoAmbiental(null);
 
 					contadorThreads++;
+					
 				}
 
 				contadorLinhas++;

@@ -7,6 +7,7 @@
 @qu-rec20:           <http://purl.oclc.org/NET/ssnx/qu/qu-rec20> .
 @prefix sosa:        <http://www.w3.org/ns/sosa> .
 @prefix iot-stream:  <http://purl.org/iot/ontology/iot-stream#> .
+
 @prefix geo:         <http://www.w3.org/2003/01/geo/> .
 
 
@@ -18,8 +19,8 @@
 
 <sensorCCS811TVOC>
       a                          ssn:Sensor ;
-      iot-lite:hasQuantityKind   "qu:concentration" ;
-      iot-lite:hasUnit           "qu:dimensionless" ;
+      iot-lite:hasQuantityKind   "qu:TVOC" ;
+      iot-lite:hasUnit           "qu:PPB" ;
       iot-lite:hasSensingDevice  <AirPureSala1> ;
 	 sosa:madeObservation       <observationTVOC> .
 
@@ -28,7 +29,6 @@
 	sosa:hasSimpleResult   x ;
 	sosa:resultTime:       y.
 	
-
 
 <serviceCCS811TVOC>
       a                   iot-lite:Service ;

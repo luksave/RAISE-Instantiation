@@ -99,6 +99,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 			int contadorThreads = 1;
 			
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
+						
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat    = Float.valueOf(medicaoAtual[0]);
 					int   segundos    = Math.round(segfloat);
@@ -110,8 +111,9 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					
 					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-														"co2_concentration.ttl", Integer.toString(segundos), "ConCO2", 
-														contadorCO2, "CarbonDioxideConcentration",
+														"co2_concentration.ttl", Integer.toString(segundos), 
+														"ConCO2", contadorCO2, 
+														"CarbonDioxide",
 														medicaoAtual[posicaoCarbonDioxide], 
 														null, recordIdAtual, dataTempo, Unit.PPM, Quantitykind.CO2Concentration);
 				
@@ -123,7 +125,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					try { data = formato.parse(dataTempo);
 					} catch (ParseException e) {e.printStackTrace();}
 					
-					System.out.println(data+ "   ----   CARBON DIOXIDE: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+					//System.out.println(data+ "   ----   CARBON DIOXIDE: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
 			
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -138,7 +140,11 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 				
 				contadorLinhas++;
 				
-			}
+			} 				
+			
+			//Parece que isso aqui não funciona...
+			//representationService.modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
+
 			
 		}
 

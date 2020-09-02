@@ -7,7 +7,9 @@ import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoTStream;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Qudt;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.sosa;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -92,8 +94,8 @@ private HWTransferObject hermesWidgetTO = null;
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, sosa.Sensor)
 					.addProperty(sosa.madeObservation, StreamObservation)
-					.addProperty(Qudt.hasUnit, unit)
-					.addProperty(Qudt.hasQuantityKind, quantity);	
+					.addProperty(Qudt.hasUnit, Qudt.PPM)
+					.addProperty(Qudt.hasQuantityKind, Qudt.CO2Concentration);	
 		
 		
 		/**
@@ -128,6 +130,10 @@ private HWTransferObject hermesWidgetTO = null;
 			.addProperty(IoTStream.belongsTo, streamResource)
 			.addProperty(sosa.hasSimpleResult, values[0].toString())
 			.addProperty(sosa.resultTime, dateTimeID);
+		
+		
+		//Escrita do modelo na saída... Comentar após uso, ou a saída fica impraticável
+		modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLE");
 		
 		
 		return modeloMedicaoDadoAmbiental;

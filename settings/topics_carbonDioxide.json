@@ -8,7 +8,7 @@
 			"registrar":"CarbonDioxide",
 			
 			"publicar":[
-				{"nome":"CarbonDioxideConcentration", "complementoTopico":"reason"}
+				{"nome":"CarbonDioxide", "complementoTopico":"reason"}
 				],
 		
 			"assinar":[],
