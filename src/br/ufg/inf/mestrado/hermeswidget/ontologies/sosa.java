@@ -4,7 +4,7 @@ import com.hp.hpl.jena.rdf.model.*;
 import com.hp.hpl.jena.ontology.*;
 
 
-public class sosa {
+public class SOSA {
 
 	static String dc     =  "http://purl.org/dc/elements/1.1/";
 	static String owl    =  "http://www.w3.org/2002/07/owl#";

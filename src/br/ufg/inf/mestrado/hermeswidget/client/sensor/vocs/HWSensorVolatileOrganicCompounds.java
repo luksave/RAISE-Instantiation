@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+
 
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
@@ -16,7 +19,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
@@ -97,6 +100,9 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 			int contadorLinhas  = 0;
 			int contadorThreads = 1;
 			
+			String uriBase     = "http://www.inf.ufg.br/Air-Pure/";
+			String sensorIRI   = uriBase + "TVOCSensor-" + UUID.randomUUID().toString();
+			
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
 					float   segfloat = Float.valueOf(medicaoAtual[0]);
@@ -106,14 +112,13 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6) +"-"+ medicaoAtual[0].substring(6, 8)
 				             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 				
-					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"tvoc.ttl", Integer.toString(segundos), 
+							sensorIRI, "tvoc.ttl", Integer.toString(segundos), 
 							"TVOC", contadorTvoc, 
 							"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
 							medicaoAtual[posicaoTVOC], 
-							null, recordIdAtual, dataTempo, Unit.PPB, Quantitykind.TVOC);
+							null, recordIdAtual, dataTempo, Unit.PPB, QuantityKind.TVOC);
 					
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -122,7 +127,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 					try { data = formato.parse(dataTempo);
 					} catch (ParseException e) {e.printStackTrace();}
 					
-					//System.out.println(data+ "   ----   TVOCS: " +medicaoAtual[posicaoTVOC] + " PPB");
+					System.out.println(data+ "   ----   TVOCS: " +medicaoAtual[posicaoTVOC] + " PPB");
 			
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

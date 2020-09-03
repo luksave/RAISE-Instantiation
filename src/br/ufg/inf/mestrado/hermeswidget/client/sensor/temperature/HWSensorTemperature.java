@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+
 
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
@@ -16,7 +19,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
@@ -97,6 +100,9 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 			int contadorLinhas  = 0;
 			int contadorThreads = 1;
 			
+			String uriBase     = "http://www.inf.ufg.br/Air-Pure/";
+			String sensorIRI   = uriBase + "TemperatureSensor-" + UUID.randomUUID().toString();
+			
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
 					float  segfloat = Float.valueOf(medicaoAtual[0]);
@@ -109,11 +115,11 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"temperatura.ttl", Integer.toString(segundos), 
+							sensorIRI, "temperatura.ttl", Integer.toString(segundos), 
 							"Temp", contadorT, 
 							"Temperature", // Nome do topico no arquivo topics_temperature 
 							medicaoAtual[posicaoTemperature], 
-							null, recordIdAtual, dataTempo, Unit.DEG_C, Quantitykind.CelsiusTemperature);
+							null, recordIdAtual, dataTempo, Unit.DEG_C, QuantityKind.CelsiusTemperature);
 
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -122,7 +128,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					try { data = formato.parse(dataTempo);
 					} catch (ParseException e) {e.printStackTrace();}
 					
-					//System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
+					System.out.println(data+ "   ----   TEMPERATURE: " +medicaoAtual[posicaoTemperature] + "°C");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

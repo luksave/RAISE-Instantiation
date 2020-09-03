@@ -12,9 +12,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Qudt;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QUDT;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
@@ -147,32 +147,32 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 			sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.PPM)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.CO2Concentration);
+					.addProperty(QUDT.hasUnit, Unit.PPM)
+					.addProperty(QUDT.hasQuantityKind, QuantityKind.CO2Concentration);
 		}
 		if(unidadeMedida == "ppb"){
 			/** Sensor */
 			sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.PPB)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.TVOC);
+					.addProperty(QUDT.hasUnit, Unit.PPB)
+					.addProperty(QUDT.hasQuantityKind, QuantityKind.TVOC);
 		}
 		if(unidadeMedida == "%"){
 			/** Sensor */
 			sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SSN.Sensor)
-					.addProperty(Qudt.hasUnit, Unit.Percent)
-					.addProperty(Qudt.hasQuantityKind, Quantitykind.RelativeHumidity);
+					.addProperty(QUDT.hasUnit, Unit.Percent)
+					.addProperty(QUDT.hasQuantityKind, QuantityKind.RelativeHumidity);
 		}
 		if(unidadeMedida == "Celsius"){
 			/** Sensor */
 				sensorResource = modeloMedicaoDadoAmbiental
 					.createResource(sensorIRI)
 						.addProperty(RDF.type, SSN.Sensor)
-						.addProperty(Qudt.hasUnit, Unit.DEG_C)
-						.addProperty(Qudt.hasQuantityKind, Quantitykind.CelsiusTemperature);
+						.addProperty(QUDT.hasUnit, Unit.DEG_C)
+						.addProperty(QUDT.hasQuantityKind, QuantityKind.CelsiusTemperature);
 			
 		}
 	

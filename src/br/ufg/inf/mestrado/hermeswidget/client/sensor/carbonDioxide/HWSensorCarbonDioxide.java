@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -15,7 +16,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
@@ -83,21 +84,23 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					+ new Date().toString();
 		
 			HWLog.recordLog(log);
-			
 			System.out.println(log + "\n");
 
-			int posicaoExtensao = registroAirPure.getName().lastIndexOf('.');
-
+			int  posicaoExtensao = registroAirPure.getName().lastIndexOf('.');
 			String recordIdAtual = registroAirPure.getName().substring(0, posicaoExtensao);
 
 			System.out.println("Ambiente: "+recordIdAtual+ " [Carbon Dioxide]");
 
-			// Laco para verificar os metadados de cada ambiente e as
-			// informacoes de leitura dos dados ambientais
+	
 			int contadorCarbonDioxide = 0;
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
+			String uriBase   = "http://www.inf.ufg.br/Air-Pure/";
+			String sensorIRI = uriBase + "CarbonDioxideSensor-" + UUID.randomUUID().toString();
+	
+			// Laco para verificar os metadados de cada ambiente e as
+			// informacoes de leitura dos dados ambientais
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 						
 				if (contadorLinhas % intervalos == 0) {
@@ -105,27 +108,28 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					int   segundos    = Math.round(segfloat);
 					int   contadorCO2 = contadorCarbonDioxide++;
 					
+					
 					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
 				             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
-				
+									
 					
 					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-														"co2_concentration.ttl", Integer.toString(segundos), 
+														sensorIRI, "co2_concentration.ttl", Integer.toString(segundos), 
 														"ConCO2", contadorCO2, 
 														"CarbonDioxide",
 														medicaoAtual[posicaoCarbonDioxide], 
-														null, recordIdAtual, dataTempo, Unit.PPM, Quantitykind.CO2Concentration);
+														null, recordIdAtual, dataTempo, Unit.PPM, QuantityKind.CO2Concentration);
 				
 					
-					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					
-					Date data = null;
+					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
+					Date  data = null;
+					try { data = formato.parse(dataTempo);} catch (ParseException e) {e.printStackTrace();}
 					
-					try { data = formato.parse(dataTempo);
-					} catch (ParseException e) {e.printStackTrace();}
 					
-					//System.out.println(data+ "   ----   CARBON DIOXIDE: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+					System.out.println(data+ "   ----   CARBON DIOXIDE: " +medicaoAtual[posicaoCarbonDioxide] + " ppm");
+					
 			
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);
@@ -141,14 +145,10 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 				contadorLinhas++;
 				
 			} 				
-			
-			//Parece que isso aqui não funciona...
-			//representationService.modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 
 			
 		}
 
 	}
-
 
 }

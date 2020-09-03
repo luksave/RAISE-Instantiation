@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+
 
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
@@ -16,7 +19,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderCSV;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 /**
@@ -98,6 +101,9 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 			int contadorLinhas = 0;
 			int contadorThreads = 1;
 			
+			String uriBase   = "http://www.inf.ufg.br/Air-Pure/";
+			String sensorIRI = uriBase + "RelativeHumiditySensor-" + UUID.randomUUID().toString();
+			
 			for (String[] medicaoAtual : listaComDadosAmbientais) {
 				if (contadorLinhas % intervalos == 0) {
 					float segfloat = Float.valueOf(medicaoAtual[0]);
@@ -107,14 +113,14 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					String dataTempo = medicaoAtual[0].substring(0, 4)  + "-" + medicaoAtual[0].substring(4, 6)   +"-"+ medicaoAtual[0].substring(6, 8)
 				         	 +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 					
-					
+				
 					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							"relative_humidity.ttl", Integer.toString(segundos), 
+							sensorIRI, "relative_humidity.ttl", Integer.toString(segundos), 
 							"RelHum", contadorRH, 
 							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 
-							null, recordIdAtual, dataTempo, Unit.Percent, Quantitykind.RelativeHumidity);
+							null, recordIdAtual, dataTempo, Unit.Percent, QuantityKind.RelativeHumidity);
 
 			
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -124,7 +130,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					try { data = formato.parse(dataTempo);
 					} catch (ParseException e) {e.printStackTrace();}
 					
-					//System.out.println(data+ "   ----   RELATIVE HUMIDITY: " +medicaoAtual[posicaoRelativeHumidity] + "%");
+					System.out.println(data+ "   ----   RELATIVE HUMIDITY: " +medicaoAtual[posicaoRelativeHumidity] + "%");
 					
 					hermesWidgetTO.setThreadAtual(contadorThreads);
 					hermesWidgetTO.setTotalThreads(totalThreads);

@@ -2,6 +2,7 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.humidityTR;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +15,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 
@@ -39,36 +40,37 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 		
 		try {
 			JSONObject json = ReaderJSon.readJsonFromUrl(url);
-			System.out.println("Humidade Relativa no instante " + json.get("created_at") + ": " + json.get("field2") +" %");
-			
-			String log = "Hermes Widget Sensor Relative Humidity for environment ---> Paço Municipal"
-					   + " started! Date: " + new Date().toString();
-		
-			HWLog.recordLog(log);
-			
-			System.out.println(log + "\n");
-			
-			System.out.println("Ambiente: " + json.get("entry_id") + " [Humidity]");
-			
-			String dataTempo = json.get("created_at").toString();
-			
-			String medicaoAtual = json.get("field2").toString();
 			
 			//Enquanto meu objeto json não for nulo, estou tendo medidas do Air-Pure, logo:
 			while(json != null){
+			
+				System.out.println("Humidade Relativa no instante " + json.get("created_at") + ": " + json.get("field2") +" %");
 				
-				int countRHum = Integer.parseInt(json.get("created_at").toString());
+				String log = "Hermes Widget Sensor Relative Humidity for environment ---> Paço Municipal"
+						   + " started! Date: " + new Date().toString();
+			
+				HWLog.recordLog(log);
 				
-				float segfloat = Float.valueOf(dataTempo);
-				int   segundos = Math.round(segfloat);
+				System.out.println(log + "\n");
+				
+				System.out.println("Ambiente: " + json.get("entry_id") + " [Humidity]");
+				
+				String dataTempo    = json.get("created_at").toString();
+				String medicaoAtual = json.get("field2").toString();
+				String uriBase      = "http://www.inf.ufg.br/Air-Pure/";
+				String sensorIRI    = uriBase + "RelativeHumiditySensor-" + UUID.randomUUID().toString();
+				
+				int   countRHum = Integer.parseInt(json.get("created_at").toString());
+				float  segfloat = Float.valueOf(dataTempo);
+				int    segundos = Math.round(segfloat);
 			
 				// O DTO muda de acordo com os dados que precisam ser passados
 				HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-						"relative_humidity.ttl", Integer.toString(segundos), 
+						sensorIRI, "relative_humidity.ttl", Integer.toString(segundos), 
 						"RelHum", countRHum, 
 						"RelativeHumidity", 
 						medicaoAtual, 
-						null, "%", dataTempo, Unit.Percent, Quantitykind.RelativeHumidity);
+						null, "%", dataTempo, Unit.Percent, QuantityKind.RelativeHumidity);
 				
 				System.out.println(dataTempo+ "   ----   Relative Humidity: " +medicaoAtual + " %");
 				
@@ -76,8 +78,9 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 
 				representationService.setModeloMedicaoDadoAmbiental(null);
 				
+				json = ReaderJSon.readJsonFromUrl(url);
+				
 			}
-			
 			
 		} catch (JSONException | IOException e1) {
 			// TODO Auto-generated catch block
@@ -85,4 +88,5 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 		}	
 		
 	}
+	
 }

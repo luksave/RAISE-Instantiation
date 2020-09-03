@@ -1,16 +1,13 @@
 package br.ufg.inf.mestrado.hermeswidget.client.services;
 
 import java.io.ByteArrayOutputStream;
-import java.util.UUID;
 
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoTStream;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Qudt;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.sosa;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QUDT;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -18,13 +15,14 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+
 public class HWRepresentationServiceSensorIoTStream extends HWRepresentationService{
 
-private HWTransferObject hermesWidgetTO = null;
+	private HWTransferObject hermesWidgetTO = null;
 	
 	public HWRepresentationServiceSensorIoTStream() {}
 	
-	public HWTransferObject startRepresentationSensor(String nomeModelo, String instanteMedidaColetada, String abreviaturaDadoAmbiental, int contadorDadoAmbiental, String nomeClasseDadoAmbiental, 
+	public HWTransferObject startRepresentationSensor(String sensorIRI, String nomeModelo, String instanteMedidaColetada, String abreviaturaDadoAmbiental, int contadorDadoAmbiental, String nomeClasseDadoAmbiental, 
 													  String medidaColetada, String[] medidaComposta, String idAmbiente, String dataTempo, Individual unit, Individual quantity) {
 		
 		
@@ -40,8 +38,7 @@ private HWTransferObject hermesWidgetTO = null;
 		values = v;
 			
 		
-		
-		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, "sensor-"  +nomeClasseDadoAmbiental, "entity-"  +abreviaturaDadoAmbiental, 
+		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, sensorIRI, "entity-"  +abreviaturaDadoAmbiental, 
 														  sensorOutput, observationValue, values, idAmbiente, dataTempo, unit, quantity);
 	
 		
@@ -65,24 +62,24 @@ private HWTransferObject hermesWidgetTO = null;
 		
 	}
 	
-	private OntModel representObservation(String sinal, String property, String sensor, String entity, String sensorOutput, String observationValue, Object[] values, String feature, String dateTimeID, Individual unit, Individual quantity) {
+	private OntModel representObservation(String sinal, String property, String sensorIRI, String entity, String sensorOutput, String observationValue, Object[] values, 
+			                              String feature, String dateTimeID, Individual unit, Individual quantity) {
 		
 		
-		String sensorIRI   = sensor + "-" + UUID.randomUUID().toString();
 		String propertyIRI = IoTStream.NS + property;
-		
-	
+		String uriData     = dateTimeID.substring(00, 10) + "-" + dateTimeID.substring(11, 13) + "-" 
+		                   + dateTimeID.substring(14, 16) + "-" + dateTimeID.substring(17, 19);
 		
 		
 		//Aqui uma IoTStream é criada
 		Resource streamResource = modeloMedicaoDadoAmbiental
-				.createResource(propertyIRI + dateTimeID)
+				.createResource(propertyIRI + uriData)
 					.addProperty(RDF.type, IoTStream.IotStream);
 		
 		
 		//Aqui a classe StreamObservation é criada. Essa classe contém o resultado observado pelo sensor e o momento desta observação
 		Resource StreamObservation = modeloMedicaoDadoAmbiental
-				.createResource(IoTStream.NS + sensorOutput +"-"+ dateTimeID);
+				.createResource(IoTStream.NS + sensorOutput +"-"+ uriData);
 		
 		
 		/**Aqui um recurso sensor é criado de acordo com o que temos na ontologia IoT-Stream
@@ -90,12 +87,15 @@ private HWTransferObject hermesWidgetTO = null;
 		 * possui um tipo de quantidade e unidade, definidos logo abaixo de acordo com o tipo de dado ambiental
 		 * Importante: Esse sensor realiza uma StreamObservation que pertence a uma IotStream
 		 */
+		//Fazer debug aqui.
 		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
-					.addProperty(RDF.type, sosa.Sensor)
-					.addProperty(sosa.madeObservation, StreamObservation)
-					.addProperty(Qudt.hasUnit, Qudt.PPM)
-					.addProperty(Qudt.hasQuantityKind, Qudt.CO2Concentration);	
+					.addProperty(RDF.type, SOSA.Sensor)
+					.addProperty(SOSA.madeObservation, StreamObservation)
+					.addProperty(QUDT.hasUnit, unit)
+					.addProperty(QUDT.hasQuantityKind, quantity);	
+		
+		
 		
 		
 		/**
@@ -126,15 +126,18 @@ private HWTransferObject hermesWidgetTO = null;
 		
 		//Aqui uma StreamObservation é atribuída ao sensor que a gera e à IotStream à qual pertence
 		StreamObservation
-			.addProperty(sosa.madeBySensor, sensorResource)
+			.addProperty(SOSA.madeBySensor, sensorResource)
 			.addProperty(IoTStream.belongsTo, streamResource)
-			.addProperty(sosa.hasSimpleResult, values[0].toString())
-			.addProperty(sosa.resultTime, dateTimeID);
+			.addProperty(SOSA.hasSimpleResult, values[0].toString())
+			.addProperty(SOSA.resultTime, dateTimeID);
 		
 		
-		//Escrita do modelo na saída... Comentar após uso, ou a saída fica impraticável
-		modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLE");
-		
+		/**
+		 * Caso seja necessário imprimir o modelo
+		 * IMPORTANTE: Comentar após uso, ou a saída fica impraticável
+		 * Opções: TURTLE, N-TRIPLES, RDF/XML
+		 */
+		//modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
 		
 		return modeloMedicaoDadoAmbiental;
 		

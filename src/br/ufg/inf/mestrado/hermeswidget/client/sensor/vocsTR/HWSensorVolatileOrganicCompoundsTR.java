@@ -2,6 +2,7 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +15,7 @@ import br.ufg.inf.mestrado.hermeswidget.client.services.HWRepresentationServiceS
 import br.ufg.inf.mestrado.hermeswidget.client.utils.HWLog;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ReaderJSon;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.Quantitykind;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.QuantityKind;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 
 
@@ -32,6 +33,7 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 		
 	}
 
+	
 	@Override
 	public void run(){
 	
@@ -39,35 +41,37 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 
 		try {
 			JSONObject json = ReaderJSon.readJsonFromUrl(url);
-			System.out.println("TVOC no instante " + json.get("created_at") + ": " + json.get("field4") +" ppb");
-			
-			String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> Paço Municipal"
-					   + " started! Date: " + new Date().toString();
-		
-			HWLog.recordLog(log);
-			
-			System.out.println(log + "\n");
-			
-			System.out.println("Ambiente: " + json.get("entry_id") + " [TVOC]");
-			
-			String dataTempo = json.get("created_at").toString();
-			
-			String medicaoAtual = json.get("field4").toString();
-			
+				
 			//Enquanto meu objeto json não for nulo, estou tendo medidas do Air-Pure, logo:
 			while(json != null){
+				
+				System.out.println("TVOC no instante " + json.get("created_at") + ": " + json.get("field4") +" ppb");
+				
+				String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> Paço Municipal"
+						   + " started! Date: " + new Date().toString();
 			
+				HWLog.recordLog(log);
+				
+				System.out.println(log + "\n");
+				
+				System.out.println("Ambiente: " + json.get("entry_id") + " [TVOC]");
+				
+				String dataTempo    = json.get("created_at").toString();
+				String medicaoAtual = json.get("field4").toString();
+				String uriBase      = "http://www.inf.ufg.br/Air-Pure/";
+				String sensorIRI    = uriBase + "TVOCSensor-" + UUID.randomUUID().toString();
+
 				int   countTVOC = Integer.parseInt(json.get("created_at").toString());
 				float  segfloat = Float.valueOf(dataTempo);
 				int    segundos = Math.round(segfloat);
 			
 				// O DTO muda de acordo com os dados que precisam ser passados
 				HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-						"tvoc.ttl", Integer.toString(segundos), 
+						sensorIRI, "tvoc.ttl", Integer.toString(segundos), 
 						"TVOC", countTVOC, 
 						"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
 						medicaoAtual, 
-						null, "PPB", dataTempo, Unit.PPB, Quantitykind.TVOC);
+						null, "PPB", dataTempo, Unit.PPB, QuantityKind.TVOC);
 				
 				System.out.println(dataTempo+ "   ----   TVOCS: " +medicaoAtual + " PPB");
 				
@@ -75,6 +79,7 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 
 				representationService.setModeloMedicaoDadoAmbiental(null);
 
+				json = ReaderJSon.readJsonFromUrl(url);
 				
 			}
 			

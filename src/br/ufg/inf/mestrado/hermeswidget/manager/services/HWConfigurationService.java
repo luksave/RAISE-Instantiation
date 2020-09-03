@@ -35,9 +35,6 @@ public class HWConfigurationService {
 			// --> MEXI AQUI
 			//hermesBaseManager.createNotificationTopic(nomeTopicoNotificacao);
 			// --> MEXI AQUI
-			/*
-			System.out.println("Created Topic: " + nomeTopicoNotificacao);
-			*/
 			System.out.println("Created Topic: " + nomeTopicoNotificacao);
 		}
 	}
