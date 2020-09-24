@@ -8,6 +8,10 @@ import br.ufg.inf.mestrado.hermeswidget.ontologies.IoTStream;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.QUDT;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
+import br.ufg.mestrado.hermeswidget.client.preprocessing.CarbonDioxidePreprocessing;
+import br.ufg.mestrado.hermeswidget.client.preprocessing.TemperaturePreprocessing;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -22,8 +26,9 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 	
 	public HWRepresentationServiceSensorIoTStream() {}
 	
-	public HWTransferObject startRepresentationSensor(String sensorIRI, String nomeModelo, String instanteMedidaColetada, String abreviaturaDadoAmbiental, int contadorDadoAmbiental, String nomeClasseDadoAmbiental, 
-													  String medidaColetada, String[] medidaComposta, String idAmbiente, String dataTempo, Individual unit, Individual quantity) {
+	public HWTransferObject startRepresentationSensor(
+			String sensorIRI, String nomeModelo, String abreviaturaDadoAmbiental, int contador, String nomeClasseDadoAmbiental, 
+			String medidaColetada, String[] medidaComposta, String idAmbiente, String instanteColeta, Individual unit, Individual quantity) {
 		
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo); //Cria o modelo RDF de acordo com o expressado no arquivo 
@@ -39,10 +44,8 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 			
 		
 		modeloMedicaoDadoAmbiental = representObservation(abreviaturaDadoAmbiental, "property-"+abreviaturaDadoAmbiental, sensorIRI, "entity-"  +abreviaturaDadoAmbiental, 
-														  sensorOutput, observationValue, values, idAmbiente, dataTempo, unit, quantity);
+														  sensorOutput, observationValue, values, idAmbiente, instanteColeta, unit, quantity);
 	
-		
-		if (contadorDadoAmbiental == 0) modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		ByteArrayOutputStream baosContextoFiltrado = new ByteArrayOutputStream();
 		modeloMedicaoDadoAmbiental.write(baosContextoFiltrado, tipoSerializacao, caminhoSchemaOntologico);
@@ -71,6 +74,24 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		                   + dateTimeID.substring(14, 16) + "-" + dateTimeID.substring(17, 19);
 		
 		
+		//Aqui a localização onde a stream foi observada é capturada (geo:Point)
+		Resource locationResource = modeloMedicaoDadoAmbiental
+				.createResource("http://www.inf.ufg.br/Air-Pure/location")
+					.addProperty(RDF.type, Geo.point)
+					.addProperty(Geo.long_, "-49.255") 
+					.addProperty(Geo.lat, "-16.6799"); 
+		
+		Resource AirPureSala1 = modeloMedicaoDadoAmbiental
+				.createResource("http://www.inf.ufg.br/Air-Pure/service/" + "INF0001")
+				.addProperty(RDF.type, SSN.SensingDevice)
+				.addProperty(Geo.location, locationResource);
+		
+		Resource airPureINF = modeloMedicaoDadoAmbiental
+				.createResource("http://www.inf.ufg.br/Air-Pure/service/" + "SALASINF")
+				.addProperty(RDF.type, SSN.Device)
+				.addProperty(IoT_Lite.hasSubSystem, AirPureSala1);		
+		
+		
 		//Aqui uma IoTStream é criada
 		Resource streamResource = modeloMedicaoDadoAmbiental
 				.createResource(propertyIRI + uriData)
@@ -87,14 +108,13 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		 * possui um tipo de quantidade e unidade, definidos logo abaixo de acordo com o tipo de dado ambiental
 		 * Importante: Esse sensor realiza uma StreamObservation que pertence a uma IotStream
 		 */
-		//Fazer debug aqui.
 		Resource sensorResource = modeloMedicaoDadoAmbiental
 				.createResource(sensorIRI)
 					.addProperty(RDF.type, SOSA.Sensor)
 					.addProperty(SOSA.madeObservation, StreamObservation)
+					.addProperty(IoT_Lite.hasSensingDevice, AirPureSala1)//Isso deve ser mudado pelo identificador único do dispositivo. Verificando com a Bruna
 					.addProperty(QUDT.hasUnit, unit)
 					.addProperty(QUDT.hasQuantityKind, quantity);	
-		
 		
 		
 		
@@ -106,21 +126,13 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		
 		//Aqui o serviço que provê a IotStream é instanciado
 		Resource serviceResource = modeloMedicaoDadoAmbiental
-				.createResource("service"+sinal)
+				.createResource("http://www.inf.ufg.br/Air-Pure/service/" + sinal)
 					.addProperty(RDF.type, IoT_Lite.Service)
 					.addProperty(IoT_Lite.endpoint, "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1"+"^^xsd:anyURI"); 
-		
-		//Aqui a localização onde a stream foi observada é capturada (geo:Point)
-		Resource locationResource = modeloMedicaoDadoAmbiental
-				.createResource("location")
-					.addProperty(RDF.type, Geo.point)
-					.addProperty(Geo.long_, "-49.255") 
-					.addProperty(Geo.lat, "-16.6799"); 
 		
 		// Aqui uma IotStream é criada com a atribuição das classes relacionadas
 		streamResource
 			.addProperty(IoTStream.generatedBy, sensorResource)
-			.addProperty(Geo.location, locationResource)
 			.addProperty(IoTStream.providedBy, serviceResource);
 		
 		
@@ -133,11 +145,57 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		
 		
 		/**
+		 * A concentração de Dióxido de Carbono é o valor utilizado para aferir a qualidade do ar interno,
+		 * pois não temos outros poluentes...
+		 * Normalmente devemos nos preocupar se essa concentração ultrapassa 1000ppm
+		 */
+
+		
+		/**
+		 * Pré-processamento do dado de Concentração de CO2
+		 * Se a concentração passa do limite de 1000 ppm, calcule a qualidade do ar e insira no modelo
+		 */
+		if(unit == Unit.PPM ){
+			
+			int CPdioxido = Integer.valueOf(values[0].toString());
+			
+			if( CPdioxido >= 1000){
+				String airQuality = CarbonDioxidePreprocessing.IQACarbonDioxide(CPdioxido);
+				Resource eventResource = modeloMedicaoDadoAmbiental
+						.createResource("http://www.inf.ufg.br/Air-Pure/event/" + StreamObservation)
+							.addProperty(IoTStream.label, airQuality)
+							.addProperty(IoTStream.detectedFrom, streamResource)
+							.addProperty(IoTStream.windowStart, dateTimeID)
+							.addProperty(IoTStream.windowEnd, dateTimeID);
+
+			}		
+		
+		}
+
+		if(unit == Unit.Percent){
+			
+			int temperature = Integer.valueOf(values[0].toString());
+			
+			if(temperature < 23 && temperature > 26){
+				String thermalComfort = TemperaturePreprocessing.ThermalComfort(temperature);
+				Resource eventResource = modeloMedicaoDadoAmbiental
+						.createResource("http://www.inf.ufg.br/Air-Pure/event/" + StreamObservation)
+							.addProperty(IoTStream.label, thermalComfort)
+							.addProperty(IoTStream.detectedFrom, streamResource)
+							.addProperty(IoTStream.windowStart, dateTimeID)
+							.addProperty(IoTStream.windowEnd, dateTimeID);
+
+			}
+			
+		}
+		
+		
+		/**
 		 * Caso seja necessário imprimir o modelo
 		 * IMPORTANTE: Comentar após uso, ou a saída fica impraticável
 		 * Opções: TURTLE, N-TRIPLES, RDF/XML
 		 */
-		//modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
+		//modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
 		
 		return modeloMedicaoDadoAmbiental;
 		

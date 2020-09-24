@@ -115,7 +115,7 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 					
 					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-														sensorIRI, "co2_concentration.ttl", Integer.toString(segundos), 
+														sensorIRI, "co2_concentration.ttl",
 														"ConCO2", contadorCO2, 
 														"CarbonDioxide",
 														medicaoAtual[posicaoCarbonDioxide], 

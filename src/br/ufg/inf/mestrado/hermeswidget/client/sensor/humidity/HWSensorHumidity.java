@@ -116,7 +116,7 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 				
 					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "relative_humidity.ttl", Integer.toString(segundos), 
+							sensorIRI, "relative_humidity.ttl", 
 							"RelHum", contadorRH, 
 							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
 							medicaoAtual[posicaoRelativeHumidity], 

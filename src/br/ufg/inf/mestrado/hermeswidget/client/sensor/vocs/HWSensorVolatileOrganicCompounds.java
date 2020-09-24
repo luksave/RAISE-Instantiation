@@ -114,7 +114,7 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 				
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "tvoc.ttl", Integer.toString(segundos), 
+							sensorIRI, "tvoc.ttl", 
 							"TVOC", contadorTvoc, 
 							"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
 							medicaoAtual[posicaoTVOC], 

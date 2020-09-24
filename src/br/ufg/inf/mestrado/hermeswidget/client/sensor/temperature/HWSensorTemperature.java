@@ -115,7 +115,7 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
 					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "temperatura.ttl", Integer.toString(segundos), 
+							sensorIRI, "temperatura.ttl", 
 							"Temp", contadorT, 
 							"Temperature", // Nome do topico no arquivo topics_temperature 
 							medicaoAtual[posicaoTemperature], 

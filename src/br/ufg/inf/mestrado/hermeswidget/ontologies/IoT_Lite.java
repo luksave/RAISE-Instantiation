@@ -47,6 +47,9 @@ public class IoT_Lite {
     /** <p>Links a sensor with a sensing device the same way as SSN.</p> */
     public static final ObjectProperty hasSensingDevice = m_model.createObjectProperty( "http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSensingDevice" );
     
+    /** <p>Links a sensor with a sensing device the same way as SSN.</p> */
+    public static final ObjectProperty hasSubSystem = m_model.createObjectProperty( "http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSubSystem" );
+    
     /** <p>Links the sensor with the units of the quantity kind it measures (e.g. A sensor 
      *  -sensor1- measures temperature in Celsius: senso1 hasUnit celsius).</p>
      */

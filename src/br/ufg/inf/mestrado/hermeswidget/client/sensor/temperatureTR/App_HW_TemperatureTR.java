@@ -1,8 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.temperatureTR;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObjects;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.temperatureTR.HWSensorTemperatureTR;
@@ -17,19 +16,20 @@ public class App_HW_TemperatureTR extends HermesWidgetObjects{
 
 	public static void main(String[] args) {
 					
-		// Preparacao do pool de threads de acordo com a quantidade de dispositivos 
-		//Air-Pure sendo lidos...
-		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(1);
-
-		//A leitura e modelagem dos dados adquiridos 
-		HWSensorTemperatureTR widget = new HWSensorTemperatureTR(args);
+		int    delay = 3000;  // delay de 1 seg.
+		int interval = 15000;  // intervalo de 5 seg.
 		
-		//A cada 4 segundos agenda uma leitura e modelagem de dado ambiental
-		poolWidgets.schedule(widget, 4, TimeUnit.SECONDS);
+		Timer  timer = new Timer();
+	
+		timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	    		HWSensorTemperatureTR widget = new HWSensorTemperatureTR(args);
+	    		widget.run();
+	    		
+	        }
 		
-		//Finaliza o pool do widget
-		poolWidgets.shutdown();
-
+		}, delay, interval);
+		
 	}
 	
 }

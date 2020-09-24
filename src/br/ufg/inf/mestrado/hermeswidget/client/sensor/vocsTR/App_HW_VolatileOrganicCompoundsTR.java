@@ -1,9 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR.HWSensorVolatileOrganicCompoundsTR;
 
 /**
@@ -15,19 +13,20 @@ import br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR.HWSensorVolatileOrg
 public class App_HW_VolatileOrganicCompoundsTR {
 
 	public static void main(String[] args) {
+			
+		int    delay = 4000;  // delay de 1 seg.
+		int interval = 15000;  // intervalo de 5 seg.
 		
-		// Preparacao do pool de threads de acordo com a quantidade de dispositivos 
-		//Air-Pure sendo lidos...
-		ScheduledExecutorService poolWidgets = Executors.newScheduledThreadPool(1);
-
-		//A leitura e modelagem dos dados adquiridos 
-		HWSensorVolatileOrganicCompoundsTR widget = new HWSensorVolatileOrganicCompoundsTR(args);
+		Timer  timer = new Timer();
+	
+		timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	    		HWSensorVolatileOrganicCompoundsTR widget = new HWSensorVolatileOrganicCompoundsTR(args);
+	    		widget.run();
+	    		
+	        }
 		
-		//A cada 4 segundos agenda uma leitura e modelagem de dado ambiental
-		poolWidgets.schedule(widget, 4, TimeUnit.SECONDS);
-		
-		//Finaliza o pool do widget
-		poolWidgets.shutdown();
+		}, delay, interval);
 		
 	}
 

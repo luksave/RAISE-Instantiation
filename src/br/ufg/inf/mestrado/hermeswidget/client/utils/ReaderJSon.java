@@ -14,7 +14,7 @@ import org.json.JSONObject;
 public class ReaderJSon {
 	
 	
-	public ReaderJSon() throws JSONException, IOException{readJsonFromUrl("https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=GQK8L914F22F2B1H");}
+	public ReaderJSon() throws JSONException, IOException{readJsonFromUrl("https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ");}
 	
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();

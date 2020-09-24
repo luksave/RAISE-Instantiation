@@ -3,12 +3,21 @@
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-#------------------------------CO2------------------------
+
+<http://www.inf.ufg.br/Air-Pure/service/SALASINF>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Device> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSubSystem>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> .
 
 <http://www.inf.ufg.br/Air-Pure/service/ConCO2>
       a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Service> ;
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#endpoint>
               "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1^^xsd:anyURI" .
+
+<http://www.inf.ufg.br/Air-Pure/service/INF0001>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
+      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
+              <http://www.inf.ufg.br/Air-Pure/location> .
 
 <http://purl.org/iot/ontology/iot-stream#sensorOutput-CarbonDioxide-2019-09-27-00-02-18>
       <http://purl.org/iot/ontology/iot-stream#belongsTo>
@@ -18,7 +27,7 @@
       <http://www.w3.org/ns/sosa/isSampleOf>
               "2019-09-27 00:02:18" ;
       <http://www.w3.org/ns/sosa/madeBySensor>
-              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7> .
+              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3> .
 
 <http://www.inf.ufg.br/Air-Pure/location>
       a       <http://www.w3.org/2003/01/geo/wgs84_pos#Point> ;
@@ -27,8 +36,10 @@
       <http://www.w3.org/2003/01/geo/wgs84_pos#long>
               "-49.255" .
 
-<http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7>
+<http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3>
       a       <http://www.w3.org/ns/sosa/Sensor> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSensingDevice>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> ;
       <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
               <http://qudt.org/2.1/vocab/quantitykind#CO2Concentration> ;
       <http://qudt.org/2.1/schema/qudt#hasUnit>
@@ -39,20 +50,37 @@
 <http://purl.org/iot/ontology/iot-stream#property-ConCO22019-09-27-00-02-18>
       a       <http://purl.org/iot/ontology/iot-stream#IotStream> ;
       <http://purl.org/iot/ontology/iot-stream#generatedBy>
-              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7> ;
+              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3> ;
       <http://purl.org/iot/ontology/iot-stream#providedBy>
-              <http://www.inf.ufg.br/Air-Pure/service/ConCO2> ;
-      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
-              <http://www.inf.ufg.br/Air-Pure/location> .
+              <http://www.inf.ufg.br/Air-Pure/service/ConCO2> .
 
-#----------------------------TVOC-------------------------------
+
+
+<http://www.inf.ufg.br/Air-Pure/TVOCSensor-b090aeda-1755-459a-b6ae-66d7adef69bf>
+      a       <http://www.w3.org/ns/sosa/Sensor> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSensingDevice>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> ;
+      <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
+              <http://qudt.org/2.1/vocab/quantitykind#TVOC> ;
+      <http://qudt.org/2.1/schema/qudt#hasUnit>
+              <http://qudt.org/2.1/vocab/unit#PPB> ;
+      <http://www.w3.org/ns/sosa/madeObservation>
+              <http://purl.org/iot/ontology/iot-stream#sensorOutput-VolatileOrganicCompounds-2019-09-27-00-02-18> .
+
+<http://www.inf.ufg.br/Air-Pure/service/SALASINF>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Device> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSubSystem>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> .
 
 <http://purl.org/iot/ontology/iot-stream#property-TVOC2019-09-27-00-02-18>
       a       <http://purl.org/iot/ontology/iot-stream#IotStream> ;
       <http://purl.org/iot/ontology/iot-stream#generatedBy>
-              <http://www.inf.ufg.br/Air-Pure/TVOCSensor-c996be3f-67bc-4423-b4d6-7921d859313a> ;
+              <http://www.inf.ufg.br/Air-Pure/TVOCSensor-b090aeda-1755-459a-b6ae-66d7adef69bf> ;
       <http://purl.org/iot/ontology/iot-stream#providedBy>
-              <http://www.inf.ufg.br/Air-Pure/service/TVOC> ;
+              <http://www.inf.ufg.br/Air-Pure/service/TVOC> .
+
+<http://www.inf.ufg.br/Air-Pure/service/INF0001>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
       <http://www.w3.org/2003/01/geo/wgs84_pos#location>
               <http://www.inf.ufg.br/Air-Pure/location> .
 
@@ -68,15 +96,6 @@
       <http://www.w3.org/2003/01/geo/wgs84_pos#long>
               "-49.255" .
 
-<http://www.inf.ufg.br/Air-Pure/TVOCSensor-c996be3f-67bc-4423-b4d6-7921d859313a>
-      a       <http://www.w3.org/ns/sosa/Sensor> ;
-      <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
-              <http://qudt.org/2.1/vocab/quantitykind#TVOC> ;
-      <http://qudt.org/2.1/schema/qudt#hasUnit>
-              <http://qudt.org/2.1/vocab/unit#PPB> ;
-      <http://www.w3.org/ns/sosa/madeObservation>
-              <http://purl.org/iot/ontology/iot-stream#sensorOutput-VolatileOrganicCompounds-2019-09-27-00-02-18> .
-
 <http://purl.org/iot/ontology/iot-stream#sensorOutput-VolatileOrganicCompounds-2019-09-27-00-02-18>
       <http://purl.org/iot/ontology/iot-stream#belongsTo>
               <http://purl.org/iot/ontology/iot-stream#property-TVOC2019-09-27-00-02-18> ;
@@ -85,15 +104,24 @@
       <http://www.w3.org/ns/sosa/isSampleOf>
               "2019-09-27 00:02:18" ;
       <http://www.w3.org/ns/sosa/madeBySensor>
-              <http://www.inf.ufg.br/Air-Pure/TVOCSensor-c996be3f-67bc-4423-b4d6-7921d859313a> .
+              <http://www.inf.ufg.br/Air-Pure/TVOCSensor-b090aeda-1755-459a-b6ae-66d7adef69bf> .
 
-#-----------------------------TEMP-------------------------------
 
+
+<http://www.inf.ufg.br/Air-Pure/service/SALASINF>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Device> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSubSystem>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> .
 
 <http://www.inf.ufg.br/Air-Pure/service/ConCO2>
       a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Service> ;
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#endpoint>
               "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1^^xsd:anyURI" .
+
+<http://www.inf.ufg.br/Air-Pure/service/INF0001>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
+      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
+              <http://www.inf.ufg.br/Air-Pure/location> .
 
 <http://purl.org/iot/ontology/iot-stream#sensorOutput-CarbonDioxide-2019-09-27-00-02-18>
       <http://purl.org/iot/ontology/iot-stream#belongsTo>
@@ -103,7 +131,7 @@
       <http://www.w3.org/ns/sosa/isSampleOf>
               "2019-09-27 00:02:18" ;
       <http://www.w3.org/ns/sosa/madeBySensor>
-              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7> .
+              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3> .
 
 <http://www.inf.ufg.br/Air-Pure/location>
       a       <http://www.w3.org/2003/01/geo/wgs84_pos#Point> ;
@@ -112,8 +140,10 @@
       <http://www.w3.org/2003/01/geo/wgs84_pos#long>
               "-49.255" .
 
-<http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7>
+<http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3>
       a       <http://www.w3.org/ns/sosa/Sensor> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSensingDevice>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> ;
       <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
               <http://qudt.org/2.1/vocab/quantitykind#CO2Concentration> ;
       <http://qudt.org/2.1/schema/qudt#hasUnit>
@@ -124,19 +154,31 @@
 <http://purl.org/iot/ontology/iot-stream#property-ConCO22019-09-27-00-02-18>
       a       <http://purl.org/iot/ontology/iot-stream#IotStream> ;
       <http://purl.org/iot/ontology/iot-stream#generatedBy>
-              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-f9bad3fe-91e7-4bf2-8a74-331163d02ce7> ;
+              <http://www.inf.ufg.br/Air-Pure/CarbonDioxideSensor-dc53e900-98de-4e26-8865-eb0b1a204ee3> ;
       <http://purl.org/iot/ontology/iot-stream#providedBy>
-              <http://www.inf.ufg.br/Air-Pure/service/ConCO2> ;
-      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
-              <http://www.inf.ufg.br/Air-Pure/location> .
+              <http://www.inf.ufg.br/Air-Pure/service/ConCO2> .
 
-#-------------------------------RHUM-----------------------------
 
+<http://www.inf.ufg.br/Air-Pure/service/SALASINF>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#Device> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSubSystem>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> .
 
 <http://www.inf.ufg.br/Air-Pure/service/RelHum>
       a       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#Service> ;
       <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#endpoint>
               "http://www.ebserh.gov.br/web/hc-ufg/sensors/measures/room1^^xsd:anyURI" .
+
+<http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4ca3a8ef-c2e4-4756-ac21-c0c76991cb49>
+      a       <http://www.w3.org/ns/sosa/Sensor> ;
+      <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#hasSensingDevice>
+              <http://www.inf.ufg.br/Air-Pure/service/INF0001> ;
+      <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
+              <http://qudt.org/2.1/vocab/quantitykind#RelativeHumidity> ;
+      <http://qudt.org/2.1/schema/qudt#hasUnit>
+              <http://qudt.org/2.1/vocab/unit#Percent> ;
+      <http://www.w3.org/ns/sosa/madeObservation>
+              <http://purl.org/iot/ontology/iot-stream#sensorOutput-RelativeHumidity-2019-09-27-00-02-18> .
 
 <http://purl.org/iot/ontology/iot-stream#sensorOutput-RelativeHumidity-2019-09-27-00-02-18>
       <http://purl.org/iot/ontology/iot-stream#belongsTo>
@@ -146,25 +188,19 @@
       <http://www.w3.org/ns/sosa/isSampleOf>
               "2019-09-27 00:02:18" ;
       <http://www.w3.org/ns/sosa/madeBySensor>
-              <http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4160f643-1c77-447b-a1b3-632b748068dd> .
+              <http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4ca3a8ef-c2e4-4756-ac21-c0c76991cb49> .
 
-<http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4160f643-1c77-447b-a1b3-632b748068dd>
-      a       <http://www.w3.org/ns/sosa/Sensor> ;
-      <http://qudt.org/2.1/schema/qudt#hasQuantityKind>
-              <http://qudt.org/2.1/vocab/quantitykind#RelativeHumidity> ;
-      <http://qudt.org/2.1/schema/qudt#hasUnit>
-              <http://qudt.org/2.1/vocab/unit#Percent> ;
-      <http://www.w3.org/ns/sosa/madeObservation>
-              <http://purl.org/iot/ontology/iot-stream#sensorOutput-RelativeHumidity-2019-09-27-00-02-18> .
+<http://www.inf.ufg.br/Air-Pure/service/INF0001>
+      a       <http://purl.oclc.org/NET/ssnx/ssn#SensingDevice> ;
+      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
+              <http://www.inf.ufg.br/Air-Pure/location> .
 
 <http://purl.org/iot/ontology/iot-stream#property-RelHum2019-09-27-00-02-18>
       a       <http://purl.org/iot/ontology/iot-stream#IotStream> ;
       <http://purl.org/iot/ontology/iot-stream#generatedBy>
-              <http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4160f643-1c77-447b-a1b3-632b748068dd> ;
+              <http://www.inf.ufg.br/Air-Pure/RelativeHumiditySensor-4ca3a8ef-c2e4-4756-ac21-c0c76991cb49> ;
       <http://purl.org/iot/ontology/iot-stream#providedBy>
-              <http://www.inf.ufg.br/Air-Pure/service/RelHum> ;
-      <http://www.w3.org/2003/01/geo/wgs84_pos#location>
-              <http://www.inf.ufg.br/Air-Pure/location> .
+              <http://www.inf.ufg.br/Air-Pure/service/RelHum> .
 
 <http://www.inf.ufg.br/Air-Pure/location>
       a       <http://www.w3.org/2003/01/geo/wgs84_pos#Point> ;
