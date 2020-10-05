@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.vocs;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
+
+import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
@@ -113,12 +117,18 @@ public class HWSensorVolatileOrganicCompounds extends HermesWidgetSensorClient i
 				             +" " +medicaoAtual[0].substring(8, 10) + ":" + medicaoAtual[0].substring(10, 12) +":"+ medicaoAtual[0].substring(12, 14);
 				
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
-					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "tvoc.ttl", 
-							"TVOC", contadorTvoc, 
-							"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
-							medicaoAtual[posicaoTVOC], 
-							null, recordIdAtual, dataTempo, Unit.PPB, QuantityKind.TVOC);
+					HWTransferObject hermesWidgetTO = null;
+					try {
+						hermesWidgetTO = representationService.startRepresentationSensor(
+								sensorIRI, "tvoc.ttl", 
+								"TVOC", contadorTvoc, 
+								"VolatileOrganicCompounds", // Nome do topico no arquivo topics_vocs
+								medicaoAtual[posicaoTVOC], 
+								null, recordIdAtual, dataTempo, Unit.PPB, QuantityKind.TVOC);
+					} catch (JSONException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

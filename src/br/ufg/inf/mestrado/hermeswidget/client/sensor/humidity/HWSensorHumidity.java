@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.humidity;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
+
+import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
@@ -115,12 +119,18 @@ public class HWSensorHumidity extends HermesWidgetSensorClient implements Runnab
 					
 				
 					// O DTO vai mudar de acordo com os dados de Umidade que precisam ser passados
-					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "relative_humidity.ttl", 
-							"RelHum", contadorRH, 
-							"RelativeHumidity", // Nome do topico no arquivo topics_humidity
-							medicaoAtual[posicaoRelativeHumidity], 
-							null, recordIdAtual, dataTempo, Unit.Percent, QuantityKind.RelativeHumidity);
+					HWTransferObject hermesWidgetTO = null;
+					try {
+						hermesWidgetTO = representationService.startRepresentationSensor(
+								sensorIRI, "relative_humidity.ttl", 
+								"RelHum", contadorRH, 
+								"RelativeHumidity", // Nome do topico no arquivo topics_humidity
+								medicaoAtual[posicaoRelativeHumidity], 
+								null, recordIdAtual, dataTempo, Unit.Percent, QuantityKind.RelativeHumidity);
+					} catch (JSONException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 			
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

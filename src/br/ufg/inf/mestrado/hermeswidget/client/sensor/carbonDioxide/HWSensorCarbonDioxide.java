@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.carbonDioxide;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,8 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
@@ -114,12 +117,19 @@ public class HWSensorCarbonDioxide extends HermesWidgetSensorClient implements R
 									
 					
 					// O DTO vai mudar de acordo com os dados de CO2 que precisam ser passados
-					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-														sensorIRI, "co2_concentration.ttl",
-														"ConCO2", contadorCO2, 
-														"CarbonDioxide",
-														medicaoAtual[posicaoCarbonDioxide], 
-														null, recordIdAtual, dataTempo, Unit.PPM, QuantityKind.CO2Concentration);
+					HWTransferObject hermesWidgetTO = null;
+					try {
+						hermesWidgetTO = representationService.startRepresentationSensor(
+															sensorIRI, "co2_concentration.ttl",
+															"ConCO2", contadorCO2, 
+															"CarbonDioxide",
+															medicaoAtual[posicaoCarbonDioxide], 
+															null, recordIdAtual, dataTempo, Unit.PPM, QuantityKind.CO2Concentration);
+					
+					} catch (JSONException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 					
 					

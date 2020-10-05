@@ -1,6 +1,9 @@
 package br.ufg.inf.mestrado.hermeswidget.client.services;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
@@ -11,6 +14,7 @@ import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 import br.ufg.mestrado.hermeswidget.client.preprocessing.CarbonDioxidePreprocessing;
+import br.ufg.mestrado.hermeswidget.client.preprocessing.ITUPreprocessing;
 import br.ufg.mestrado.hermeswidget.client.preprocessing.TemperaturePreprocessing;
 
 import com.hp.hpl.jena.ontology.Individual;
@@ -28,7 +32,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 	
 	public HWTransferObject startRepresentationSensor(
 			String sensorIRI, String nomeModelo, String abreviaturaDadoAmbiental, int contador, String nomeClasseDadoAmbiental, 
-			String medidaColetada, String[] medidaComposta, String idAmbiente, String instanteColeta, Individual unit, Individual quantity) {
+			String medidaColetada, String[] medidaComposta, String idAmbiente, String instanteColeta, Individual unit, Individual quantity) throws JSONException, IOException {
 		
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo); //Cria o modelo RDF de acordo com o expressado no arquivo 
@@ -66,7 +70,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 	}
 	
 	private OntModel representObservation(String sinal, String property, String sensorIRI, String entity, String sensorOutput, String observationValue, Object[] values, 
-			                              String feature, String dateTimeID, Individual unit, Individual quantity) {
+			                              String feature, String dateTimeID, Individual unit, Individual quantity) throws JSONException, IOException {
 		
 		
 		String propertyIRI = IoTStream.NS + property;
@@ -155,9 +159,12 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		 * Pré-processamento do dado de Concentração de CO2
 		 * Se a concentração passa do limite de 1000 ppm, calcule a qualidade do ar e insira no modelo
 		 */
+		
+		String medida = values[0].toString();
+		
 		if(unit == Unit.PPM ){
 			
-			int CPdioxido = Integer.valueOf(values[0].toString());
+			double CPdioxido = Double.parseDouble(medida);
 			
 			if( CPdioxido >= 1000){
 				String airQuality = CarbonDioxidePreprocessing.IQACarbonDioxide(CPdioxido);
@@ -172,12 +179,12 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		
 		}
 
-		if(unit == Unit.Percent){
+		if(unit == Unit.DEG_C){
+			double temperature = Double.parseDouble(medida);
 			
-			int temperature = Integer.valueOf(values[0].toString());
-			
-			if(temperature < 23 && temperature > 26){
+			if(temperature < 23 || temperature > 26){
 				String thermalComfort = TemperaturePreprocessing.ThermalComfort(temperature);
+				
 				Resource eventResource = modeloMedicaoDadoAmbiental
 						.createResource("http://www.inf.ufg.br/Air-Pure/event/" + StreamObservation)
 							.addProperty(IoTStream.label, thermalComfort)
@@ -185,6 +192,17 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 							.addProperty(IoTStream.windowStart, dateTimeID)
 							.addProperty(IoTStream.windowEnd, dateTimeID);
 
+			
+			
+				if(thermalComfort == "Sala muito quente"){
+					double ITU = ITUPreprocessing.THIndex(temperature);
+					//Agora o que fazer com o índice de temperatura?
+					//A ICD-10 apresenta informações sobre os riscos da exposição a temperaturas extremas
+					//Mas o que são as temperaturas extremas?
+					//Por enquanto podemos pensar apenas em questões de conforto, produtividade, etc...
+					
+				}
+				
 			}
 			
 		}

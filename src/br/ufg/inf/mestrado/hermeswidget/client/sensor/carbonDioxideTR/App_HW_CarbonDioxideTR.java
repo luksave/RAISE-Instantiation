@@ -11,7 +11,7 @@ public class App_HW_CarbonDioxideTR extends HermesWidgetObjects{
 	public static void main(String[] args) {
 		
 		int    delay = 1000;  // delay de 1 seg.
-		int interval = 15000;  // intervalo de 5 seg.
+		int interval = 15000;  // intervalo de 15 seg.
 		
 		Timer  timer = new Timer();
 	

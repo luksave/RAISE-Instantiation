@@ -2,7 +2,7 @@ package br.ufg.mestrado.hermeswidget.client.preprocessing;
 
 public class CarbonDioxidePreprocessing {
 
-	public static String IQACarbonDioxide(int CPdioxido){
+	public static String IQACarbonDioxide(double CPdioxido){
 
 		int BPdioxidoI = 0, BPdioxidoF = 0,				//Concentração inicial e final da faixa de CO2										
 			INdioxidoI = 0,	INdioxidoF = 0;				//Índice inicial para a faixa de CO2 						

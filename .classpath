@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="lib/hermesbase2.jar"/>
+	<classpathentry kind="lib" path="lib/jena-arq-2.10.0.jar"/>
+	<classpathentry kind="lib" path="lib/hermesbase.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/aterm-java-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/coredx_dds.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/ddssinalvital.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/hermesbase.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/hermesbase2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/httpclient-4.2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/httpcore-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jcl-over-slf4j-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jena-arq-2.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jena-core-2.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jena-core-2.12.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jena-iri-0.9.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jena-tdb-0.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/jgrapht-jdk1.5-0.7.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/kaon2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/opencsv-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/owlapi-distribution-3.4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-cli.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-datatypes.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-el.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-explanation.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-jena.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-modularity.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-owlapiv3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-pellint.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-query.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-rules.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/pellet-test.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/xercesImpl-2.10.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="lib/code-generation-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/lucas/workspace/Hermes Widget/lib/json-simple-1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

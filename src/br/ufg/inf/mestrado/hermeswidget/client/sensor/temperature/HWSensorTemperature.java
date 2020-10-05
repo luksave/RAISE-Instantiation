@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.temperature;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 
 
+
+
+import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermesbase.HermesBaseManager;
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetSensorClient;
@@ -114,12 +118,19 @@ public class HWSensorTemperature extends HermesWidgetSensorClient implements Run
 					
 					
 					// O DTO vai mudar de acordo com os dados de VOC que precisam ser passados
-					HWTransferObject hermesWidgetTO = representationService.startRepresentationSensor(
-							sensorIRI, "temperatura.ttl", 
-							"Temp", contadorT, 
-							"Temperature", // Nome do topico no arquivo topics_temperature 
-							medicaoAtual[posicaoTemperature], 
-							null, recordIdAtual, dataTempo, Unit.DEG_C, QuantityKind.CelsiusTemperature);
+					HWTransferObject hermesWidgetTO = null;
+					try {
+						hermesWidgetTO = representationService.startRepresentationSensor(
+								sensorIRI, "temperatura.ttl", 
+								"Temp", contadorT, 
+								"Temperature", // Nome do topico no arquivo topics_temperature 
+								medicaoAtual[posicaoTemperature], 
+								null, recordIdAtual, dataTempo, Unit.DEG_C, QuantityKind.CelsiusTemperature);
+					
+					} catch (JSONException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
 					
 					SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
