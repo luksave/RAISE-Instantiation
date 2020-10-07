@@ -4,14 +4,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObjects;
-import br.ufg.inf.mestrado.hermeswidget.client.sensor.humidityTR.HWSensorHumidityTR;
+
 
 public class App_HW_HumidityTR extends HermesWidgetObjects{
 	
 	public static void main(String[] args) {
 			
-		int    delay = 2000;  // delay de 1 seg.
-		int interval = 15000;  // intervalo de 5 seg.
+		int    delay = 2000;  // delay de 2 seg.
+		int interval = 15000; // intervalo de 5 seg.
 		
 		Timer  timer = new Timer();
 

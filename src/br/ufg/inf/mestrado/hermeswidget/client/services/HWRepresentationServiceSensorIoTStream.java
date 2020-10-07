@@ -14,6 +14,7 @@ import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
 import br.ufg.mestrado.hermeswidget.client.preprocessing.CarbonDioxidePreprocessing;
+import br.ufg.mestrado.hermeswidget.client.preprocessing.HumidityPreprocessing;
 import br.ufg.mestrado.hermeswidget.client.preprocessing.ITUPreprocessing;
 import br.ufg.mestrado.hermeswidget.client.preprocessing.TemperaturePreprocessing;
 
@@ -203,6 +204,24 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 					
 				}
 				
+			}
+			
+		}
+		
+		
+		if(unit == Unit.Percent){
+			int humidity = Integer.parseInt(medida);
+			
+			if(humidity < 40 || humidity > 26){
+				String humidityComfort = HumidityPreprocessing.HumidityComfort(humidity);
+				
+				Resource eventResource = modeloMedicaoDadoAmbiental
+						.createResource("http://www.inf.ufg.br/Air-Pure/event/" + StreamObservation)
+							.addProperty(IoTStream.label, humidityComfort )
+							.addProperty(IoTStream.detectedFrom, streamResource)
+							.addProperty(IoTStream.windowStart, dateTimeID)
+							.addProperty(IoTStream.windowEnd, dateTimeID);
+
 			}
 			
 		}

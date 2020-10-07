@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObjects;
-import br.ufg.inf.mestrado.hermeswidget.client.sensor.carbonDioxideTR.HWSensorCarbonDioxideTR;
+
 
 public class App_HW_CarbonDioxideTR extends HermesWidgetObjects{
 

@@ -2,7 +2,6 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR.HWSensorVolatileOrganicCompoundsTR;
 
 /**
  * 
