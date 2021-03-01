@@ -69,7 +69,6 @@ public class HWTransferObject {
 	public Model getModelContexto() {
 		return modelContexto;
 		
-		
 	}
 
 	public void setModelContexto(Model modelContexto) {

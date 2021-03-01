@@ -1,0 +1,25 @@
+#Regras para reasoning das categorias de qualidade do Ar.
+
+[rule1: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 0.0), lessThan(?Concentration, 500.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Good)]
+
+[rule2: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 501.0), lessThan(?Concentration, 1000.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Regular)]
+
+[rule3: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 1001.0), lessThan(?Concentration, 1500.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Poor)]
+
+[rule4: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 1501.0), lessThan(?Concentration, 2000.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Bad)]
+
+[rule5: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 2001.0), lessThan(?Concentration, 3000.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Lousy)]
+
+[rule6: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasAvgConc ?Concentration),
+        greaterThan(?Concentration, 3001.0), lessThan(?Concentration, 5000.0) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isCategorizedBy http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Critical)]

@@ -2,7 +2,6 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.vocsTR;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +18,6 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 	
 	private HWRepresentationServiceSensorIoTStream representationService;
 
-	
 	public HWSensorVolatileOrganicCompoundsTR(String tempo[]) {
 		this.startConfigurationService("./settings/topics_vocs.json");
 		this.representationService = this.getRepresentationService();		
@@ -30,9 +28,8 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 	@Override
 	public void run(){
 	
-		String url       = "https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ";
-		String uriBase   = "http://www.inf.ufg.br/Air-Pure/";
-		String sensorIRI = uriBase + "TVOCSensor-" + UUID.randomUUID().toString();
+		String url       = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=I1ROU4UHAC0AWDPL";
+		String uriBase   = "http://www.inf.ufg.br/Air-Pure-";
 		
 		try {
 			JSONObject json = ReaderJSon.readJsonFromUrl(url);
@@ -40,9 +37,7 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 			
 			//Se o objeto json não for nulo, estou tendo medidas do Air-Pure, logo:
 			if(json != null){
-				
-				System.out.println("TVOC no instante " + json.get("created_at") + ": " + json.get("field4") +" ppb");
-				
+			
 				String log = "Hermes Widget Sensor Volatile Organic Compounds for environment ---> Paço Municipal"
 						   + " started! Date: " + new Date().toString();
 			
@@ -54,10 +49,11 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 				
 				String dataTempo    = json.get("created_at").toString();
 				String medicaoAtual = json.get("field4").toString();
-
-				int   countTVOC = count++;
+				
+				String sensorIRI = uriBase + json.get("entry_id") + "/TVOCSensor";
+				
+				int countTVOC = count++;
 			
-				// O DTO muda de acordo com os dados que precisam ser passados
 				representationService.startRepresentationSensor(
 						sensorIRI, "tvoc.ttl", "TVOC", countTVOC, 
 						"VolatileOrganicCompounds", medicaoAtual, 
@@ -69,14 +65,12 @@ public class HWSensorVolatileOrganicCompoundsTR extends HermesWidgetSensorClient
 
 			}
 			
-			
 		} catch (JSONException | IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("Erro de Leitura");
 			
 		}	
 		
 	}
 
 }
-

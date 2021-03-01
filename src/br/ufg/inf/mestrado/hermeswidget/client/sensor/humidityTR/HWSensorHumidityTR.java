@@ -2,7 +2,6 @@ package br.ufg.inf.mestrado.hermeswidget.client.sensor.humidityTR;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +18,6 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 	
 	private HWRepresentationServiceSensorIoTStream representationService;
 	
-	
 	public HWSensorHumidityTR(String tempo[]) {
 		this.startConfigurationService("./settings/topics_humidity.json");
 		this.representationService = this.getRepresentationService();
@@ -30,19 +28,16 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 	@Override
 	public void run(){
 	
-		String url       = "https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ";
-		String uriBase   = "http://www.inf.ufg.br/Air-Pure/";
-		String sensorIRI = uriBase + "RelativeHumiditySensor-" + UUID.randomUUID().toString();
+		String url       = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=I1ROU4UHAC0AWDPL";
+		String uriBase   = "http://www.inf.ufg.br/Air-Pure-";
 		
 		try {
 			JSONObject json = ReaderJSon.readJsonFromUrl(url);
 			int count = 0;
 			
-			//Enquanto meu objeto json não for nulo, estou tendo medidas do Air-Pure, logo:
+			//Se o objeto json não for nulo, estou tendo medidas do Air-Pure, logo:
 			if(json != null){
 			
-				System.out.println("Humidade Relativa no instante " + json.get("created_at") + ": " + json.get("field2") +" %");
-				
 				String log = "Hermes Widget Sensor Relative Humidity for environment ---> Paço Municipal"
 						   + " started! Date: " + new Date().toString();
 			
@@ -55,12 +50,13 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 				String dataTempo    = json.get("created_at").toString();
 				String medicaoAtual = json.get("field2").toString();
 				
-				int   countRHum = count++;
+				String sensorIRI = uriBase + json.get("entry_id") + "/RelativeHumiditySensor";
+				
+				int countRHum = count++;
 		
-				// O DTO muda de acordo com os dados que precisam ser passados
 				representationService.startRepresentationSensor(
 						sensorIRI, "relative_humidity.ttl", "RelHum", countRHum, 
-						"RelativeHumidity",medicaoAtual, null, 
+						"RelativeHumidity", medicaoAtual, null, 
 						"%", dataTempo, Unit.Percent, QuantityKind.RelativeHumidity);
 				
 				System.out.println(dataTempo+ "   ----   Relative Humidity: " +medicaoAtual + " %");
@@ -70,8 +66,8 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 			}
 			
 		} catch (JSONException | IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("Erro de leitura de dados");
 			
 		}	
 		

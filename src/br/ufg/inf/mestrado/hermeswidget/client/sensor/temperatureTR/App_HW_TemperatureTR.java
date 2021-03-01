@@ -4,7 +4,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.ufg.inf.mestrado.hermeswidget.client.sensor.general.HermesWidgetObjects;
-import br.ufg.inf.mestrado.hermeswidget.client.sensor.temperatureTR.HWSensorTemperatureTR;
 
 /**
  * 
@@ -16,8 +15,8 @@ public class App_HW_TemperatureTR extends HermesWidgetObjects{
 
 	public static void main(String[] args) {
 					
-		int    delay = 3000;  // delay de 1 seg.
-		int interval = 15000;  // intervalo de 5 seg.
+		int    delay = 6000;  // delay de 6 seg.
+		int interval = 15000;  // intervalo de 15 seg.
 		
 		Timer  timer = new Timer();
 	

@@ -14,6 +14,7 @@ public class HWRepresentationService {
 	public String tipoSerializacao = "Turtle";
 	public OntModel modeloMedicaoDadoAmbiental = null;
 	
+
 	public void criarModeloRDFDeArquivo(String caminhoArquivoRDF){
 		if (modeloMedicaoDadoAmbiental == null) modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();	
 	
