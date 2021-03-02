@@ -26,6 +26,7 @@ public class AQO3 {
     /** <p>The namespace of the vocabulary as a resource</p> */
     public static final Resource NAMESPACE = m_model.createResource( NS );
     
+    
     public static final Property belongsToRegional = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#belongsToRegional" );
     
     public static final Property days = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#days" );

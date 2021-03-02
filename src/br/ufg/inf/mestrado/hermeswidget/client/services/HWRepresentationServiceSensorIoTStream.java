@@ -7,10 +7,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.json.JSONException;
 
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ConsultaMedia;
+import br.ufg.inf.mestrado.hermeswidget.client.utils.ConsultaSintomas;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.PersistenceTDB;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.AQO3;
@@ -21,6 +23,7 @@ import br.ufg.inf.mestrado.hermeswidget.ontologies.QUDT;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.symp;
 import br.ufg.inf.mestrado.hermeswidget.testes.InicializarHWairpure;
 
 
@@ -296,13 +299,19 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				 */
 				Resource AQIndicatorResource = modeloMedicaoDadoAmbiental
 						.createResource(AQO3.NS + "IndicatorFor" + sinal +"-"+ uriData)
+							.addProperty(RDF.type, AQO3.AQ_Indicator)
 							.addProperty(AQO3.hasPeriodicity, "1", XSDDatatype.XSDinteger)
 							.addProperty(AQO3.isIndicatorFor, AQO3.CO2)
 							.addProperty(AQO3.isDerivedBy, AQO3.Average);
 				
-				/**	4 - Consulta levando em conta periodicidade, selecionando medidas do poluente, e aplicando a forma de agregação definida.*/
+				/**	4 - Consulta levando em conta periodicidade, selecionando medidas do poluente, e aplicando a forma de agregação definida.
+				 * 	Aqui posso aumentar ou diminuir a janela de tempo conforme necessário. 
+				 * 	Basta trocar o parâmetro da consulta
+				 */
 				
-				Double AverageCO2 = ConsultaMedia.getMedia(actualTime.minusHours(1).toString(), actualTime.plusHours(1).toString());
+				int janelaTempo = 1;
+				
+				Double AverageCO2 = ConsultaMedia.getMedia(actualTime.minusHours(janelaTempo).toString(), actualTime.toString());
 		
 				
 				/** 5 - Aplicação recebe o valor da concentração para o indicador e enquadra-o na categoria que o abrange.*/
@@ -317,12 +326,36 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				reasoner.setDerivationLogging(true);
 				InfModel inference = ModelFactory.createInfModel(reasoner, modeloMedicaoDadoAmbiental);
 						 
-				//Criação e adição da inferência isCategorizedBy ao modelo
+				//Inferência da categoria de qualidade do ar e busca por sintomas relacionados na janela de tempo.
 				Resource categoriaResource = inference.getResource(AQO3.NS + "IndicatorFor" + sinal +"-2020-02-12-12-06-10");
+				List<Resource> symptomsList = ConsultaSintomas.listaSintomas(modeloMedicaoDadoAmbiental, categoriaResource.getProperty(AQO3.isCategorizedBy).getObject(), janelaTempo);
+				
+				/**
+				 * Recurso <setSymtomsResource>
+				 * WindowStart : actualTime.minusHours(janelaTempo)
+				 * WindowEnd   : actualTime
+				 *  
+				 */
+				
+				Resource setSymptomsResource = modeloMedicaoDadoAmbiental
+						.createResource(AQO3.NS + "SymptomsOf" +AQIndicatorResource.getLocalName())
+							.addProperty(IoTStream.windowStart, actualTime.minusHours(janelaTempo).toString(), XSDDatatype.XSDdateTime)
+							.addProperty(IoTStream.windowStart, actualTime.toString(), XSDDatatype.XSDdateTime);
+				
+				//Iterador sob sintomas para adicionar ao recurso setSymptoms
+				ListIterator<Resource> iterator = symptomsList.listIterator();
+				
+				while(iterator.hasNext()) {
+					Resource symptom = iterator.next();
+					setSymptomsResource.addProperty(symp.hasSymptom, symptom);
+					
+				}
+				
+				//Adição da inferência isCategorizedBy e de sintomas ao modelo
 				modeloMedicaoDadoAmbiental.add(categoriaResource.getProperty(AQO3.isCategorizedBy));
 				
 				//Impressão do novo modelo
-				//modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
+				modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
 				
 			}
 			

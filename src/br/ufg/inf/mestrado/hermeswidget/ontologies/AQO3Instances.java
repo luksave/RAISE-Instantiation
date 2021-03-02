@@ -55,6 +55,8 @@ public class AQO3Instances {
 		AQO3.IC_Bad.addProperty(RDFS.subClassOf, AQO3.AQ_Categorizations);
 		AQO3.IC_Lousy.addProperty(RDFS.subClassOf, AQO3.AQ_Categorizations);
 		AQO3.IC_Critical.addProperty(RDFS.subClassOf, AQO3.AQ_Categorizations);
+	
+		
 	}
 	
 }
