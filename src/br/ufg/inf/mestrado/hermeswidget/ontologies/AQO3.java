@@ -73,6 +73,8 @@ public class AQO3 {
     
     public static final Property isIndicatorFor = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndicatorFor" );
     
+    public static final Property isIndexFor = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor" );
+    
     public static final Property isPeriodicityFor = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isPeriodicityFor" );
     
     public static final Property isProvidedBy = m_model.createProperty( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isProvidedBy" );
@@ -144,11 +146,6 @@ public class AQO3 {
     public static final OntClass CO2 = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2" ); 
     
     
-    /**
-     * INDICATOR PARA QUALIDADE DO AR DE CO2
-     */
-    public static final OntClass AQ_Indicator_of_CO2 = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Indicator_of_CO2" );
-
     /**<p>CO2 Indicators</p> */
     
     public static final OntClass CO2_Good = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Good" );
@@ -162,6 +159,27 @@ public class AQO3 {
     public static final OntClass CO2_Lousy = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Lousy" );
     
     public static final OntClass CO2_Critical = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2_Critical" );
+    
+    
+    /**<p> Regulamentação Conama índices </p>*/
+    
+    public static final OntClass REG_ANVISA = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#REG_ANVISA" );
+    
+    public static final OntClass ANVISA_Good = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Good" );
+    
+    public static final OntClass ANVISA_Regular = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Regular" );
+    
+    public static final OntClass ANVISA_Poor = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Poor" );
+    
+    public static final OntClass ANVISA_Bad = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Bad" );
+    
+    public static final OntClass ANVISA_Lousy = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Lousy" );
+    
+    public static final OntClass ANVISA_Critical = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Critical" );
+    
+    
+    /**<p> Formula de conversão</p>*/
+    public static final OntClass ANVISA_FORMULA = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_FORMULA" );
     
     
     /** <p>300.1500</p> */
@@ -259,19 +277,13 @@ public class AQO3 {
     public static final OntClass Maximum = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#Maximum" );
     
     public static final OntClass Minimum = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#Minimum" );
-    
-    public static final OntClass Moderate = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#Moderate" );
-    
+      
     public static final OntClass Monday = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#Monday" );
     
     public static final OntClass PAR = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#PAR" );
       
     public static final OntClass STC = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#STC" );
        
-    public static final OntClass Unhealthy = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#Unhealthy" );
-    
-    public static final OntClass VeryUnhealthy = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#VeryUnhealthy" );
-     
     public static final OntClass microgram_per_cubic_metre = m_model.createClass( "http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#microgram_per_cubic_metre" );
     
     

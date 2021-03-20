@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.humidityTR;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -28,7 +29,7 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 	@Override
 	public void run(){
 	
-		String url       = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=I1ROU4UHAC0AWDPL";
+		String url       = "https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ";
 		String uriBase   = "http://www.inf.ufg.br/Air-Pure-";
 		
 		try {
@@ -49,6 +50,10 @@ public class HWSensorHumidityTR extends HermesWidgetSensorClient implements Runn
 				
 				String dataTempo    = json.get("created_at").toString();
 				String medicaoAtual = json.get("field2").toString();
+
+				LocalDateTime actualTime = LocalDateTime.parse(dataTempo.substring(0, dataTempo.length() - 1));
+				dataTempo = actualTime.minusHours(3).toString();
+				
 				
 				String sensorIRI = uriBase + json.get("entry_id") + "/RelativeHumiditySensor";
 				

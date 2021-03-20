@@ -1,0 +1,26 @@
+#Regras para associação dos sintomas às categorias de qualidade do Ar.
+
+[rule0: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
+        lessThan(?Index, 51.0) -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/noSymptomsSet)]
+
+[rule1: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
+        greaterThan(?Index, 50.0), greaterThan(?JanelaTempo, 0)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/lightAndSuddenSymptomsSet)]
+
+[rule2: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
+        greaterThan(?Index, 50.0), greaterThan(?JanelaTempo, 2)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/lightAndBriefSymptomsSet)]
+
+[rule3: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
+        greaterThan(?Index, 100.0), greaterThan(?JanelaTempo, 1)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/acuteSymptomsSet)]
+
+[rule4: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
+        greaterThan(?Index, 299.0), greaterThan(?JanelaTempo, 1)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/seriousSymptomsSet)]

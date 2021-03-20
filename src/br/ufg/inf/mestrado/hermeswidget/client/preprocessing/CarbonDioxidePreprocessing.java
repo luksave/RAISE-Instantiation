@@ -2,11 +2,32 @@ package br.ufg.inf.mestrado.hermeswidget.client.preprocessing;
 
 public class CarbonDioxidePreprocessing {
 
-	public static String IQACarbonDioxide(double CPdioxido){
+	
+	public static String IQALevel(int IQA) {
+		
+		String level = "Good";
+
+		if(IQA > 500 && IQA < 1000) level = "Regular";
+
+		if(IQA > 500 && IQA < 1000) level = "Poor";
+		
+		if(IQA > 500 && IQA < 1000) level = "Bad";
+		
+		if(IQA > 500 && IQA < 1000) level = "Lousy";
+		
+		if(IQA > 500 && IQA < 1000) level = "Critical";
+		
+		
+		return level;
+		
+	}
+	
+	public static int IQACarbonDioxide(double CPdioxido){
 
 		double BPdioxidoI = 0.0, BPdioxidoF = 0.0,				//Concentração inicial e final da faixa de CO2										
-		       INdioxidoI = 0.0, INdioxidoF = 0.0,				//Índice inicial para a faixa de CO2 						
-			   IQA = 0;
+		       INdioxidoI = 0.0, INdioxidoF = 0.0;				//Índice inicial para a faixa de CO2 						
+			   
+		int IQA = 0;
 		
 		if(CPdioxido == 0) IQA = 0;
 		
@@ -44,11 +65,11 @@ public class CarbonDioxidePreprocessing {
 			double deltaConcentration = BPdioxidoF - BPdioxidoI;
 			double         deltaRange = INdioxidoF - INdioxidoI;
 			
-			IQA = (deltaRange/deltaConcentration)*(CPdioxido - BPdioxidoI) + INdioxidoI; 
+			IQA = (int) ((deltaRange/deltaConcentration)*(CPdioxido - BPdioxidoI) + INdioxidoI); 
 		
 		}
 		
-		return Double.toString(IQA);
+		return IQA;
 		
 	}
 		

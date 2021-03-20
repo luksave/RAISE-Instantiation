@@ -17,7 +17,7 @@ public class InicializarLeiturasAirPure {
 
 	public static void main(String[] args) throws JSONException, IOException {
 		
-		String url = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=I1ROU4UHAC0AWDPL";
+		String url = "https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ";
 		
 		JSONObject json = readJsonFromUrl(url);
 		

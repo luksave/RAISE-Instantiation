@@ -6,13 +6,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.json.JSONException;
 
+import br.ufg.inf.mestrado.hemeswidget.client.semanticEnrichment.ConsultaSintomas;
+import br.ufg.inf.mestrado.hemeswidget.client.semanticEnrichment.SemanticEnrichment;
+import br.ufg.inf.mestrado.hermeswidget.client.preprocessing.CarbonDioxidePreprocessing;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.ConsultaMedia;
-import br.ufg.inf.mestrado.hermeswidget.client.utils.ConsultaSintomas;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.PersistenceTDB;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.AQO3;
@@ -22,8 +25,8 @@ import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.QUDT;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SOSA;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.SSN;
+import br.ufg.inf.mestrado.hermeswidget.ontologies.SymptomAssociation;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Unit;
-import br.ufg.inf.mestrado.hermeswidget.ontologies.symp;
 import br.ufg.inf.mestrado.hermeswidget.testes.InicializarHWairpure;
 
 
@@ -31,7 +34,9 @@ import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.InfModel;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
@@ -46,8 +51,6 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 	private HWTransferObject hermesWidgetTO = null;
 	
 	public static PersistenceTDB tdb = new PersistenceTDB();
-	
-	public static int checkLastTime = 0;
 
 	public HWRepresentationServiceSensorIoTStream() {}
 	
@@ -107,8 +110,9 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		String uriData     = dateTimeID.substring(00, 10) + "-" + dateTimeID.substring(11, 13) + "-" 
 		                   + dateTimeID.substring(14, 16) + "-" + dateTimeID.substring(17, 19);
 		
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
+		LocalDateTime actualTime = LocalDateTime.parse(uriData, format);
 		
-		LocalDateTime actualTime = LocalDateTime.parse(dateTimeID.substring(0, dateTimeID.length() - 1));
 		
 		//Aqui a localização onde a stream foi observada é capturada (geo:Point)
 		Resource locationResource = modeloMedicaoDadoAmbiental
@@ -233,7 +237,10 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 			/** 
 			 * Measurement é o ponto de ligação com a ontologia IoT-Stream.
 			 * Os dados capturados por esta classe estão de acordo com o proposto na ontologia SOSA para definir observações de fluxos. 
+			 *
+			 * Usado apenas para poluentes!
 			 * 
+			 * Dados como temperatura e umidade não são representados aqui.
 			 */
 			Resource measureResource = modeloMedicaoDadoAmbiental
 					.createResource(IoTStream.NS + sensorOutput +"-Measurement-"+ uriData)
@@ -244,9 +251,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 						.addProperty(SOSA.hasSimpleResult, values[0].toString(), XSDDatatype.XSDdouble)
 						.addProperty(IoTStream.hasUnit, Unit.PPM);
 			
-			StreamObservation.addProperty(OWL.sameAs, measureResource); 
-			
-			
+	
 			/**
 			 * A classe que representa o indicator de qualidade do ar dos poluentes é a AQ_User_Indicator.
 			 * 
@@ -254,10 +259,10 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 			 * 
 			 * Poluente relacionado   <isIndicatorFor>
 			 * Periodicidade 		  <hasPeriodicity>
-			 * Forma de cálculo 	  <isDerivedBy>
+			 * Forma de agregação 	  <isDerivedBy>
 			 * Categoria de qualidade <isCategorizedBy>
 			 * 
-			 * Assim, cada indicator calculado é do tipo AQ_User_Indicator, calculado através de uma forma de derivação <isDerivedBy> 
+			 * Assim, cada indicator é do tipo AQ_User_Indicator, calculado através de uma forma de derivação <isDerivedBy> 
 			 * em um período de tempo determinado <hasPeriodicity> e é categorizado por faixas de categorias
 			 * 
 			 * Exemplo: Se a média das medidas de concentração de CO2 na última hora é equivalente a um valor de 65.0, após o cálculo da faixa,
@@ -287,10 +292,11 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 			 * 
 			 */
 			
+			int Periodicity=1;
 			
-			if(actualTime.isAfter(InicializarHWairpure.lastConcAvgTime.plusHours(1))) {//Um novo indicador é requisitado a cada hora.
+			//Um novo indicador é requisitado a cada hora.
+			if(actualTime.isAfter(InicializarHWairpure.lastConcAvgTime.plusHours(Periodicity))) {
 				InicializarHWairpure.lastConcAvgTime = actualTime;
-			
 				
 				/**
 				 *  1 - A consulta das médias é feita e a categoria certa é adicionada ao recurso
@@ -298,11 +304,13 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				 *  3 - Definição de Periodicidade, Poluente e Forma de Derivação
 				 */
 				Resource AQIndicatorResource = modeloMedicaoDadoAmbiental
-						.createResource(AQO3.NS + "IndicatorFor" + sinal +"-"+ uriData)
+						.createResource(AQO3.NS + "IndicatorFor" + sinal + "-" + actualTime)
 							.addProperty(RDF.type, AQO3.AQ_Indicator)
 							.addProperty(AQO3.hasPeriodicity, "1", XSDDatatype.XSDinteger)
 							.addProperty(AQO3.isIndicatorFor, AQO3.CO2)
 							.addProperty(AQO3.isDerivedBy, AQO3.Average);
+				
+				tdb.update(modeloMedicaoDadoAmbiental);
 				
 				/**	4 - Consulta levando em conta periodicidade, selecionando medidas do poluente, e aplicando a forma de agregação definida.
 				 * 	Aqui posso aumentar ou diminuir a janela de tempo conforme necessário. 
@@ -310,52 +318,46 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				 */
 				
 				int janelaTempo = 1;
+				AQIndicatorResource.addProperty(SymptomAssociation.hasTimeWindow, Integer.toString(janelaTempo), XSDDatatype.XSDinteger);
 				
 				Double AverageCO2 = ConsultaMedia.getMedia(actualTime.minusHours(janelaTempo).toString(), actualTime.toString());
 		
 				
 				/** 5 - Aplicação recebe o valor da concentração para o indicador e enquadra-o na categoria que o abrange.*/
+				
 				AQIndicatorResource.addProperty(AQO3.hasAvgConc, AverageCO2.toString(), XSDDatatype.XSDdouble);
 				
-				//Leitura das regras para enquadramento da categoria
-				BufferedReader rulesFileBR = new BufferedReader(new FileReader("./rules/regrasCategorias.txt"));
-				List<Rule> rulesFile = Rule.parseRules( Rule.rulesParserFromReader(rulesFileBR) );
-				
-				//Reasoning com as regras carregadas.
-				Reasoner reasoner = new GenericRuleReasoner(rulesFile);
-				reasoner.setDerivationLogging(true);
-				InfModel inference = ModelFactory.createInfModel(reasoner, modeloMedicaoDadoAmbiental);
-						 
-				//Inferência da categoria de qualidade do ar e busca por sintomas relacionados na janela de tempo.
-				Resource categoriaResource = inference.getResource(AQO3.NS + "IndicatorFor" + sinal +"-2020-02-12-12-06-10");
-				List<Resource> symptomsList = ConsultaSintomas.listaSintomas(modeloMedicaoDadoAmbiental, categoriaResource.getProperty(AQO3.isCategorizedBy).getObject(), janelaTempo);
+				String enrichmentURI = sinal + "-" + actualTime;
+							
+	
 				
 				/**
-				 * Recurso <setSymtomsResource>
-				 * WindowStart : actualTime.minusHours(janelaTempo)
-				 * WindowEnd   : actualTime
-				 *  
+				 * 6 - Aplicação  utiliza  o  mesmo  valor  para  enquadrá-lo  nas  categorias  do  índice, obtendo assim sua categorização:
 				 */
 				
-				Resource setSymptomsResource = modeloMedicaoDadoAmbiental
-						.createResource(AQO3.NS + "SymptomsOf" +AQIndicatorResource.getLocalName())
-							.addProperty(IoTStream.windowStart, actualTime.minusHours(janelaTempo).toString(), XSDDatatype.XSDdateTime)
-							.addProperty(IoTStream.windowStart, actualTime.toString(), XSDDatatype.XSDdateTime);
+				//Recupero o valor aferido como string e faço parsing em double para cálculo da faixa de qualidade do ar
+				int IQA = CarbonDioxidePreprocessing.IQACarbonDioxide(AverageCO2);
 				
-				//Iterador sob sintomas para adicionar ao recurso setSymptoms
-				ListIterator<Resource> iterator = symptomsList.listIterator();
 				
-				while(iterator.hasNext()) {
-					Resource symptom = iterator.next();
-					setSymptomsResource.addProperty(symp.hasSymptom, symptom);
-					
-				}
+				//@SuppressWarnings("unused")
+				Resource AQIndexResource = modeloMedicaoDadoAmbiental
+						.createResource(AQO3.NS + "AQIndex/" + sinal + "-" + actualTime)
+							.addProperty(RDF.type, AQO3.AQ_Index)
+							.addProperty(AQO3.isIndexFor, AQO3.CO2)
+							.addProperty(AQO3.isDerivedBy, AQO3.Average)
+							.addProperty(AQO3.hasIndexValue, Integer.toString(IQA), XSDDatatype.XSDdouble)
+							.addProperty(SymptomAssociation.hasTimeWindow, Integer.toString(janelaTempo), XSDDatatype.XSDinteger);				
+
+				//Chamo 
+				modeloMedicaoDadoAmbiental = SymptomAssociation.addSymptoms(modeloMedicaoDadoAmbiental);
 				
-				//Adição da inferência isCategorizedBy e de sintomas ao modelo
-				modeloMedicaoDadoAmbiental.add(categoriaResource.getProperty(AQO3.isCategorizedBy));
+				
+				modeloMedicaoDadoAmbiental = SemanticEnrichment.enrichModelWithIQA(modeloMedicaoDadoAmbiental, enrichmentURI);
+				modeloMedicaoDadoAmbiental = SemanticEnrichment.enrichModelWithMTCS(modeloMedicaoDadoAmbiental, enrichmentURI);
 				
 				//Impressão do novo modelo
-				modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
+				modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
+				
 				
 			}
 			

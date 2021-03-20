@@ -5,9 +5,7 @@ import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
-
 
 /**
  * Vocabulary definitions from symp.owl 
@@ -37,8 +35,6 @@ public class symp {
     
     public static final AnnotationProperty hasExactSynonym = m_model.createAnnotationProperty( "http://www.geneontology.org/formats/oboInOwl#hasExactSynonym" );
     
-    
-    public static final Property hasSymptom = m_model.createProperty("br.ufg.inf.mestrado.hermeswidget.ontologies/symp/hasSymptom");
     
     
     /**
@@ -74,7 +70,6 @@ public class symp {
     
     public static final OntClass inflammation = m_model.createClass( "http://purl.obolibrary.org/obo/SYMP_0000061" );
     
-    
     public static final OntClass respiratoryAbnormality = m_model.createClass( "http://purl.obolibrary.org/obo/SYMP_0000598" );
     
     public static final OntClass wheezing = m_model.createClass( "http://purl.obolibrary.org/obo/SYMP_0000604" );
@@ -98,5 +93,5 @@ public class symp {
     public static final OntClass cough = m_model.createClass( "http://purl.obolibrary.org/obo/SYMP_0000514" );
   
     public static final OntClass sneezing = m_model.createClass( "http://purl.obolibrary.org/obo/SYMP_0000139" );
-    
+        
 }

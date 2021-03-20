@@ -45,29 +45,25 @@ public class PersistenceTDB {
 	}
 
 
-	public Double getAverageConcentration(String query) {
+	public Double getConcentration(String query, String aggregation) {
 		
 		dataset.begin(ReadWrite.READ);
 		
 		ResultSet rs = null;
-		
 		Double resultado = 0.0;
 		
 		try {
 			QueryExecution qexec = QueryExecutionFactory.create(query, dataset);
 			rs = qexec.execSelect();
 		
-			
-		
 			while (rs.hasNext()) {
 				QuerySolution qs = rs.next();
-				resultado = qs.getLiteral("AVERAGE").getDouble();
+				resultado = qs.getLiteral(aggregation).getDouble();
 			}
 			
 			qexec.close();
 			
 		}finally {dataset.end();}
-		
 		
 		return resultado;
 		

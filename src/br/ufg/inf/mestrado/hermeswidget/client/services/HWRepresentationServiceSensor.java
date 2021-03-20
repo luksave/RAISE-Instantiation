@@ -9,6 +9,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.mindswap.pellet.jena.PelletReasonerFactory;
+
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.Geo;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.IoT_Lite;
@@ -38,7 +40,7 @@ public class HWRepresentationServiceSensor extends HWRepresentationService {
 			                                          String dataTempo) {
 		
 		criarModeloRDFDeArquivo("./mimic/modelos/"+nomeModelo);
-		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel();
+		modeloMedicaoDadoAmbiental = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		String sensorOutput = "sensorOutput-"+nomeClasseDadoAmbiental;
 		String observationValue = "observationValue"+medidaColetada;
 		

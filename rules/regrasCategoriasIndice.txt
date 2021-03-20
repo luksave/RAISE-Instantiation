@@ -1,0 +1,25 @@
+#Regras para reasoning das categorias de qualidade do Ar.
+
+[rule1: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 0), lessThan(?Index, 51) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Good)]
+
+[rule2: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 50), lessThan(?Index, 101) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Regular)]
+
+[rule3: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 100), lessThan(?Index, 200) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Poor)]
+
+[rule4: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 199), lessThan(?Index, 300) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Bad)]
+
+[rule5: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 299), lessThan(?Index, 400) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Lousy)]
+
+[rule6: (?AQI <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#AQ_Index),
+        (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
+        greaterThan(?Index, 399), lessThan(?Index, 501) -> (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexLevel http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#ANVISA_Critical)]

@@ -1,6 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.sensor.carbonDioxideTR;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -28,7 +29,7 @@ public class HWSensorCarbonDioxideTR extends HermesWidgetSensorClient implements
 	@Override
 	public void run(){
 	
-		String url     = "https://api.thingspeak.com/channels/869608/feeds/last.json?api_key=I1ROU4UHAC0AWDPL";
+		String url     = "https://api.thingspeak.com/channels/1153475/feeds/last.json?api_key=G75ZY80ZLPN9OXEQ";
 		String uriBase = "http://www.inf.ufg.br/Air-Pure-";
 		
 		try {
@@ -47,10 +48,13 @@ public class HWSensorCarbonDioxideTR extends HermesWidgetSensorClient implements
 				
 				System.out.println("Ambiente: " + json.get("entry_id") + " [Carbon Dioxide]");
 				
-				String dataTempo    = json.get("created_at").toString();
+				String dataTempo    = json.get("created_at").toString();//2021-03-04T01:21:06
 				String medicaoAtual = json.get("field5").toString();
 
-				//RESTO DA IRI da medição
+				LocalDateTime actualTime = LocalDateTime.parse(dataTempo.substring(0, dataTempo.length() - 1));				
+				dataTempo = actualTime.minusHours(3).toString();
+				
+				
 				String sensorIRI = uriBase + json.get("entry_id") + "/CarbonDioxideSensor";
 				
 				int   countCO2 = count++;
