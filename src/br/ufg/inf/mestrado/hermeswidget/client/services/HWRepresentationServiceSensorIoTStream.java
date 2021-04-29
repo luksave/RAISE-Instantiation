@@ -1,21 +1,18 @@
 package br.ufg.inf.mestrado.hermeswidget.client.services;
 
-import java.io.BufferedReader;
+
 import java.io.ByteArrayOutputStream;
 
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.ListIterator;
 
 import org.json.JSONException;
 
-import br.ufg.inf.mestrado.hemeswidget.client.semanticEnrichment.ConsultaSintomas;
 import br.ufg.inf.mestrado.hemeswidget.client.semanticEnrichment.SemanticEnrichment;
 import br.ufg.inf.mestrado.hermeswidget.client.preprocessing.CarbonDioxidePreprocessing;
-import br.ufg.inf.mestrado.hermeswidget.client.utils.ConsultaMedia;
+import br.ufg.inf.mestrado.hermeswidget.client.utils.EnvironmentQuery;
 import br.ufg.inf.mestrado.hermeswidget.client.utils.PersistenceTDB;
 import br.ufg.inf.mestrado.hermeswidget.manager.transferObject.HWTransferObject;
 import br.ufg.inf.mestrado.hermeswidget.ontologies.AQO3;
@@ -33,15 +30,8 @@ import br.ufg.inf.mestrado.hermeswidget.testes.InicializarHWairpure;
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.reasoner.Reasoner;
-import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
-import com.hp.hpl.jena.reasoner.rulesys.Rule;
-import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
@@ -102,8 +92,10 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		
 	}
 	
-	private OntModel representObservation(String sinal, String property, String sensorIRI, String entity, String sensorOutput, String observationValue, Object[] values, 
-			                              String feature, String dateTimeID, Individual unit, Individual quantity) throws JSONException, IOException {
+	
+	private OntModel representObservation
+	(String sinal, String property, String sensorIRI, String entity, String sensorOutput, String observationValue, Object[] values, 
+	 String feature, String dateTimeID, Individual unit, Individual quantity) throws JSONException, IOException {
 		
 		
 		String propertyIRI = IoTStream.NS + property;
@@ -242,6 +234,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 			 * 
 			 * Dados como temperatura e umidade não são representados aqui.
 			 */
+			@SuppressWarnings("unused")
 			Resource measureResource = modeloMedicaoDadoAmbiental
 					.createResource(IoTStream.NS + sensorOutput +"-Measurement-"+ uriData)
 						.addProperty(RDF.type, AQO3.AQ_Measurement)
@@ -320,12 +313,16 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				int janelaTempo = 1;
 				AQIndicatorResource.addProperty(SymptomAssociation.hasTimeWindow, Integer.toString(janelaTempo), XSDDatatype.XSDinteger);
 				
-				Double AverageCO2 = ConsultaMedia.getMedia(actualTime.minusHours(janelaTempo).toString(), actualTime.toString());
+				Double AverageCO2 = EnvironmentQuery.getMedia(actualTime.minusHours(janelaTempo).toString(), actualTime.toString());
 		
 				
 				/** 5 - Aplicação recebe o valor da concentração para o indicador e enquadra-o na categoria que o abrange.*/
 				
-				AQIndicatorResource.addProperty(AQO3.hasAvgConc, AverageCO2.toString(), XSDDatatype.XSDdouble);
+				AQIndicatorResource
+					.addProperty(AQO3.hasAvgConc, AverageCO2.toString(), XSDDatatype.XSDdouble)
+					.addProperty(IoTStream.windowStart, actualTime.minusHours(janelaTempo).toString(), XSDDatatype.XSDtime)
+					.addProperty(IoTStream.windowEnd, actualTime.toString(), XSDDatatype.XSDtime);
+				
 				
 				String enrichmentURI = sinal + "-" + actualTime;
 							
@@ -339,7 +336,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				int IQA = CarbonDioxidePreprocessing.IQACarbonDioxide(AverageCO2);
 				
 				
-				//@SuppressWarnings("unused")
+				@SuppressWarnings("unused")
 				Resource AQIndexResource = modeloMedicaoDadoAmbiental
 						.createResource(AQO3.NS + "AQIndex/" + sinal + "-" + actualTime)
 							.addProperty(RDF.type, AQO3.AQ_Index)
@@ -351,9 +348,12 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 				//Chamo 
 				modeloMedicaoDadoAmbiental = SymptomAssociation.addSymptoms(modeloMedicaoDadoAmbiental);
 				
-				
 				modeloMedicaoDadoAmbiental = SemanticEnrichment.enrichModelWithIQA(modeloMedicaoDadoAmbiental, enrichmentURI);
+				
+				//modeloMedicaoDadoAmbiental = 
+				//SemanticEnrichment.enrichModelSWRL(modeloMedicaoDadoAmbiental, enrichmentURI);
 				modeloMedicaoDadoAmbiental = SemanticEnrichment.enrichModelWithMTCS(modeloMedicaoDadoAmbiental, enrichmentURI);
+				
 				
 				//Impressão do novo modelo
 				modeloMedicaoDadoAmbiental.write(System.out, "TURTLE");
@@ -368,7 +368,7 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		 * IMPORTANTE: Comentar após uso, ou a saída fica impraticável
 		 * Opções: TURTLE, N-TRIPLES, RDF/XML
 		 */
-		modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
+		//modeloMedicaoDadoAmbiental.write(System.out, "N-TRIPLES");
 		
 		tdb.update(modeloMedicaoDadoAmbiental);
 		
@@ -400,4 +400,5 @@ public class HWRepresentationServiceSensorIoTStream extends HWRepresentationServ
 		return hermesWidgetTO;
 		
 	}
+
 }

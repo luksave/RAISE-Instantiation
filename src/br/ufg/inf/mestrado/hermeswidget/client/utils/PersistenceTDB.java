@@ -20,6 +20,7 @@ public class PersistenceTDB {
 	
 	Dataset dataset = null;
 
+	
 	public PersistenceTDB() {
 		String diretorio = "./Storage/DatasetAmbiental";
 		dataset = TDBFactory.createDataset(diretorio);
@@ -90,6 +91,7 @@ public class PersistenceTDB {
 		
 	}
 	
+	
 	public void removerDados(Model model) {
 		try {
 			dataset.begin(ReadWrite.WRITE);
@@ -105,9 +107,11 @@ public class PersistenceTDB {
 		}
 	}
 
+	
 	public void fecharConexao() {
 		dataset.close();
 		
 	}	
 
+	
 }

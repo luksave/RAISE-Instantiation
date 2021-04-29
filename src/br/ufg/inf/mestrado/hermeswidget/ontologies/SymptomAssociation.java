@@ -41,6 +41,9 @@ public class SymptomAssociation {
     
     public static final Property hasMinimumIndicatorValue = m_model.createProperty(NS + "hasMinimumIndicatorValue");
     
+    
+    public static final Property hasCUI = m_model.createProperty(NS + "hasCUI");
+    
 
     public static final OntClass seriousSymptomsSet = m_model.createClass( NS + "seriousSymptomsSet" );
     
@@ -63,6 +66,7 @@ public class SymptomAssociation {
     			.addProperty(symp.Definition, "Inflammation is a general symptom where there is a local response to cellular injury that is marked by capillary dilatation, leukocytic infiltration, redness, heat, pain, swelling, and often loss of function and that serves as a mechanism initiating the elimination of noxious agents and of damaged tissue.")
     			.addProperty(symp.prefLabel, "inflammation")
     			.addProperty(RDFS.subClassOf, symp.generalSymptom);
+        //SEM MAPEAMENTO NA ICD10
         
         //-------------------------------Acute
         Resource hypoventilationResource = modeloComSintomas.createResource("http://purl.obolibrary.org/obo/hypoventilation")
@@ -71,6 +75,7 @@ public class SymptomAssociation {
     			.addProperty(symp.Definition, "Hypoventilation is a respiratory abnormality characterized by a deficient ventilation of the lungs that results in reduction in the oxygen content or increase in the carbon dioxide content of the blood or both.")
     			.addProperty(symp.prefLabel, "hypoventilation")
     			.addProperty(RDFS.subClassOf, symp.respiratoryAbnormality);
+        //SEM MAPEAMENTO NA ICD10
         
         //-------------------------------Light and Sudden
         Resource headacheResource = modeloComSintomas.createResource("http://purl.obolibrary.org/obo/headache")
@@ -79,7 +84,8 @@ public class SymptomAssociation {
     			.addProperty(symp.Definition, "Headache is a pain characterized by a pain in the head.")
     			.addProperty(symp.hasExactSynonym, "cephalalgia")
     			.addProperty(symp.prefLabel, "headache")
-    			.addProperty(RDFS.subClassOf, symp.pain);
+    			.addProperty(RDFS.subClassOf, symp.pain)
+    			.addProperty(hasCUI, "C0018681");
     	
         Resource fatigueResource = modeloComSintomas.createResource("http://purl.obolibrary.org/obo/fatigue")
     			.addProperty(RDF.type, symp.fatigue)
@@ -172,7 +178,7 @@ public class SymptomAssociation {
 	    //EQUIVALENT TO: (isIndicatorOf CO2) AND (hasIndexValue > ) AND (hasTimeWindow = )
 	    //					-> hasSetOfSymptoms seriousSymptomsSetResource
 	    Resource seriousSymptomsSetResource = modeloComSintomas
-				.createResource(SymptomAssociation.NS + "seriousSymptomsSet")
+				.createResource(SymptomAssociation.NS + "seriousSymptomsSetResource")
 					.addProperty(RDF.type, SymptomAssociation.seriousSymptomsSet)
 					.addProperty(SymptomAssociation.hasTimeWindow, "3", XSDDatatype.XSDinteger)
 					.addProperty(SymptomAssociation.hasSymptom, inflammationResource);
@@ -181,7 +187,7 @@ public class SymptomAssociation {
 	    //EQUIVALENT TO: (isIndicatorOf CO2) AND (hasIndexValue > ) AND (hasTimeWindow = ) 
 	    //					-> hasSetOfSymptoms acuteSymptomsSetResource
 	    Resource acuteSymptomsSetResource = modeloComSintomas
-				.createResource(SymptomAssociation.NS + "acuteSymptomsSet")
+				.createResource(SymptomAssociation.NS + "acuteSymptomsSetResource")
 					.addProperty(RDF.type, SymptomAssociation.seriousSymptomsSet)
 					.addProperty(SymptomAssociation.hasTimeWindow, "1", XSDDatatype.XSDinteger)
 					.addProperty(SymptomAssociation.hasSymptom, hypoventilationResource);
@@ -190,7 +196,7 @@ public class SymptomAssociation {
 	    //EQUIVALENT TO: (isIndicatorOf CO2) AND (hasIndexValue > ) AND (hasTimeWindow = ) 
 	    //					-> hasSetOfSymptoms lightAndBriefSymptomsSetResource
 	    Resource lightAndBriefSymptomsSetResource = modeloComSintomas
-				.createResource(SymptomAssociation.NS + "lightAndBriefSymptomsSet")
+				.createResource(SymptomAssociation.NS + "lightAndBriefSymptomsSetResource")
 					.addProperty(RDF.type, SymptomAssociation.lightAndBriefSymptomsSet)
 					.addProperty(SymptomAssociation.hasTimeWindow, "3", XSDDatatype.XSDinteger)
 					.addProperty(SymptomAssociation.hasSymptom, inflamedEyesResource)
@@ -207,7 +213,7 @@ public class SymptomAssociation {
 	    //EQUIVALENT TO: (isIndicatorOf CO2) AND (hasIndexValue > ) AND (hasTimeWindow = ) 
 	    //					-> hasSetOfSymptoms lightAndSuddenSymptomsSetResource
 	    Resource lightAndSuddenSymptomsSetResource = modeloComSintomas
-				.createResource(SymptomAssociation.NS + "lightAndSuddenSymptomsSet")
+				.createResource(SymptomAssociation.NS + "lightAndSuddenSymptomsSetResource")
 					.addProperty(RDF.type, SymptomAssociation.lightAndSuddenSymptomsSet)
 					.addProperty(SymptomAssociation.hasTimeWindow, "1", XSDDatatype.XSDinteger)
 					.addProperty(SymptomAssociation.hasSymptom, headacheResource)
@@ -218,7 +224,7 @@ public class SymptomAssociation {
 	    //EQUIVALENT TO: (isIndicatorOf CO2) AND (hasIndexValue > ) AND (hasTimeWindow = ) 
 	    //					-> hasSetOfSymptoms lightAndSuddenSymptomsSetResource
 	    Resource noSymptomsSetResource = modeloComSintomas
-				.createResource(SymptomAssociation.NS + "noSymptomsSet")
+				.createResource(SymptomAssociation.NS + "noSymptomsSetResource")
 					.addProperty(SymptomAssociation.hasTimeWindow, "xxx", XSDDatatype.XSDstring);
 	 
 	    return modeloComSintomas;

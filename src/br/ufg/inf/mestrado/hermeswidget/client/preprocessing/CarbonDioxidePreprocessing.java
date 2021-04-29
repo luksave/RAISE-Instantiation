@@ -22,6 +22,7 @@ public class CarbonDioxidePreprocessing {
 		
 	}
 	
+	
 	public static int IQACarbonDioxide(double CPdioxido){
 
 		double BPdioxidoI = 0.0, BPdioxidoF = 0.0,				//Concentração inicial e final da faixa de CO2										
@@ -59,7 +60,7 @@ public class CarbonDioxidePreprocessing {
 			
 			if(CPdioxido > 3000.0 && CPdioxido <= 5000.0){
 				BPdioxidoI = 3001.0; BPdioxidoF = 5000.0;		//Concentração inicial e final da faixa de CO2
-			INdioxidoI = 351.0;	INdioxidoF = 500.0;       //Índice inicial e final para a faixa de CO2 	
+			    INdioxidoI = 351.0;	INdioxidoF = 500.0;       //Índice inicial e final para a faixa de CO2 	
 			} 
 			
 			double deltaConcentration = BPdioxidoF - BPdioxidoI;
@@ -73,4 +74,5 @@ public class CarbonDioxidePreprocessing {
 		
 	}
 		
+	
 }

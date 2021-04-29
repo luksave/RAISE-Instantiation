@@ -23,4 +23,4 @@
 [rule4: (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#isIndexFor http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#CO2),
         (?AQI http://www.semanticweb.org/ricardo/ontologies/2017/5/AirQualityOnto.owl#hasIndexValue ?Index),
         (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasTimeWindow ?JanelaTempo),
-        greaterThan(?Index, 299.0), greaterThan(?JanelaTempo, 1)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/seriousSymptomsSet)]
+        greaterThan(?Index, 299.0), greaterThan(?JanelaTempo, 2)  -> (?AQI http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/hasSymptomsSet  http://br.ufg.inf/mestrado/hermes/SymptomAssociation.owl/seriousSymptomsSet)]

@@ -1,5 +1,7 @@
 package br.ufg.inf.mestrado.hermeswidget.client.services;
 
+
+
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 

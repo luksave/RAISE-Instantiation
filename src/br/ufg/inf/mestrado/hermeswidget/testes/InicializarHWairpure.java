@@ -17,9 +17,9 @@ public class InicializarHWairpure {
 				
 		
 		App_HW_CarbonDioxideTR.main(args);
-		App_HW_HumidityTR.main(args);
-		App_HW_VolatileOrganicCompoundsTR.main(args);
-		App_HW_TemperatureTR.main(args);
+		//App_HW_HumidityTR.main(args);
+		//App_HW_VolatileOrganicCompoundsTR.main(args);
+		//App_HW_TemperatureTR.main(args);
 
 	}
 
